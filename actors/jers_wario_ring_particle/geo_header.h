@@ -1,0 +1,13 @@
+extern const GeoLayout jers_wario_ring_particle_geo[];
+extern Lights1 jers_wario_ring_particle_Ring_Particle__PANTS__lights;
+extern Lights1 jers_wario_ring_particle_Ring_Particle__SHIRT__lights;
+extern Vtx jers_wario_ring_particle_Ring_mesh_layer_5_vtx_0[68];
+extern Gfx jers_wario_ring_particle_Ring_mesh_layer_5_tri_0[];
+extern Vtx jers_wario_ring_particle_Ring_mesh_layer_5_vtx_1[22];
+extern Gfx jers_wario_ring_particle_Ring_mesh_layer_5_tri_1[];
+extern Gfx mat_jers_wario_ring_particle_Ring_Particle__PANTS_[];
+extern Gfx mat_revert_jers_wario_ring_particle_Ring_Particle__PANTS_[];
+extern Gfx mat_jers_wario_ring_particle_Ring_Particle__SHIRT_[];
+extern Gfx mat_revert_jers_wario_ring_particle_Ring_Particle__SHIRT_[];
+extern Gfx jers_wario_ring_particle_Ring_mesh_layer_5[];
+extern Gfx jers_wario_ring_particle_material_revert_render_settings[];
