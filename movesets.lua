@@ -281,11 +281,6 @@ local function act_sh_bash(m)
     local accel = 0.6
     local speed = m.forwardVel
 
-    --if m.actionTimer < 80 then
-        --accel = 0.1
-        --speedCap = 65
-        --mult = 1.1
-    --end
     if m.actionTimer < 3 and m.forwardVel < 30 then
         speed = 30
     else
@@ -410,8 +405,6 @@ local function act_humble_gp_land(m)
         return set_mario_action(m, ACT_STOMACH_SLIDE_STOP, 0)
     end
 
-
-
     m.actionTimer = m.actionTimer + 1
     return 0
 end
@@ -532,7 +525,7 @@ local function wario_set_action(m)
     local e = gExtraStates[m.playerIndex]
 
     -- shoulder bash
-    if m.action == ACT_MOVE_PUNCHING and m.input & INPUT_NONZERO_ANALOG ~= 0 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0 then
+    if (m.action == ACT_MOVE_PUNCHING and m.input & INPUT_NONZERO_ANALOG ~= 0 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0) then
         e.prevPosY = m.pos.y
         set_mario_action(m, ACT_SH_BASH, 0)
     end
