@@ -4,6 +4,7 @@ for i = 0, MAX_PLAYERS - 1 do
     local e = gExtraStates[i]
     e.gfxY = 0
     e.canBash = true
+    e.bagScale = 0
 end
 
 local ACT_WAR_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
@@ -678,6 +679,12 @@ function wario_interact(m, o, intee)
         humble_bump(m, -40, 15)
         return false
     end
+
+    local e = gExtraStates[0]
+
+    if intee == INTERACT_COIN then
+        e.bagScale = 0.4
+    end
 end
 
 function wario_attack(a, v)
@@ -745,6 +752,7 @@ end
 
 local function greedy_hud()
     local m = gMarioStates[0]
+    local e = gExtraStates[0]
     local colour = 0
     local add = string.format("+%.0f", (m.numCoins/4))
 
@@ -753,6 +761,8 @@ local function greedy_hud()
         colour = math.abs(math.sin(get_global_timer()*0.5))*255
     end
 
+    e.bagScale = math.lerp(e.bagScale, 0, 0.1)
+
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_font(FONT_RECOLOR_HUD)
     local width = djui_hud_get_screen_width()
@@ -760,7 +770,7 @@ local function greedy_hud()
     local y = 45
 
     djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_render_texture(TEX_BAG, x, (y - 15), 1.2, 1.2)
+    djui_hud_render_texture(TEX_BAG, (29 - (16*e.bagScale)), (32 + (24*e.bagScale)), (1 + e.bagScale), (1 - e.bagScale))
 
     djui_hud_set_color(255, 255, colour, 255)
     djui_hud_print_text(add, x, y, 1)
