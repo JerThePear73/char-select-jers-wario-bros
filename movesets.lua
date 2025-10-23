@@ -521,7 +521,9 @@ local function act_humble_gp_cancel(m)
         set_mario_action(m, ACT_BACKWARD_AIR_KB, 0)
     end
 
-    m.marioObj.header.gfx.angle.x = degrees_to_sm64(pitch)
+    if m.character.type == CT_WALUIGI then
+        m.marioObj.header.gfx.angle.x = degrees_to_sm64(pitch)
+    end
 
     m.actionTimer = m.actionTimer + 1
     return 0
