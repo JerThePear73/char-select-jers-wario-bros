@@ -21,6 +21,7 @@ local E_MODEL_PARTICLE_RING = smlua_model_util_get_id('jers_wario_ring_particle_
 local E_MODEL_PARTICLE_CLONE_WALUIGI = smlua_model_util_get_id('jers_waluigi_clone_geo')
 
 local SOUND_JWAR_SH_BASH = audio_sample_load("JW_SOUND_BASH.ogg")
+local SOUND_JWAL_SH_BASH = audio_sample_load("JW_SOUND_BASH1.ogg")
 local SOUND_JWAR_LEAP = audio_sample_load("JW_SOUND_JUMP.ogg")
 local SOUND_JWAR_CORKSCREW = audio_sample_load("JW_SOUND_CORKSCREW.ogg")
 local SOUND_JWAL_CORKSCREW = audio_sample_load("JW_SOUND_CORKSCREW1.ogg")
@@ -30,6 +31,7 @@ local TEX_BAG = get_texture_info('jwar-bag-of-oins')
 local PARTICLE_TIMER = 10
 local WAR_SH_BASH_MIN = 18
 local WAL_SH_BASH_MAX = 20
+local prevNumCoins = 0
 
 -- BEHAVIOURS --
 
@@ -223,6 +225,10 @@ local function act_war_sh_bash(m)
     m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
     apply_slope_accel(m)
 
+    if should_begin_sliding(m) ~= 0 then
+		set_mario_action(m, ACT_BEGIN_SLIDING, 0)
+	end
+
     if (m.actionTimer & 2 == 0) then
         audio_sample_play(SOUND_JWAR_SH_BASH, m.pos, pause_check())
     end
@@ -265,10 +271,12 @@ local function act_war_sh_bash(m)
         end
     end
 
-    if m.input & INPUT_A_PRESSED ~= 0 and m.actionTimer > 5 then
-        audio_sample_play(SOUND_JWAR_LEAP, m.pos, pause_check())
-        m.vel.y = 50
-        set_mario_action(m, ACT_WAR_SH_BASH_JUMP, 0)
+    if m.input & INPUT_A_PRESSED ~= 0 then
+        if m.prevAction ~= ACT_WAR_SH_BASH_JUMP or (m.prevAction == ACT_WAR_SH_BASH_JUMP and m.actionTimer > 5) then
+            audio_sample_play(SOUND_JWAR_LEAP, m.pos, pause_check())
+            m.vel.y = 50
+            set_mario_action(m, ACT_WAR_SH_BASH_JUMP, 0)
+        end
     elseif (m.controller.buttonDown & B_BUTTON == 0) or ((is_game_paused() or _G.charSelect.is_menu_open()) and m.playerIndex == 0) then
         if m.prevAction == ACT_WAR_SH_BASH_JUMP then
             set_mario_action(m, ACT_BRAKING, 0)
@@ -277,7 +285,6 @@ local function act_war_sh_bash(m)
         end
     elseif m.input & INPUT_Z_PRESSED ~= 0 then
         set_mario_action(m, ACT_CROUCH_SLIDE, 0)
-    --elseif m.floor.normal.y < 0.6 then set_mario_action(m, ACT_WALKING, 0)
     end
 
     m.actionTimer = m.actionTimer + 1
@@ -325,7 +332,7 @@ local function act_wal_sh_bash(m)
     apply_slope_accel(m)
 
     if (m.actionTimer & 2 == 0) then
-        audio_sample_play(SOUND_JWAR_SH_BASH, m.pos, pause_check())
+        audio_sample_play(SOUND_JWAL_SH_BASH, m.pos, pause_check())
     end
 
     m.vel.y = 0
@@ -388,7 +395,7 @@ local function act_wal_sh_bash_jump(m)
     m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
 
     if (m.actionTimer & 2 == 0) then
-        audio_sample_play(SOUND_JWAR_SH_BASH, m.pos, pause_check())
+        audio_sample_play(SOUND_JWAL_SH_BASH, m.pos, pause_check())
     end
 
     m.vel.y = 0
@@ -428,7 +435,6 @@ local function act_wal_sh_bash_jump(m)
     return 0
 end
 hook_mario_action(ACT_WAL_SH_BASH_JUMP, act_wal_sh_bash_jump)
-
 
 local function act_humble_gp(m)
     local e = gExtraStates[m.playerIndex]
@@ -505,8 +511,14 @@ local function act_humble_gp_cancel(m)
     local pitch = m.vel.y * -1
 
     if m.character.type == CT_WALUIGI then
+        if m.actionTimer == 1 then
+            play_sound(SOUND_ACTION_SWIM_FAST, m.marioObj.header.gfx.cameraToObject)
+        end
         anim = MARIO_ANIM_SWIM_PART1
         act = ACT_DIVE_SLIDE
+        if m.actionTimer < 8 then
+            m.particleFlags = m.particleFlags | PARTICLE_SNOW
+        end
     end
 
     if m.actionTimer == 1 then
@@ -524,6 +536,7 @@ local function act_humble_gp_cancel(m)
 
     if m.character.type == CT_WALUIGI then
         m.marioObj.header.gfx.angle.x = degrees_to_sm64(pitch)
+        m.marioObj.header.gfx.pos.y = m.pos.y - 30
     end
 
     m.actionTimer = m.actionTimer + 1
@@ -539,7 +552,6 @@ local function act_corkscrew(m)
     if m.actionTimer == 1 then
         e.gfxY = 0
     elseif m.actionTimer == 2 then
-        audio_sample_play(SOUND_JWAR_CORKSCREW, m.pos, pause_check())
         m.faceAngle.y = m.intendedYaw
         e.gfxY = 0x20000
     elseif m.actionTimer > 1 then
@@ -608,7 +620,7 @@ local function wario_update(m)
 
     -- torso tilt
     if m.action == ACT_WALKING then
-        m.marioBodyState.torsoAngle.x = m.forwardVel * 100
+        m.marioBodyState.torsoAngle.x = m.forwardVel * 80
 
         if m.marioBodyState.torsoAngle.z < -3000 then
             m.marioBodyState.eyeState = MARIO_EYES_LOOK_RIGHT
@@ -636,6 +648,14 @@ local function wario_update(m)
             m.marioObj.header.gfx.scale.z = (m.actionTimer + 5)/12
         end
     end
+
+    -- slower swimming
+    if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
+        m.forwardVel = m.forwardVel * 0.98
+        if m.pos.y > m.floorHeight then
+            m.pos.y = m.pos.y - 2.5
+        end
+    end
 end
 
 local function wario_set_action(m)
@@ -650,12 +670,19 @@ local function wario_set_action(m)
         --audio_sample_play(SOUND_HUMBLE_FLOP, m.pos, 0.5)
     --end
 
-        -- ring particles
+    -- ring particles
     if (m.playerIndex == 0 or is_player_active(m) ~= 0) and m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE ~= 0 then
         if m.action == ACT_WAR_SH_BASH and m.prevAction ~= ACT_WAR_SH_BASH_JUMP then
             spawn_non_sync_object(id_bhvParticleRing, E_MODEL_PARTICLE_RING, m.pos.x, m.pos.y, m.pos.z,
             function(o) o.globalPlayerIndex = network_global_index_from_local(m.playerIndex) end)
         end
+    end
+
+    -- sick tricks with wario
+    if m.action == ACT_WATER_PLUNGE and m.prevAction == ACT_TOP_OF_POLE_JUMP then
+        m.vel.y = 0
+        m.pos.y = m.waterLevel
+        set_mario_action(m, ACT_WATER_DEATH, 0)
     end
 end
 
@@ -678,12 +705,6 @@ function wario_interact(m, o, intee)
         dash_attacks(m, o, intee)
         humble_bump(m, -40, 15)
         return false
-    end
-
-    local e = gExtraStates[0]
-
-    if intee == INTERACT_COIN then
-        e.bagScale = 0.4
     end
 end
 
@@ -750,18 +771,44 @@ local function waluigi_set_action(m)
     end
 end
 
+local function waluigi_before_phys_step(m)
+    local hScale = 1.0
+    local vScale = 1.0
+
+    -- faster swimming
+    if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
+        hScale = hScale * 1.4
+        if m.action ~= ACT_WATER_PLUNGE and m.action ~= ACT_FORWARD_WATER_KB and m.action ~= ACT_BACKWARD_WATER_KB then
+            vScale = vScale * 1.4
+        end
+    end
+
+    m.vel.x = m.vel.x * hScale
+    m.vel.y = m.vel.y * vScale
+    m.vel.z = m.vel.z * hScale
+end
+
+---------
+-- HUD --
+---------
+
 local function greedy_hud()
     local m = gMarioStates[0]
     local e = gExtraStates[0]
     local colour = 0
     local add = string.format("+%.0f", (m.numCoins/4))
 
+    if m.numCoins > prevNumCoins then
+        prevNumCoins = prevNumCoins + 1
+        e.bagScale = 0.4
+    end
+
     if m.numCoins >= 100 then
         add = "MAX"
         colour = math.abs(math.sin(get_global_timer()*0.5))*255
     end
 
-    e.bagScale = math.lerp(e.bagScale, 0, 0.1)
+    e.bagScale = math.lerp(e.bagScale, 0, 0.2)
 
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_font(FONT_RECOLOR_HUD)
@@ -797,6 +844,7 @@ _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_HUD_RENDER_BEHIND, gree
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_MARIO_UPDATE, waluigi_update)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_SET_MARIO_ACTION, waluigi_set_action)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_BEFORE_SET_MARIO_ACTION, wario_before_set_action)
+_G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_BEFORE_PHYS_STEP, waluigi_before_phys_step)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_INTERACT, wario_interact)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_PVP_ATTACK, wario_attack)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_HUD_RENDER_BEHIND, greedy_hud)

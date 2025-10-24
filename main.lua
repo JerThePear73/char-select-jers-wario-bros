@@ -261,6 +261,8 @@ local PALETTES_WALUIGI = {
 
 local ANIMTABLE_J_WARIO = {
     [CHAR_ANIM_RUNNING] = "JWAR_RUN",
+    [CHAR_ANIM_SINGLE_JUMP] = "JWAR_SINGLE_JUMP",
+    [MARIO_ANIM_LAND_FROM_SINGLE_JUMP] = "JWAR_SINGLE_JUMP_LAND",
     [CHAR_ANIM_START_TWIRL] = "JWAR_START_TWIRL",
     [CHAR_ANIM_TWIRL] = "JWAR_TWIRL",
     [_G.charSelect.CS_ANIM_MENU] = "wario_anim_cs_menu",
@@ -329,10 +331,22 @@ local function on_character_select_load()
 
     if VERSION_NUMBER > 40 then
         _G.charSelect.character_add_voice(E_MODEL_J_WALUIGI, VOICETABLE_J_WALUIGI)
+
+        _G.charSelect.character_add_graffiti(CT_J_WARIO, get_texture_info("char-select-graffiti-wario"))
+        _G.charSelect.character_add_graffiti(CT_J_WALUIGI, get_texture_info("char-select-graffiti-waluigi"))
     end
 
     _G.charSelect.character_add_health_meter(CT_J_WARIO, HEALTH_METER_WARIO)
     _G.charSelect.character_add_health_meter(CT_J_WALUIGI, HEALTH_METER_WALUIGI)
+
+    _G.charSelect.character_set_category(CT_J_WARIO, "Wario Bros.")
+    _G.charSelect.character_set_category(CT_J_WALUIGI, "Wario Bros.")
+
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "JerThePear", "Creator")
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "theboomeragainstthezoomers", "Voicetables, Palettes, Testing")
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "Squishy6094", "Character Select, Coding, Testing")
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "Charity", "Bug Fixing, Testing")
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "Morishiko", "Testing")
 
     CSloaded = true
 end
