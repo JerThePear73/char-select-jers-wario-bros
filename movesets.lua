@@ -578,7 +578,7 @@ local function act_corkscrew(m)
 
     if m.character.type == CT_WALUIGI then
         if m.actionTimer == 2 then
-            play_character_sound(m, CHAR_SOUND_UH2)
+            play_character_sound(m, CHAR_SOUND_YAHOO_WAHA_YIPPEE)
             audio_sample_play(SOUND_JWAL_CORKSCREW, m.pos, pause_check())
         end
         smlua_anim_util_set_animation(m.marioObj, "JWAL_CORKSCREW")
