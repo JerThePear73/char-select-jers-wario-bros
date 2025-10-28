@@ -578,7 +578,7 @@ local function act_corkscrew(m)
 
     if m.character.type == CT_WALUIGI then
         if m.actionTimer == 2 then
-            play_character_sound(m, CHAR_SOUND_YAHOO_WAHA_YIPPEE)
+            play_character_sound(m, CHAR_SOUND_UH2)
             audio_sample_play(SOUND_JWAL_CORKSCREW, m.pos, pause_check())
         end
         smlua_anim_util_set_animation(m.marioObj, "JWAL_CORKSCREW")
@@ -627,12 +627,29 @@ local function wario_update(m)
         elseif m.marioBodyState.torsoAngle.z > 3000 then
             m.marioBodyState.eyeState = MARIO_EYES_LOOK_LEFT
         end
+
+        if m.marioObj.header.gfx.animInfo.animID == MARIO_ANIM_RUNNING then
+            local frame = m.marioObj.header.gfx.animInfo.animFrame
+            local scale = 1
+
+            if (frame > 6 and frame < 10) or (frame > 50 and frame < 54) then
+                scale = 0.8
+            elseif (frame > 4 and frame < 12) or (frame > 48 and frame < 56) then
+                scale = 0.85
+            elseif (frame > 2 and frame < 14) or (frame > 46 and frame < 58) then
+                scale = 0.9
+            elseif (frame > 0 and frame < 16) or (frame > 44 and frame < 56) then
+                scale = 0.95
+            end
+
+            m.marioObj.header.gfx.scale.y = scale
+        end
     end
 
       -- clone particles
     if (m.playerIndex == 0 or is_player_active(m) ~= 0) and m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE ~= 0 then
         if ((m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel >= 50) or (m.action == ACT_CORKSCREW and m.vel.y > 20) then
-            if (m.actionTimer) % 3 == 0 then
+            if (m.actionTimer) % 4 == 0 then
                 spawn_non_sync_object(id_bhvParticleClone, E_MODEL_PARTICLE_CLONE_WARIO, m.pos.x, m.pos.y, m.pos.z,
                 function(o) o.globalPlayerIndex = network_global_index_from_local(m.playerIndex) end)
             end
@@ -735,7 +752,7 @@ local function waluigi_update(m)
       -- clone particles
     if (m.playerIndex == 0 or is_player_active(m) ~= 0) and m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE ~= 0 then
         if ((m.action == ACT_WAL_SH_BASH or m.action == ACT_WAL_SH_BASH_JUMP) and m.forwardVel >= 50) or (m.action == ACT_CORKSCREW and m.vel.y > 20) then
-            if (m.actionTimer) % 3 == 0 then
+            if (m.actionTimer) % 4 == 0 then
                 spawn_non_sync_object(id_bhvParticleClone, E_MODEL_PARTICLE_CLONE_WALUIGI, m.pos.x, m.pos.y, m.pos.z,
                 function(o) o.globalPlayerIndex = network_global_index_from_local(m.playerIndex) end)
             end

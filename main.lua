@@ -15,13 +15,12 @@ local E_MODEL_J_WARIO_T = smlua_model_util_get_id('jers_wario_t_geo')
 
 local E_MODEL_J_WALUIGI = smlua_model_util_get_id('jers_waluigi_geo')
 
---local E_MODEL_CAPTAIN_SYRUP = smlua_model_util_get_id('jers_captain_syrup_geo')
+local E_MODEL_J_SYRUP = smlua_model_util_get_id('jers_captain_syrup_geo')
 
 -- Textures --
 local TEX_WARIO = gTextures.wario_head
 local TEX_WALUIGI = gTextures.waluigi_head
-
---local TEX_SYRUP = get_texture_info('icon-syrup')
+local TEX_SYRUP = get_texture_info("jwar-syrup-icon")
 
 local VOICETABLE_J_WARIO = {
    	[CHAR_SOUND_OKEY_DOKEY] = 'JWAR_HERE_WE_GO.ogg',
@@ -32,18 +31,18 @@ local VOICETABLE_J_WARIO = {
    	[CHAR_SOUND_WAH2] = 'JWAR_GOOD_LUCK.ogg',
 	[CHAR_SOUND_YAH_WAH_HOO] = {'JWAR_YAH.ogg', 'JWAR_PUNCH1.ogg', 'JWAR_WAH.ogg'},
 	[CHAR_SOUND_HOOHOO] = {'JWAR_PUNCH2.ogg', 'JWAR_HOO.ogg'},
-	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] = {'JWAR_YAHOO.ogg', 'JWAR_RAHA.ogg', 'JWAR_ALRIGHT.ogg'},
+	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] = {'JWAR_YAHOO.ogg', 'JWAR_LAUGH.ogg', 'JWAR_ALRIGHT.ogg'},
 	[CHAR_SOUND_UH] = 'JWAR_EH.ogg',
 	[CHAR_SOUND_UH2] = 'JWAR_HERE_WE_GO.ogg',
 	[CHAR_SOUND_UH2_2] = 'JWAR_OOH.ogg',
-	[CHAR_SOUND_HAHA] = {'JWAR_YEAH.ogg', 'JWAR_WOW.ogg'},
-	[CHAR_SOUND_YAHOO] = {'JWAR_YAHOO.ogg', 'JWAR_RAHA.ogg'},
+	[CHAR_SOUND_HAHA] = {'JWAR_YEAH.ogg', 'JWAR_WOW.ogg', 'JWAR_WONDERFUL.ogg'},
+	[CHAR_SOUND_YAHOO] = 'JWAR_YAHOO.ogg',
 	[CHAR_SOUND_DOH] = 'JWAR_OOH.ogg',
 	[CHAR_SOUND_WHOA] = 'JWAR_AH.ogg',
 	[CHAR_SOUND_EEUH] = 'JWAR_EEUH.ogg',
 	[CHAR_SOUND_WAAAOOOW] = 'JWAR_FALL.ogg',
 	[CHAR_SOUND_TWIRL_BOUNCE] = 'JWAR_WOW.ogg',
-	[CHAR_SOUND_GROUND_POUND_WAH] = 'JWAR_LIFT.ogg',
+	[CHAR_SOUND_GROUND_POUND_WAH] = 'JWAR_AHH.ogg',
 	[CHAR_SOUND_HRMM] = 'JWAR_EEUH.ogg',
 	[CHAR_SOUND_HERE_WE_GO] = {'JWAR_IMMA_NUMBER_ONE.ogg', 'JWAR_EXCELLENT.ogg'},
 	[CHAR_SOUND_SO_LONGA_BOWSER] = {'JWAR_HAVE_A_ROTTEN_DAY.ogg', 'JWAR_GET_OUT.ogg'},
@@ -63,9 +62,47 @@ local VOICETABLE_J_WARIO = {
 	[CHAR_SOUND_MAMA_MIA] = 'JWAR_MAMA_MIA.ogg',
    	[CHAR_SOUND_YAWNING] = 'JWAR_YAWN.ogg',
 }
-if VERSION_NUMBER > 40 then
-    VOICETABLE_J_WALUIGI = _G.charSelect.character_get_voice(E_MODEL_WALUIGI)
-end
+local VOICETABLE_J_WALUIGI = {
+   	[CHAR_SOUND_OKEY_DOKEY] = 'JWAL_WALUIGITIME.ogg',
+	[CHAR_SOUND_LETS_A_GO] = 'JWAL_WALUIGITIME.ogg',
+	[CHAR_SOUND_PUNCH_YAH] = 'JWAL_WAH2.ogg',
+	[CHAR_SOUND_PUNCH_WAH] = 'JWAL_WAH.ogg',
+    [CHAR_SOUND_PUNCH_HOO] = 'JWAL_HOAH.ogg',
+   	[CHAR_SOUND_WAH2] = {'JWAL_TAKETHAT.ogg', 'JWAL_THROW.ogg'},
+	[CHAR_SOUND_YAH_WAH_HOO] = {'JWAL_YAH2.ogg', 'JWAL_WAH2.ogg', 'JWAL_WAH.ogg'},
+	[CHAR_SOUND_HOOHOO] = 'JWAL_HOAH.ogg',
+	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] = {'JWAL_LONGJUMP2.ogg', 'JWAL_LAUGH2.ogg', 'JWAL_LAUGH3.ogg'},
+	[CHAR_SOUND_UH] = 'JWAL_PANT.ogg',
+	[CHAR_SOUND_UH2] = 'JWAL_AW_YEAH.ogg',
+	[CHAR_SOUND_UH2_2] = 'JWAL_PANT.ogg',
+	[CHAR_SOUND_HAHA] = {'JWAL_AW_YEAH.ogg', 'JWAL_LAUGH1.ogg', 'JWAL_OHYEAH.ogg'},
+	[CHAR_SOUND_YAHOO] = {'JWAL_LONGJUMP1.ogg', 'JWAL_LONGJUMP2.ogg'},
+	[CHAR_SOUND_DOH] = 'JWAL_DOH.ogg',
+	[CHAR_SOUND_WHOA] = 'JWAL_WOAH.ogg',
+	[CHAR_SOUND_EEUH] = 'JWAL_EEUH.ogg',
+	[CHAR_SOUND_WAAAOOOW] = {'JWAL_FALLING1.ogg', 'JWAL_FALLING2.ogg'},
+	[CHAR_SOUND_TWIRL_BOUNCE] = 'JWAL_LAUGH3.ogg',
+	[CHAR_SOUND_GROUND_POUND_WAH] = 'JWAL_YAH.ogg',
+	[CHAR_SOUND_HRMM] = 'JWAL_EEUH.ogg',
+	[CHAR_SOUND_HERE_WE_GO] = 'JWAL_NUMBERONE.ogg',
+	[CHAR_SOUND_SO_LONGA_BOWSER] = 'JWAL_SOLONGAYBOWSER.ogg',
+ 	[CHAR_SOUND_OOOF] = 'JWAL_OOF.ogg',
+ 	[CHAR_SOUND_OOOF2] = 'JWAL_OOF.ogg',
+	[CHAR_SOUND_ATTACKED] = {'JWAL_HURT.ogg', 'JWAL_HURT2.ogg'},
+	[CHAR_SOUND_PANTING] = 'JWAL_PANT.ogg',
+   	[CHAR_SOUND_PANTING_COLD] = 'JWAL_PANT.ogg',
+	[CHAR_SOUND_ON_FIRE] = {'JWAL_BURN.ogg', 'JWAL_BIGHURT.ogg'},
+	[CHAR_SOUND_SNORING1] = 'JWAL_SNORE1.ogg',
+	[CHAR_SOUND_SNORING2] = 'JWAL_SNORE2.ogg',
+	[CHAR_SOUND_COUGHING1] = 'JWAL_COUGH1.ogg',
+	[CHAR_SOUND_COUGHING2] = 'JWAL_COUGH2.ogg',
+	[CHAR_SOUND_COUGHING3] = 'JWAL_COUGH3.ogg',
+	[CHAR_SOUND_DYING] = 'JWAL_DEATH.ogg',
+	[CHAR_SOUND_DROWNING] = 'JWAL_DROWN.ogg',
+	[CHAR_SOUND_MAMA_MIA] = 'JWAL_IM_RUINED.ogg',
+   	[CHAR_SOUND_YAWNING] = 'JWAL_YAWN.ogg',
+}
+
 
 local PALETTES_WARIO = {
     {
@@ -167,6 +204,17 @@ local PALETTES_WARIO = {
         [CAP]    = "ff2580",
         [EMBLEM] = "6cff42",
     },
+    {
+        name = "Blast",
+        [PANTS]  = "150921",
+        [SHIRT]  = "A4E900",
+        [GLOVES] = "FE050D",
+        [SHOES]  = "150921",
+        [HAIR]   = "150921",
+        [SKIN]   = "FE050D",
+        [CAP]    = "A4E900",
+        [EMBLEM] = "150921",
+    },
 }
 local PALETTES_WALUIGI = {
     {
@@ -243,7 +291,7 @@ local PALETTES_WALUIGI = {
         [SHOES]  = "552945",
         [HAIR]   = "735300",
         [SKIN]   = "fec179",
-        [CAP]    = "ff8000",
+        [CAP]    = "222222",
         [EMBLEM] = "222222",
     },
     {
@@ -256,6 +304,118 @@ local PALETTES_WALUIGI = {
         [SKIN]   = "fec179",
         [CAP]    = "00ffff",
         [EMBLEM] = "ffde00",
+    },
+    {
+        name = "Tennis Loser",
+        [PANTS]  = "161627",
+        [SHIRT]  = "5A3921",
+        [GLOVES] = "ffffff",
+        [SHOES]  = "5A00CE",
+        [HAIR]   = "291000",
+        [SKIN]   = "E7B594",
+        [CAP]    = "5A3921",
+        [EMBLEM] = "ffde00",
+    },
+    {
+        name = "Danton",
+        [PANTS]  = "150921",
+        [SHIRT]  = "444AD0",
+        [GLOVES] = "27E67C",
+        [SHOES]  = "150921",
+        [HAIR]   = "150921",
+        [SKIN]   = "27E67C",
+        [CAP]    = "444AD0",
+        [EMBLEM] = "150921",
+    },
+}
+local PALETTES_SYRUP = {
+    {
+        name = "Default",
+        [PANTS]  = "4E356C",
+        [SHIRT]  = "E54EF7",
+        [GLOVES] = "DE1C2A",
+        [SHOES]  = "551A6E",
+        [HAIR]   = "AD1210",
+        [SKIN]   = "FED5D3",
+        [CAP]    = "E54EF7",
+        [EMBLEM] = "F6D919",
+    },
+    {
+        name = "Landio",
+        [PANTS]  = "F7F7F7",
+        [SHIRT]  = "F7F7F7",
+        [GLOVES] = "CB7E45",
+        [SHOES]  = "CB7E45",
+        [HAIR]   = "050000",
+        [SKIN]   = "CB7E45",
+        [CAP]    = "F7F7F7",
+        [EMBLEM] = "F7F7F7",
+    },
+    {
+        name = "LandLord",
+        [PANTS]  = "F8F870",
+        [SHIRT]  = "F8F870",
+        [GLOVES] = "F87850",
+        [SHOES]  = "F87850",
+        [HAIR]   = "100028",
+        [SKIN]   = "F87850",
+        [CAP]    = "F8F870",
+        [EMBLEM] = "F8F870",
+    },
+    {
+        name = "Sea Side",
+        [PANTS]  = "8ec8ed",
+        [SHIRT]  = "8ec8ed",
+        [GLOVES] = "f9f33d",
+        [SHOES]  = "14461a",
+        [HAIR]   = "9b1e0b",
+        [SKIN]   = "fdceb9",
+        [CAP]    = "f9f33d",
+        [EMBLEM] = "c3225a",
+    },
+    {
+        name = "Maple",
+        [PANTS]  = "ffffff",
+        [SHIRT]  = "ffffff",
+        [GLOVES] = "b63a27",
+        [SHOES]  = "444444",
+        [HAIR]   = "402f25",
+        [SKIN]   = "e2a278",
+        [CAP]    = "b63a27",
+        [EMBLEM] = "ff0000",
+    },
+    {
+        name = "Solar Sailor",
+        [PANTS]  = "ffbc00",
+        [SHIRT]  = "333333",
+        [GLOVES] = "74301e",
+        [SHOES]  = "333333",
+        [HAIR]   = "74301e",
+        [SKIN]   = "ffba90",
+        [CAP]    = "ff2222",
+        [EMBLEM] = "ffbc00",
+    },
+    {
+        name = "Clumsy Captain",
+        [PANTS]  = "bbff4d",
+        [SHIRT]  = "ffffff",
+        [GLOVES] = "ffffff",
+        [SHOES]  = "462c1e",
+        [HAIR]   = "462c1e",
+        [SKIN]   = "ffba90",
+        [CAP]    = "77bdff",
+        [EMBLEM] = "ffffff",
+    },
+    {
+        name = "Dynamite",
+        [PANTS]  = "FE050D",
+        [SHIRT]  = "FE050D",
+        [GLOVES] = "150921",
+        [SHOES]  = "150921",
+        [HAIR]   = "FE050D",
+        [SKIN]   = "A4E900",
+        [CAP]    = "150921",
+        [EMBLEM] = "A4E900",
     },
 }
 
@@ -271,6 +431,10 @@ local ANIMTABLE_J_WALUIGI = {
     [CHAR_ANIM_RUNNING] = "JWAL_RUN",
     [_G.charSelect.CS_ANIM_MENU] = "waluigi_anim_cs_menu",
 }
+local ANIMTABLE_J_SYRUP = {
+    --[CHAR_ANIM_RUNNING] = "JSYP_RUN",
+    [_G.charSelect.CS_ANIM_MENU] = "mario_anim_cs_menu",
+}
 
 local EYES_J_WARIO = {
     [CHAR_ANIM_IDLE_HEAD_LEFT] = MARIO_EYES_LOOK_RIGHT,
@@ -278,6 +442,11 @@ local EYES_J_WARIO = {
     [_G.charSelect.CS_ANIM_MENU] = MARIO_EYES_LOOK_LEFT,
 }
 local EYES_J_WALUIGI = {
+    [CHAR_ANIM_IDLE_HEAD_LEFT] = MARIO_EYES_LOOK_RIGHT,
+    [CHAR_ANIM_IDLE_HEAD_RIGHT] = MARIO_EYES_LOOK_LEFT,
+    [_G.charSelect.CS_ANIM_MENU] = MARIO_EYES_LOOK_RIGHT,
+}
+local EYES_J_SYRUP = {
     [CHAR_ANIM_IDLE_HEAD_LEFT] = MARIO_EYES_LOOK_RIGHT,
     [CHAR_ANIM_IDLE_HEAD_RIGHT] = MARIO_EYES_LOOK_LEFT,
     [_G.charSelect.CS_ANIM_MENU] = MARIO_EYES_LOOK_RIGHT,
@@ -305,9 +474,11 @@ local HEALTH_METER_WALUIGI = {
 
 if _G.charSelectExists then
     CT_J_WARIO = _G.charSelect.character_add("Wario", { "A jolly feller with an eye for gold, no matter how dangerous.",
-        ""}, "JerThePear", {r = 255, g = 240, b = 000}, E_MODEL_J_WARIO, CT_WARIO, TEX_WARIO)
+        ""}, "JerThePear", {r = 255, g = 240, b = 000}, E_MODEL_J_WARIO, CT_WARIO, TEX_WARIO, 1)
     CT_J_WALUIGI = _G.charSelect.character_add("Waluigi", { "A lanky rival out for mischief, mayhem, and... tennis?",
-        ""}, "JerThePear", {r = 200, g = 000, b = 255}, E_MODEL_J_WALUIGI, CT_WALUIGI, TEX_WALUIGI)
+        ""}, "JerThePear", {r = 200, g = 000, b = 255}, E_MODEL_J_WALUIGI, CT_WALUIGI, TEX_WALUIGI, 1.1)
+    CT_J_SYRUP = _G.charSelect.character_add("Captain Syrup", { "A cunning rival treasure hunter in search of goodies. What is her reason for helping the Wario Bros.?",
+        ""}, "JerThePear", {r = 255, g = 000, b = 255}, E_MODEL_J_SYRUP, CT_MARIO, TEX_SYRUP, 1.05)
 end
 
 local CSloaded = false
@@ -321,16 +492,21 @@ local function on_character_select_load()
     for i = 1, #PALETTES_WALUIGI do
         _G.charSelect.character_add_palette_preset(E_MODEL_J_WALUIGI, PALETTES_WALUIGI[i], PALETTES_WALUIGI[i].name)
 	end
+    for i = 1, #PALETTES_SYRUP do
+        _G.charSelect.character_add_palette_preset(E_MODEL_J_SYRUP, PALETTES_SYRUP[i], PALETTES_SYRUP[i].name)
+	end
 
     _G.charSelect.character_add_animations(E_MODEL_J_WARIO, ANIMTABLE_J_WARIO, EYES_J_WARIO)
     _G.charSelect.character_add_animations(E_MODEL_J_WARIO_T, ANIMTABLE_J_WARIO, EYES_J_WARIO)
     _G.charSelect.character_add_animations(E_MODEL_J_WALUIGI, ANIMTABLE_J_WALUIGI, EYES_J_WALUIGI)
+    _G.charSelect.character_add_animations(E_MODEL_J_SYRUP, ANIMTABLE_J_SYRUP, EYES_J_SYRUP)
 
     _G.charSelect.character_add_voice(E_MODEL_J_WARIO, VOICETABLE_J_WARIO)
     _G.charSelect.character_add_voice(E_MODEL_J_WARIO_T, VOICETABLE_J_WARIO)
+    _G.charSelect.character_add_voice(E_MODEL_J_WALUIGI, VOICETABLE_J_WALUIGI)
+    --_G.charSelect.character_add_voice(E_MODEL_J_SYRUP, VOICETABLE_J_SYRUP)
 
     if VERSION_NUMBER > 40 then
-        _G.charSelect.character_add_voice(E_MODEL_J_WALUIGI, VOICETABLE_J_WALUIGI)
 
         _G.charSelect.character_add_graffiti(CT_J_WARIO, get_texture_info("char-select-graffiti-wario"))
         _G.charSelect.character_add_graffiti(CT_J_WALUIGI, get_texture_info("char-select-graffiti-waluigi"))
@@ -341,6 +517,7 @@ local function on_character_select_load()
 
     _G.charSelect.character_set_category(CT_J_WARIO, "Wario Bros.")
     _G.charSelect.character_set_category(CT_J_WALUIGI, "Wario Bros.")
+    _G.charSelect.character_set_category(CT_J_SYRUP, "Wario Bros.")
 
     _G.charSelect.credit_add(TEXT_MOD_NAME, "JerThePear", "Creator")
     _G.charSelect.credit_add(TEXT_MOD_NAME, "theboomeragainstthezoomers", "Voicetables, Palettes, Testing")
@@ -354,17 +531,15 @@ end
 local function on_character_sound(m, sound)
     if not CSloaded then return end
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WARIO then return _G.charSelect.voice.sound(m, sound) end
-    if VERSION_NUMBER > 40 then
-        if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WALUIGI then return _G.charSelect.voice.sound(m, sound) end
-    end
+    if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WALUIGI then return _G.charSelect.voice.sound(m, sound) end
+    --if _G.charSelect.character_get_voice(m) == VOICETABLE_J_SYRUP then return _G.charSelect.voice.sound(m, sound) end
 end
 
 local function on_character_snore(m)
     if not CSloaded then return end
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WARIO then return _G.charSelect.voice.snore(m) end
-    if VERSION_NUMBER > 40 then
-        if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WALUIGI then return _G.charSelect.voice.snore(m) end
-    end
+    if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WALUIGI then return _G.charSelect.voice.snore(m) end
+    --if _G.charSelect.character_get_voice(m) == VOICETABLE_J_SYRUP then return _G.charSelect.voice.snore(m) end
 end
 
 hook_event(HOOK_ON_MODS_LOADED, on_character_select_load)
