@@ -523,6 +523,7 @@ local function on_character_select_load()
     _G.charSelect.credit_add(TEXT_MOD_NAME, "theboomeragainstthezoomers", "Voicetables, Palettes, Testing")
     _G.charSelect.credit_add(TEXT_MOD_NAME, "Squishy6094", "Character Select, Coding, Testing")
     _G.charSelect.credit_add(TEXT_MOD_NAME, "Charity", "Bug Fixing, Testing")
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "WBmarioo", "Modeling Help")
     _G.charSelect.credit_add(TEXT_MOD_NAME, "Morishiko", "Testing")
 
     CSloaded = true
