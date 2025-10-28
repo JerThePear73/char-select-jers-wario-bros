@@ -649,7 +649,7 @@ local function wario_update(m)
       -- clone particles
     if (m.playerIndex == 0 or is_player_active(m) ~= 0) and m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE ~= 0 then
         if ((m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel >= 50) or (m.action == ACT_CORKSCREW and m.vel.y > 20) then
-            if (m.actionTimer) % 4 == 0 then
+            if (m.actionTimer) % 3 == 0 then
                 spawn_non_sync_object(id_bhvParticleClone, E_MODEL_PARTICLE_CLONE_WARIO, m.pos.x, m.pos.y, m.pos.z,
                 function(o) o.globalPlayerIndex = network_global_index_from_local(m.playerIndex) end)
             end
@@ -752,7 +752,7 @@ local function waluigi_update(m)
       -- clone particles
     if (m.playerIndex == 0 or is_player_active(m) ~= 0) and m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE ~= 0 then
         if ((m.action == ACT_WAL_SH_BASH or m.action == ACT_WAL_SH_BASH_JUMP) and m.forwardVel >= 50) or (m.action == ACT_CORKSCREW and m.vel.y > 20) then
-            if (m.actionTimer) % 4 == 0 then
+            if (m.actionTimer) % 3 == 0 then
                 spawn_non_sync_object(id_bhvParticleClone, E_MODEL_PARTICLE_CLONE_WALUIGI, m.pos.x, m.pos.y, m.pos.z,
                 function(o) o.globalPlayerIndex = network_global_index_from_local(m.playerIndex) end)
             end
