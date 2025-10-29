@@ -102,6 +102,46 @@ local VOICETABLE_J_WALUIGI = {
 	[CHAR_SOUND_MAMA_MIA] = 'JWAL_IM_RUINED.ogg',
    	[CHAR_SOUND_YAWNING] = 'JWAL_YAWN.ogg',
 }
+local VOICETABLE_J_SYRUP = {
+   	[CHAR_SOUND_OKEY_DOKEY] = 'JSYRP_MHM.ogg',
+	[CHAR_SOUND_LETS_A_GO] = 'JSYRP_MHM.ogg',
+	[CHAR_SOUND_PUNCH_YAH] = 'JSYRP_HUH.ogg',
+	[CHAR_SOUND_PUNCH_WAH] = 'JSYRP_HAH.ogg',
+    [CHAR_SOUND_PUNCH_HOO] = 'JSYRP_HAAW.ogg',
+   	[CHAR_SOUND_WAH2] = 'JSYRP_HAH.ogg',
+	[CHAR_SOUND_YAH_WAH_HOO] = {'JSYRP_HAH.ogg', 'JSYRP_HUH.ogg', 'JSYRP_HAH2.ogg'},
+	[CHAR_SOUND_HOOHOO] = {'JSYRP_OOO.ogg', 'JSYRP_YA.ogg'},
+	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] = {'JSYRP_YAHOO.ogg', 'JSYRP_YAHOO2.ogg'},
+	[CHAR_SOUND_UH] = 'JSYRP_UH.ogg',
+	[CHAR_SOUND_UH2] = 'JSYRP_HAH2.ogg',
+	[CHAR_SOUND_UH2_2] = 'JSYRP_PANT.ogg',
+	[CHAR_SOUND_HAHA] = {'JSYRP_LAUGH.ogg', 'JSYRP_MHM.ogg'},
+	[CHAR_SOUND_YAHOO] = {'JSYRP_YAHOO.ogg', 'JSYRP_YAHOO2.ogg'},
+	[CHAR_SOUND_DOH] = 'JSYRP_HURT2.ogg',
+	[CHAR_SOUND_WHOA] = 'JSYRP_LEDGE.ogg',
+	[CHAR_SOUND_EEUH] = 'JSYRP_LIFT.ogg',
+	[CHAR_SOUND_WAAAOOOW] = 'JSYRP_FALLING.ogg',
+	[CHAR_SOUND_TWIRL_BOUNCE] = 'JSYRP_YAHOO2.ogg',
+	[CHAR_SOUND_GROUND_POUND_WAH] = 'JSYRP_YA.ogg',
+	[CHAR_SOUND_HRMM] = 'JSYRP_LIFT.ogg',
+	[CHAR_SOUND_HERE_WE_GO] = 'JSYRP_MHM.ogg',
+	[CHAR_SOUND_SO_LONGA_BOWSER] = 'JSYRP_HAAW.ogg',
+ 	[CHAR_SOUND_OOOF] = 'JSYRP_OOF.ogg',
+ 	[CHAR_SOUND_OOOF2] = 'JSYRP_OOF.ogg',
+	[CHAR_SOUND_ATTACKED] = {'JSYRP_HURT1.ogg', 'JSYRP_HURT2.ogg'},
+	[CHAR_SOUND_PANTING] = 'JSYRP_PANT.ogg',
+   	[CHAR_SOUND_PANTING_COLD] = 'JSYRP_PANT.ogg',
+	[CHAR_SOUND_ON_FIRE] = 'JSYRP_BURN.ogg',
+	[CHAR_SOUND_SNORING1] = 'JWAL_SNORE1.ogg',
+	[CHAR_SOUND_SNORING2] = 'JWAL_SNORE2.ogg',
+	[CHAR_SOUND_COUGHING1] = 'JSYRP_COUGH.ogg',
+	[CHAR_SOUND_COUGHING2] = 'JSYRP_COUGH.ogg',
+	[CHAR_SOUND_COUGHING3] = 'JSYRP_COUGH.ogg',
+	[CHAR_SOUND_DYING] = 'JSYRP_DYING.ogg',
+	[CHAR_SOUND_DROWNING] = 'JSYRP_DROWN.ogg',
+	[CHAR_SOUND_MAMA_MIA] = 'JSYRP_HURT2.ogg',
+   	[CHAR_SOUND_YAWNING] = 'JSYRP_YAWN.ogg',
+}
 
 
 local PALETTES_WARIO = {
@@ -504,7 +544,7 @@ local function on_character_select_load()
     _G.charSelect.character_add_voice(E_MODEL_J_WARIO, VOICETABLE_J_WARIO)
     _G.charSelect.character_add_voice(E_MODEL_J_WARIO_T, VOICETABLE_J_WARIO)
     _G.charSelect.character_add_voice(E_MODEL_J_WALUIGI, VOICETABLE_J_WALUIGI)
-    --_G.charSelect.character_add_voice(E_MODEL_J_SYRUP, VOICETABLE_J_SYRUP)
+    _G.charSelect.character_add_voice(E_MODEL_J_SYRUP, VOICETABLE_J_SYRUP)
 
     if VERSION_NUMBER > 40 then
 
@@ -533,14 +573,14 @@ local function on_character_sound(m, sound)
     if not CSloaded then return end
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WARIO then return _G.charSelect.voice.sound(m, sound) end
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WALUIGI then return _G.charSelect.voice.sound(m, sound) end
-    --if _G.charSelect.character_get_voice(m) == VOICETABLE_J_SYRUP then return _G.charSelect.voice.sound(m, sound) end
+    if _G.charSelect.character_get_voice(m) == VOICETABLE_J_SYRUP then return _G.charSelect.voice.sound(m, sound) end
 end
 
 local function on_character_snore(m)
     if not CSloaded then return end
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WARIO then return _G.charSelect.voice.snore(m) end
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WALUIGI then return _G.charSelect.voice.snore(m) end
-    --if _G.charSelect.character_get_voice(m) == VOICETABLE_J_SYRUP then return _G.charSelect.voice.snore(m) end
+    if _G.charSelect.character_get_voice(m) == VOICETABLE_J_SYRUP then return _G.charSelect.voice.snore(m) end
 end
 
 hook_event(HOOK_ON_MODS_LOADED, on_character_select_load)

@@ -669,7 +669,7 @@ local function wario_update(m)
     -- slower swimming
     if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
         m.forwardVel = m.forwardVel * 0.98
-        if m.pos.y > m.floorHeight then
+        if m.pos.y > m.floorHeight and m.pos.y < (m.waterLevel - 82) then
             m.pos.y = m.pos.y - 2.5
         end
     end
