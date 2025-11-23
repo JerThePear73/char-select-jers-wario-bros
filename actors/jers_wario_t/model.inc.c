@@ -38,7 +38,7 @@ Lights1 jers_wario_t_Mustache_lights = gdSPDefLights1(
 	0x0, 0x0, 0x0,
 	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
-Lights1 jers_wario_t_Emblem__EMBLEM__lights = gdSPDefLights1(
+Lights1 jers_wario_t_Emblem__EMBLEM__layer2_lights = gdSPDefLights1(
 	0x0, 0x0, 0xFF,
 	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
@@ -74,7 +74,7 @@ Lights1 jers_wario_t_Gloves__GLOVES__lights = gdSPDefLights1(
 	0x7F, 0x7F, 0x7F,
 	0xFF, 0xFF, 0xFF, 0x28, 0x28, 0x28);
 
-Lights1 jers_wario_t_Glove_Logo__EMBLEM__lights = gdSPDefLights1(
+Lights1 jers_wario_t_Glove_Logo__EMBLEM__layer2_lights = gdSPDefLights1(
 	0x0, 0x0, 0xFF,
 	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
@@ -816,7 +816,7 @@ Gfx jers_wario_t_Head_DL_mesh_layer_1_tri_6[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_wario_t_Head_DL_mesh_layer_6_vtx_0[6] = {
+Vtx jers_wario_t_Head_DL_mesh_layer_2_vtx_0[6] = {
 	{{ {184, 163, 0}, 0, {496, 715}, {238, 126, 0, 255} }},
 	{{ {174, 144, 82}, 0, {1150, 795}, {221, 113, 47, 255} }},
 	{{ {258, 158, 69}, 0, {1051, 122}, {75, 84, 58, 255} }},
@@ -825,8 +825,8 @@ Vtx jers_wario_t_Head_DL_mesh_layer_6_vtx_0[6] = {
 	{{ {174, 144, -82}, 0, {-158, 795}, {221, 113, 209, 255} }},
 };
 
-Gfx jers_wario_t_Head_DL_mesh_layer_6_tri_0[] = {
-	gsSPVertex(jers_wario_t_Head_DL_mesh_layer_6_vtx_0 + 0, 6, 0),
+Gfx jers_wario_t_Head_DL_mesh_layer_2_tri_0[] = {
+	gsSPVertex(jers_wario_t_Head_DL_mesh_layer_2_vtx_0 + 0, 6, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),
 	gsSPEndDisplayList(),
@@ -1410,7 +1410,7 @@ Gfx jers_wario_t_Left_Hand_DL_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_wario_t_Left_Hand_DL_mesh_layer_6_vtx_0[6] = {
+Vtx jers_wario_t_Left_Hand_DL_mesh_layer_2_vtx_0[6] = {
 	{{ {23, 1, 44}, 0, {495, 759}, {243, 242, 125, 255} }},
 	{{ {53, 93, 37}, 0, {-94, 219}, {254, 97, 82, 255} }},
 	{{ {6, 60, 29}, 0, {-11, 690}, {164, 60, 63, 255} }},
@@ -1419,8 +1419,8 @@ Vtx jers_wario_t_Left_Hand_DL_mesh_layer_6_vtx_0[6] = {
 	{{ {55, -49, 20}, 0, {971, 710}, {1, 133, 31, 255} }},
 };
 
-Gfx jers_wario_t_Left_Hand_DL_mesh_layer_6_tri_0[] = {
-	gsSPVertex(jers_wario_t_Left_Hand_DL_mesh_layer_6_vtx_0 + 0, 6, 0),
+Gfx jers_wario_t_Left_Hand_DL_mesh_layer_2_tri_0[] = {
+	gsSPVertex(jers_wario_t_Left_Hand_DL_mesh_layer_2_vtx_0 + 0, 6, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSP2Triangles(4, 3, 0, 0, 5, 4, 0, 0),
 	gsSPEndDisplayList(),
@@ -1499,7 +1499,7 @@ Gfx jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_1_tri_0[
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_6_vtx_0[6] = {
+Vtx jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_2_vtx_0[6] = {
 	{{ {83, 28, 31}, 0, {479, 189}, {24, 7, 125, 255} }},
 	{{ {60, 81, 12}, 0, {1029, 176}, {8, 47, 118, 255} }},
 	{{ {12, 62, 23}, 0, {1057, 665}, {7, 44, 119, 255} }},
@@ -1508,8 +1508,8 @@ Vtx jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_6_vtx_0[
 	{{ {58, -47, 16}, 0, {-78, 712}, {37, 218, 115, 255} }},
 };
 
-Gfx jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_6_tri_0[] = {
-	gsSPVertex(jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_6_vtx_0 + 0, 6, 0),
+Gfx jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_2_tri_0[] = {
+	gsSPVertex(jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_2_vtx_0 + 0, 6, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(0, 3, 4, 0, 3, 5, 4, 0),
 	gsSPEndDisplayList(),
@@ -1684,7 +1684,7 @@ Gfx jers_wario_t_Right_Hand_DL_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_wario_t_Right_Hand_DL_mesh_layer_6_vtx_0[6] = {
+Vtx jers_wario_t_Right_Hand_DL_mesh_layer_2_vtx_0[6] = {
 	{{ {54, -47, -12}, 0, {952, 719}, {6, 134, 221, 255} }},
 	{{ {26, 4, -38}, 0, {473, 748}, {6, 245, 130, 255} }},
 	{{ {112, -38, -7}, 0, {1090, 249}, {95, 182, 215, 255} }},
@@ -1693,8 +1693,8 @@ Vtx jers_wario_t_Right_Hand_DL_mesh_layer_6_vtx_0[6] = {
 	{{ {8, 62, -23}, 0, {-30, 680}, {176, 55, 174, 255} }},
 };
 
-Gfx jers_wario_t_Right_Hand_DL_mesh_layer_6_tri_0[] = {
-	gsSPVertex(jers_wario_t_Right_Hand_DL_mesh_layer_6_vtx_0 + 0, 6, 0),
+Gfx jers_wario_t_Right_Hand_DL_mesh_layer_2_tri_0[] = {
+	gsSPVertex(jers_wario_t_Right_Hand_DL_mesh_layer_2_vtx_0 + 0, 6, 0),
 	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0),
 	gsSP2Triangles(1, 4, 3, 0, 1, 5, 4, 0),
 	gsSPEndDisplayList(),
@@ -1773,7 +1773,7 @@ Gfx jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_1_tri_
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_6_vtx_0[6] = {
+Vtx jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_2_vtx_0[6] = {
 	{{ {83, 28, -22}, 0, {475, 187}, {31, 10, 133, 255} }},
 	{{ {13, 64, -17}, 0, {1065, 650}, {15, 47, 139, 255} }},
 	{{ {60, 81, -3}, 0, {1023, 170}, {16, 50, 140, 255} }},
@@ -1782,8 +1782,8 @@ Vtx jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_6_vtx_
 	{{ {55, -47, -12}, 0, {-67, 733}, {43, 221, 142, 255} }},
 };
 
-Gfx jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_6_tri_0[] = {
-	gsSPVertex(jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_6_vtx_0 + 0, 6, 0),
+Gfx jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_2_tri_0[] = {
+	gsSPVertex(jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_2_vtx_0 + 0, 6, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSP2Triangles(0, 4, 3, 0, 3, 4, 5, 0),
 	gsSPEndDisplayList(),
@@ -1890,7 +1890,7 @@ Gfx jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1_tr
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_6_vtx_0[8] = {
+Vtx jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_2_vtx_0[8] = {
 	{{ {26, 4, -38}, 0, {499, 753}, {5, 246, 129, 255} }},
 	{{ {8, 62, -23}, 0, {1009, 684}, {174, 63, 182, 255} }},
 	{{ {56, 95, -23}, 0, {1087, 205}, {183, 21, 154, 255} }},
@@ -1901,8 +1901,8 @@ Vtx jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_6_vt
 	{{ {54, -47, -12}, 0, {14, 723}, {5, 135, 219, 255} }},
 };
 
-Gfx jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_6_tri_0[] = {
-	gsSPVertex(jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_6_vtx_0 + 0, 8, 0),
+Gfx jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_2_tri_0[] = {
+	gsSPVertex(jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_2_vtx_0 + 0, 8, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),
 	gsSP2Triangles(0, 5, 6, 0, 7, 0, 6, 0),
@@ -2084,7 +2084,7 @@ Gfx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_2[
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6_vtx_0[6] = {
+Vtx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_2_vtx_0[6] = {
 	{{ {54, -47, -12}, 0, {952, 719}, {6, 134, 221, 255} }},
 	{{ {26, 4, -38}, 0, {473, 748}, {6, 245, 130, 255} }},
 	{{ {112, -38, -7}, 0, {1090, 249}, {95, 182, 215, 255} }},
@@ -2093,14 +2093,14 @@ Vtx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6_vtx_0[
 	{{ {8, 62, -23}, 0, {-30, 680}, {176, 55, 174, 255} }},
 };
 
-Gfx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6_tri_0[] = {
-	gsSPVertex(jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6_vtx_0 + 0, 6, 0),
+Gfx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_2_tri_0[] = {
+	gsSPVertex(jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_2_vtx_0 + 0, 6, 0),
 	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0),
 	gsSP2Triangles(1, 4, 3, 0, 1, 5, 4, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6_vtx_1[6] = {
+Vtx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_2_vtx_1[6] = {
 	{{ {83, 122, 32}, 0, {496, 715}, {154, 54, 202, 255} }},
 	{{ {89, 166, 104}, 0, {1150, 795}, {152, 72, 251, 255} }},
 	{{ {138, 206, 46}, 0, {1051, 122}, {250, 121, 218, 255} }},
@@ -2109,8 +2109,8 @@ Vtx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6_vtx_1[
 	{{ {89, 50, -12}, 0, {-158, 795}, {152, 5, 184, 255} }},
 };
 
-Gfx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6_tri_1[] = {
-	gsSPVertex(jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6_vtx_1 + 0, 6, 0),
+Gfx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_2_tri_1[] = {
+	gsSPVertex(jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_2_vtx_1 + 0, 6, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),
 	gsSPEndDisplayList(),
@@ -2291,7 +2291,7 @@ Gfx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_laye
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_6_vtx_0[6] = {
+Vtx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_2_vtx_0[6] = {
 	{{ {54, -47, -12}, 0, {952, 719}, {6, 134, 221, 255} }},
 	{{ {26, 4, -38}, 0, {473, 748}, {6, 245, 130, 255} }},
 	{{ {112, -38, -7}, 0, {1090, 249}, {95, 182, 215, 255} }},
@@ -2300,14 +2300,14 @@ Vtx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_laye
 	{{ {8, 62, -23}, 0, {-30, 680}, {176, 55, 174, 255} }},
 };
 
-Gfx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_6_tri_0[] = {
-	gsSPVertex(jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_6_vtx_0 + 0, 6, 0),
+Gfx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_2_tri_0[] = {
+	gsSPVertex(jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_2_vtx_0 + 0, 6, 0),
 	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0),
 	gsSP2Triangles(1, 4, 3, 0, 1, 5, 4, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_6_vtx_1[6] = {
+Vtx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_2_vtx_1[6] = {
 	{{ {83, 122, 32}, 0, {496, 715}, {154, 54, 202, 255} }},
 	{{ {89, 166, 104}, 0, {1150, 795}, {152, 72, 251, 255} }},
 	{{ {138, 206, 46}, 0, {1051, 122}, {250, 121, 218, 255} }},
@@ -2316,8 +2316,8 @@ Vtx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_laye
 	{{ {89, 50, -12}, 0, {-158, 795}, {152, 5, 184, 255} }},
 };
 
-Gfx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_6_tri_1[] = {
-	gsSPVertex(jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_6_vtx_1 + 0, 6, 0),
+Gfx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_2_tri_1[] = {
+	gsSPVertex(jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_2_vtx_1 + 0, 6, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),
 	gsSPEndDisplayList(),
@@ -4950,12 +4950,13 @@ Gfx mat_revert_jers_wario_t_Mustache[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_jers_wario_t_Emblem__EMBLEM_[] = {
-	gsSPLight(&jers_wario_t_Emblem__EMBLEM__lights.l, 1),
-    gsSPLight(&jers_wario_t_Emblem__EMBLEM__lights.a, 2),
+Gfx mat_jers_wario_t_Emblem__EMBLEM__layer2[] = {
+	gsSPLight(&jers_wario_t_Emblem__EMBLEM__layer2_lights.l, 1),
+    gsSPLight(&jers_wario_t_Emblem__EMBLEM__layer2_lights.a, 2),
     gsSPCopyLightEXT(2, 17),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL1, SHADE, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, SHADE, TEXEL1, SHADE, TEXEL0, 0, ENVIRONMENT, 0),
+	gsDPSetRenderMode(G_RM_AA_ZB_XLU_DECAL, G_RM_AA_ZB_XLU_DECAL2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_8b_LOAD_BLOCK, 1, jers_wario_t_wario_cutout_i8),
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
@@ -4967,6 +4968,11 @@ Gfx mat_jers_wario_t_Emblem__EMBLEM_[] = {
 	gsDPLoadBlock(6, 0, 0, 511, 512),
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 4, 128, 1, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(1, 0, 0, 124, 124),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_jers_wario_t_Emblem__EMBLEM__layer2[] = {
+	gsDPPipeSync(),
 	gsSPEndDisplayList(),
 };
 
@@ -5088,16 +5094,22 @@ Gfx mat_jers_wario_t_Gloves__GLOVES_[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_jers_wario_t_Glove_Logo__EMBLEM_[] = {
+Gfx mat_jers_wario_t_Glove_Logo__EMBLEM__layer2[] = {
 	gsSPCopyLightsPlayerPart(EMBLEM),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
+	gsDPSetRenderMode(G_RM_AA_ZB_XLU_DECAL, G_RM_AA_ZB_XLU_DECAL2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, jers_wario_t_logo_W2_ia8),
 	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(7, 0, 0, 511, 512),
 	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_jers_wario_t_Glove_Logo__EMBLEM__layer2[] = {
+	gsDPPipeSync(),
 	gsSPEndDisplayList(),
 };
 
@@ -5340,51 +5352,59 @@ Gfx jers_wario_t_Head_DL_mesh_layer_1_mat_override_Dead_Eyes__SKIN__6[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Head_DL_mesh_layer_6[] = {
-	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Head_DL_mesh_layer_2[] = {
+	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Emblem__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Head_DL_mesh_layer_6_mat_override_Half_Eyes__SKIN__0[] = {
-	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Head_DL_mesh_layer_2_mat_override_Half_Eyes__SKIN__0[] = {
+	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Emblem__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Head_DL_mesh_layer_6_mat_override_Closed_Eyes__SKIN__1[] = {
-	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Head_DL_mesh_layer_2_mat_override_Closed_Eyes__SKIN__1[] = {
+	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Emblem__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Head_DL_mesh_layer_6_mat_override_Left_Eyes__SKIN__2[] = {
-	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Head_DL_mesh_layer_2_mat_override_Left_Eyes__SKIN__2[] = {
+	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Emblem__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Head_DL_mesh_layer_6_mat_override_Right_Eyes__SKIN__3[] = {
-	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Head_DL_mesh_layer_2_mat_override_Right_Eyes__SKIN__3[] = {
+	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Emblem__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Head_DL_mesh_layer_6_mat_override_Up_Eyes__SKIN__4[] = {
-	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Head_DL_mesh_layer_2_mat_override_Up_Eyes__SKIN__4[] = {
+	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Emblem__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Head_DL_mesh_layer_6_mat_override_Down_Eyes__SKIN__5[] = {
-	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Head_DL_mesh_layer_2_mat_override_Down_Eyes__SKIN__5[] = {
+	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Emblem__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Head_DL_mesh_layer_6_mat_override_Dead_Eyes__SKIN__6[] = {
-	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Head_DL_mesh_layer_2_mat_override_Dead_Eyes__SKIN__6[] = {
+	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Head_DL_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Emblem__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
@@ -5549,9 +5569,10 @@ Gfx jers_wario_t_Left_Hand_DL_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Left_Hand_DL_mesh_layer_6[] = {
-	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Left_Hand_DL_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Left_Hand_DL_mesh_layer_2[] = {
+	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Left_Hand_DL_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Glove_Logo__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
@@ -5561,9 +5582,10 @@ Gfx jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_6[] = {
-	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_2[] = {
+	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Glove_Logo__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
@@ -5594,9 +5616,10 @@ Gfx jers_wario_t_Right_Hand_DL_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Right_Hand_DL_mesh_layer_6[] = {
-	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Right_Hand_DL_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Right_Hand_DL_mesh_layer_2[] = {
+	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Right_Hand_DL_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Glove_Logo__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
@@ -5606,9 +5629,10 @@ Gfx jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_1[] = 
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_6[] = {
-	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_2[] = {
+	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Glove_Logo__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
@@ -5618,9 +5642,10 @@ Gfx jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1[] 
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_6[] = {
-	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_6_tri_0),
+Gfx jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_2[] = {
+	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Glove_Logo__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
@@ -5634,11 +5659,13 @@ Gfx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6[] = {
-	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6_tri_0),
-	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_6_tri_1),
+Gfx jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_2[] = {
+	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Glove_Logo__EMBLEM__layer2),
+	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_2_tri_1),
+	gsSPDisplayList(mat_revert_jers_wario_t_Emblem__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 
@@ -5652,11 +5679,13 @@ Gfx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_laye
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_6[] = {
-	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_6_tri_0),
-	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM_),
-	gsSPDisplayList(jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_6_tri_1),
+Gfx jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_2[] = {
+	gsSPDisplayList(mat_jers_wario_t_Glove_Logo__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_2_tri_0),
+	gsSPDisplayList(mat_revert_jers_wario_t_Glove_Logo__EMBLEM__layer2),
+	gsSPDisplayList(mat_jers_wario_t_Emblem__EMBLEM__layer2),
+	gsSPDisplayList(jers_wario_t_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_2_tri_1),
+	gsSPDisplayList(mat_revert_jers_wario_t_Emblem__EMBLEM__layer2),
 	gsSPEndDisplayList(),
 };
 

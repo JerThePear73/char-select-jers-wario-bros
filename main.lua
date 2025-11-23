@@ -120,7 +120,7 @@ local VOICETABLE_J_SYRUP = {
 	[CHAR_SOUND_DOH] = 'JSYRP_HURT2.ogg',
 	[CHAR_SOUND_WHOA] = 'JSYRP_LEDGE.ogg',
 	[CHAR_SOUND_EEUH] = 'JSYRP_LIFT.ogg',
-	[CHAR_SOUND_WAAAOOOW] = 'JSYRP_FALLING.ogg',
+	[CHAR_SOUND_WAAAOOOW] = 'JSYRP_FALL.ogg',
 	[CHAR_SOUND_TWIRL_BOUNCE] = 'JSYRP_YAHOO2.ogg',
 	[CHAR_SOUND_GROUND_POUND_WAH] = 'JSYRP_YA.ogg',
 	[CHAR_SOUND_HRMM] = 'JSYRP_LIFT.ogg',
@@ -199,6 +199,17 @@ local PALETTES_WARIO = {
         [SKIN]   = "FF7B52",
         [CAP]    = "FFFF73",
         [EMBLEM] = "FF7B52",
+    },
+    {
+        name = "Fourth Horseman",
+        [PANTS]  = "9800ff",
+        [SHIRT]  = "ffbc47",
+        [GLOVES] = "d3ffff",
+        [SHOES]  = "9800ff",
+        [HAIR]   = "000000",
+        [SKIN]   = "ff9b56",
+        [CAP]    = "ffbc47",
+        [EMBLEM] = "000000",
     },
     {
         name = "Extra Crispy",
@@ -302,6 +313,17 @@ local PALETTES_WALUIGI = {
         [EMBLEM] = "FF7B52",
     },
     {
+        name = "Fourth Horseman",
+        [PANTS]  = "050B30",
+        [SHIRT]  = "9800ff",
+        [GLOVES] = "d3ffff",
+        [SHOES]  = "050B30",
+        [HAIR]   = "000000",
+        [SKIN]   = "ff9b56",
+        [CAP]    = "9800ff",
+        [EMBLEM] = "000000",
+    },
+    {
         name = "Big Dreamer",
         [PANTS]  = "B46FF4",
         [SHIRT]  = "EBD9FF",
@@ -381,6 +403,17 @@ local PALETTES_SYRUP = {
         [EMBLEM] = "F6D919",
     },
     {
+        name = "Sea Side",
+        [PANTS]  = "8ec8ed",
+        [SHIRT]  = "8ec8ed",
+        [GLOVES] = "f9f33d",
+        [SHOES]  = "14461a",
+        [HAIR]   = "9b1e0b",
+        [SKIN]   = "fdceb9",
+        [CAP]    = "f9f33d",
+        [EMBLEM] = "c3225a",
+    },
+    {
         name = "Landio",
         [PANTS]  = "F7F7F7",
         [SHIRT]  = "F7F7F7",
@@ -403,15 +436,15 @@ local PALETTES_SYRUP = {
         [EMBLEM] = "F8F870",
     },
     {
-        name = "Sea Side",
-        [PANTS]  = "8ec8ed",
-        [SHIRT]  = "8ec8ed",
-        [GLOVES] = "f9f33d",
-        [SHOES]  = "14461a",
-        [HAIR]   = "9b1e0b",
-        [SKIN]   = "fdceb9",
-        [CAP]    = "f9f33d",
-        [EMBLEM] = "c3225a",
+        name = "Fourth Horseman",
+        [PANTS]  = "b246ff",
+        [SHIRT]  = "b246ff",
+        [GLOVES] = "b20000",
+        [SHOES]  = "7435b5",
+        [HAIR]   = "b20000",
+        [SKIN]   = "ffbf94",
+        [CAP]    = "b246ff",
+        [EMBLEM] = "ffb64c",
     },
     {
         name = "Maple",
@@ -434,6 +467,17 @@ local PALETTES_SYRUP = {
         [SKIN]   = "ffba90",
         [CAP]    = "ff2222",
         [EMBLEM] = "ffbc00",
+    },
+    {
+        name = "Sardine",
+        [PANTS]  = "2c5267",
+        [SHIRT]  = "222233",
+        [GLOVES] = "222233",
+        [SHOES]  = "ad211e",
+        [HAIR]   = "ad211e",
+        [SKIN]   = "62a4da",
+        [CAP]    = "222233",
+        [EMBLEM] = "fff200",
     },
     {
         name = "Clumsy Captain",
@@ -473,7 +517,7 @@ local ANIMTABLE_J_WALUIGI = {
 }
 local ANIMTABLE_J_SYRUP = {
     --[CHAR_ANIM_RUNNING] = "JSYP_RUN",
-    [_G.charSelect.CS_ANIM_MENU] = "mario_anim_cs_menu",
+    [_G.charSelect.CS_ANIM_MENU] = "JSYP_MENU",
 }
 
 local EYES_J_WARIO = {
@@ -547,9 +591,9 @@ local function on_character_select_load()
     _G.charSelect.character_add_voice(E_MODEL_J_SYRUP, VOICETABLE_J_SYRUP)
 
     if VERSION_NUMBER > 40 then
-
         _G.charSelect.character_add_graffiti(CT_J_WARIO, get_texture_info("char-select-graffiti-wario"))
         _G.charSelect.character_add_graffiti(CT_J_WALUIGI, get_texture_info("char-select-graffiti-waluigi"))
+        _G.charSelect.character_add_graffiti(CT_J_SYRUP, get_texture_info("jwar-graffiti-syrup"))
     end
 
     _G.charSelect.character_add_health_meter(CT_J_WARIO, HEALTH_METER_WARIO)
@@ -583,6 +627,13 @@ local function on_character_snore(m)
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_SYRUP then return _G.charSelect.voice.snore(m) end
 end
 
+local function menu_pose(m)
+    if m.marioObj.header.gfx.animInfo.animID == charSelect.CS_ANIM_MENU and CT_J_SYRUP == _G.charSelect.character_get_current_number() and m.playerIndex == 0 then
+        m.marioBodyState.handState = MARIO_HAND_PEACE_SIGN
+    end
+end
+
 hook_event(HOOK_ON_MODS_LOADED, on_character_select_load)
 hook_event(HOOK_CHARACTER_SOUND, on_character_sound)
 hook_event(HOOK_MARIO_UPDATE, on_character_snore)
+hook_event(HOOK_MARIO_UPDATE, menu_pose)
