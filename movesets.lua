@@ -8,6 +8,8 @@ for i = 0, MAX_PLAYERS - 1 do
     e.chop = 0
     e.prevVel = 0
     e.slashCooldown = 0
+    e.availCoins = 0
+    e.coinFreq = 0
 end
 
 local ACT_WAR_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
@@ -35,6 +37,7 @@ local SOUND_JWAL_CORKSCREW = audio_sample_load("JW_SOUND_CORKSCREW1.ogg")
 local SOUND_JSYP_CORKSCREW = audio_sample_load("JW_SOUND_CORKSCREW2.ogg")
 local SOUND_JSYP_SLASH = audio_sample_load("JW_SOUND_SLASH.ogg")
 local SOUND_JSYP_CHOP = audio_sample_load("JW_SOUND_CHOP.ogg")
+local SOUND_TADA = audio_sample_load("JW_SOUND_TADA.ogg")
 
 local TEX_BAG = get_texture_info('jwar-bag-of-oins')
 
@@ -43,6 +46,7 @@ local WAR_SH_BASH_MIN = 18
 local WAL_SH_BASH_MAX = 20
 local prevNumCoins = 0
 local chopMax = 1
+local availCoinsMax = 25
 
 -- BEHAVIOURS --
 
@@ -50,14 +54,22 @@ local function convert_s16(a)
     return (a + 0x8000) % 0x10000 - 0x8000
 end
 
-function dash_attacks(m, o, intee)
-    --if obj_has_behavior_id(o, id_bhvKingBobomb) ~= 0 and o.oAction ~= 0 then
-        --o.oMoveAngleYaw = m.faceAngle.y
-        --o.oAction = 4
-        --o.oVelY = 50
-        --o.oForwardVel = 20
-    --end
+local function pause_check()
+    local m = gMarioStates[0]
 
+    if m.action == ACT_START_SLEEPING or m.action == ACT_SLEEPING or m.actionTimer < 80 and
+        (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
+        return 0.2
+    end
+
+    if is_game_paused() or _G.charSelect.is_menu_open() then
+        return 0
+    end
+
+    return 1
+end   
+
+local function dash_attacks(m, o, intee)
     if obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
         o.oMoveAngleYaw = m.faceAngle.y
         o.oAction = BOBOMB_ACT_LAUNCHED
@@ -110,7 +122,7 @@ function dash_attacks(m, o, intee)
     end
 end
 
-function humble_bump(m, x, y)
+local function humble_bump(m, x, y)
     m.forwardVel = x
     m.vel.y = y
     set_mario_action(m, ACT_WAR_SH_BASH_JUMP, 0)
@@ -119,12 +131,44 @@ function humble_bump(m, x, y)
     return 0
 end
 
-function syrup_bump(m, x)
+local function syrup_bump(m, x)
     m.forwardVel = x
     set_mario_action(m, ACT_BACKWARD_ROLLOUT, 0)
     m.particleFlags = m.particleFlags | PARTICLE_VERTICAL_STAR
     play_sound(SOUND_ACTION_BOUNCE_OFF_OBJECT, m.marioObj.header.gfx.cameraToObject)
     return 0
+end
+
+local function do_gold_cap(m)
+    m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
+    local e = gExtraStates[m.playerIndex]
+    local freqMax = math.floor(65 - m.forwardVel)
+
+    if freqMax < 2 then
+        freqMax = 2
+    end
+    e.coinFreq = e.coinFreq + 1
+
+    if m.forwardVel > 30 and e.availCoins > 0 then
+        if e.coinFreq > freqMax then
+            e.availCoins = e.availCoins - 1
+            e.coinFreq = 0
+            play_sound(SOUND_GENERAL_COIN_SPURT, m.marioObj.header.gfx.cameraToObject)
+            spawn_sync_object(
+            id_bhvMovingYellowCoin,
+            E_MODEL_YELLOW_COIN,
+            m.pos.x, (m.pos.y + 130), m.pos.z,
+            function(o)
+                o.oVelY = 15
+                o.oFaceAngleYaw = m.faceAngle.y
+                o.oForwardVel = m.forwardVel*0.9
+            end)
+            if e.availCoins == 1 then
+                audio_sample_play(SOUND_TADA, m.pos, pause_check())
+                m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE | PARTICLE_HORIZONTAL_STAR
+            end
+        end
+    end
 end
 
 function particle_clone_init(o)
@@ -209,22 +253,6 @@ function particle_ring_loop(o)
 end
 
 id_bhvParticleRing = hook_behavior(nil, OBJ_LIST_UNIMPORTANT, true, particle_ring_init, particle_ring_loop, "bhvRingParticle")
-
-local function pause_check()
-    local m = gMarioStates[0]
-
-    if m.action == ACT_START_SLEEPING or m.action == ACT_SLEEPING or m.actionTimer < 80 and
-        (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
-        return 0.2
-    end
-
-    if is_game_paused() or _G.charSelect.is_menu_open() then
-        return 0
-    end
-
-    return 1
-end   
-
 
 -- CUSTOM ACTIONS --
 
@@ -368,7 +396,7 @@ local function act_wal_sh_bash(m)
     local speedCap = 40 + add
     local speed = m.forwardVel
 
-    if m.actionTimer < 3 and m.forwardVel < 30 then
+    if m.actionTimer < 3 then
         speed = speedCap
     else
         speed = approach_f32(speed, speedCap, 0.6, 5)
@@ -736,7 +764,7 @@ local function act_syp_chop(m)
 
     smlua_anim_util_set_animation(m.marioObj, "JSYP_CHOP")
 
-    local stepResult = common_air_action_step(m, ACT_FREEFALL_LAND, MARIO_ANIM_RUNNING_UNUSED, AIR_STEP_CHECK_LEDGE_GRAB)
+    local stepResult = common_air_action_step(m, ACT_FREEFALL_LAND, MARIO_ANIM_LAND_FROM_DOUBLE_JUMP, AIR_STEP_CHECK_LEDGE_GRAB)
     if stepResult == AIR_STEP_HIT_WALL and m.wall ~= nil then
         if m.wall.object == nil or m.wall.object.oInteractType & (INTERACT_BREAKABLE) == 0 then
             set_mario_action(m, ACT_AIR_HIT_WALL, 0)
@@ -880,6 +908,11 @@ local function wario_update(m)
         end
     end
 
+    -- gold cap
+    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 then
+        do_gold_cap(m)
+    end
+
     --if m.controller.buttonPressed & Y_BUTTON ~= 0 then -- for debugging
         --m.numCoins = 100
     --end
@@ -925,11 +958,14 @@ local function wario_before_set_action(m, act)
 end
 
 function wario_interact(m, o, intee)
+    local e = gExtraStates[m.playerIndex]
     local damagableTypes = (INTERACT_BOUNCE_TOP | INTERACT_BOUNCE_TOP2 | INTERACT_HIT_FROM_BELOW | 2097152 | INTERACT_KOOPA | INTERACT_BREAKABLE | INTERACT_GRABBABLE | INTERACT_BULLY)
 
-    if (m.action == ACT_WAR_SH_BASH or m.action == ACT_WAL_SH_BASH) and (intee & damagableTypes) ~= 0 and m.forwardVel > 5 then
+    if (m.action == ACT_WAR_SH_BASH or m.action == ACT_WAL_SH_BASH) and (intee & damagableTypes) ~= 0 then
         dash_attacks(m, o, intee)
-        humble_bump(m, -40, 30)
+        if m.flags & MARIO_METAL_CAP == 0 and obj_has_behavior_id(o, id_bhvBreakableBox) == 0 then
+            humble_bump(m, -40, 30)
+        end
         return false
     end
 
@@ -941,9 +977,15 @@ function wario_interact(m, o, intee)
 end
 
 function wario_attack(a, v)
-    if (a.action == ACT_WAR_SH_BASH or a.action == ACT_WAR_SH_BASH_AIR) and m.forwardVel > 5 then
+    if (a.action == ACT_WAR_SH_BASH or a.action == ACT_WAR_SH_BASH_AIR) and a.forwardVel > 5 then
         humble_bump(a, -40, 30)
     end
+end
+
+function wario_level_init()
+    local e = gExtraStates[0]
+
+    e.availCoins = availCoinsMax
 end
 
 -------------
@@ -984,6 +1026,11 @@ local function waluigi_update(m)
         if m.actionTimer < 8 then
             m.marioObj.header.gfx.scale.y = (m.actionTimer + 22)/30
         end
+    end
+
+    -- gold cap
+    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 then
+        do_gold_cap(m)
     end
 end
 
@@ -1073,6 +1120,11 @@ local function syrup_update(m)
     if m.action == ACT_FLUTTER_KICK and m.marioObj.header.gfx.animInfo.animID == MARIO_ANIM_FLUTTERKICK then
         m.particleFlags = m.particleFlags | PARTICLE_PLUNGE_BUBBLE
     end
+
+    -- gold cap
+    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 then
+        do_gold_cap(m)
+    end
 end
 
 local function syrup_set_action(m)
@@ -1114,72 +1166,17 @@ local function syrup_before_phys_step(m)
     end
 end
 
-function syrup_interact(m, o, intee)
+local function syrup_interact(m, o, intee)
+    local e = gExtraStates[m.playerIndex]
     local damagableTypes = (INTERACT_BOUNCE_TOP | INTERACT_BOUNCE_TOP2 | INTERACT_HIT_FROM_BELOW | 2097152 | INTERACT_KOOPA | INTERACT_BREAKABLE | INTERACT_GRABBABLE | INTERACT_BULLY)
+    local collideTypes = (INTERACT_GRABBABLE | INTERACT_BULLY)
 
     if (m.action == ACT_SYP_SLASH) and (intee & damagableTypes) ~= 0 then
-    if obj_has_behavior_id(o, id_bhvKingBobomb) ~= 0 and o.oAction ~= 0 then
-        o.oMoveAngleYaw = m.faceAngle.y
-        o.oAction = 4
-        o.oVelY = 50
-        o.oForwardVel = 20
-        syrup_bump(m, (m.forwardVel*-1))
-    end
-
-    if obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
-        o.oMoveAngleYaw = m.faceAngle.y
-        o.oAction = BOBOMB_ACT_LAUNCHED
-        o.oVelY = 30
-        o.oForwardVel = 50
-        syrup_bump(m, (m.forwardVel*-0.7))
-    end
-
-    if obj_has_behavior_id(o, id_bhvBreakableBoxSmall) ~= 0 then
-        o.oMoveAngleYaw = m.faceAngle.y
-        o.oVelY = 30
-        o.oForwardVel = 40
-        syrup_bump(m, (m.forwardVel*-0.7))
-    end
-
-    if obj_has_behavior_id(o, id_bhvChuckya) ~= 0 then
-        o.oMoveAngleYaw = m.faceAngle.y
-        o.oAction = 2
-        o.oVelY = 30
-        o.oForwardVel = 40
-        syrup_bump(m, (m.forwardVel*-1))
-    end
-
-    if obj_has_behavior_id(o, id_bhvMrBlizzard) ~= 0 then
-        o.oFaceAngleRoll = 0x3000
-        o.oMrBlizzardHeldObj = nil
-        o.prevObj = o.oMrBlizzardHeldObj
-        o.oAction = MR_BLIZZARD_ACT_DEATH
-        syrup_bump(m, (m.forwardVel*-0.7))
-    end
-
-    if obj_has_behavior_id(o, id_bhvHeaveHo) ~= 0 then
-        obj_mark_for_deletion(o)
-        play_sound(SOUND_GENERAL_BREAK_BOX, m.marioObj.header.gfx.cameraToObject)
-        spawn_triangle_break_particles(30, 138, 3.0, 4)
-        spawn_non_sync_object(
-            id_bhvMrIBlueCoin,
-            E_MODEL_BLUE_COIN,
-            o.oPosX, o.oPosY, o.oPosZ,
-            nil)
-        syrup_bump(m, (m.forwardVel*-0.7))
-    end
-    
-    if (intee & INTERACT_BULLY) ~= 0 then
-        o.oVelY = 30
-        o.oForwardVel = 50
-        syrup_bump(m, (m.forwardVel*-0.5))
-    end
-
-    if obj_has_behavior_id(o, id_bhvBreakableBox) ~= 0 then
-        o.oInteractStatus = INT_STATUS_INTERACTED | INT_STATUS_WAS_ATTACKED
-    end
-
-    return false
+        dash_attacks(m, o, intee)
+        if m.flags & MARIO_METAL_CAP == 0 and (intee & collideTypes) ~= 0 then
+            syrup_bump(m, -40)
+        end
+        return false
     end
 end
 
@@ -1228,6 +1225,10 @@ local function greedy_hud()
     --djui_hud_print_text(string.format("torsoAngle.z = " ..m.marioBodyState.torsoAngle.z.. " "), 25, 400, 1)
     --djui_hud_print_text(string.format(VERSION_NUMBER), 25, 450, 1)
     --djui_hud_print_text(string.format(e.chop), 25, 475, 1)
+    --djui_hud_print_text(string.format(e.availCoins), 25, 525, 1)
+    --djui_hud_print_text(string.format(m.forwardVel), 25, 550, 1)
+    --djui_hud_print_text(string.format(math.floor(65 - m.forwardVel)), 25, 575, 1)
+    --djui_hud_print_text(string.format(e.coinFreq), 25, 600, 1)
 end
 
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_MARIO_UPDATE, wario_update)
@@ -1236,6 +1237,7 @@ _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_BEFORE_SET_MARIO_ACTION, w
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_INTERACT, wario_interact)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_PVP_ATTACK, wario_attack)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_HUD_RENDER_BEHIND, greedy_hud)
+_G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_LEVEL_INIT, wario_level_init)
 
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_MARIO_UPDATE, waluigi_update)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_SET_MARIO_ACTION, waluigi_set_action)
@@ -1244,6 +1246,7 @@ _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_BEFORE_PHYS_STEP, waluig
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_INTERACT, wario_interact)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_PVP_ATTACK, wario_attack)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_HUD_RENDER_BEHIND, greedy_hud)
+_G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_LEVEL_INIT, wario_level_init)
 
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_MARIO_UPDATE, syrup_update)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_SET_MARIO_ACTION, syrup_set_action)
@@ -1251,3 +1254,4 @@ _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_BEFORE_SET_MARIO_ACTION, s
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_BEFORE_PHYS_STEP, syrup_before_phys_step)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_INTERACT, syrup_interact)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_HUD_RENDER_BEHIND, greedy_hud)
+_G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_LEVEL_INIT, wario_level_init)

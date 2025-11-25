@@ -418,7 +418,7 @@ local PALETTES_SYRUP = {
         [PANTS]  = "F7F7F7",
         [SHIRT]  = "F7F7F7",
         [GLOVES] = "CB7E45",
-        [SHOES]  = "CB7E45",
+        [SHOES]  = "F7F7F7",
         [HAIR]   = "050000",
         [SKIN]   = "CB7E45",
         [CAP]    = "F7F7F7",
@@ -429,7 +429,7 @@ local PALETTES_SYRUP = {
         [PANTS]  = "F8F870",
         [SHIRT]  = "F8F870",
         [GLOVES] = "F87850",
-        [SHOES]  = "F87850",
+        [SHOES]  = "F8F870",
         [HAIR]   = "100028",
         [SKIN]   = "F87850",
         [CAP]    = "F8F870",
@@ -540,12 +540,32 @@ local HEALTH_METER_WARIO = {
     label = {
         left = get_texture_info("char-select-wario-meter-left"),
         right = get_texture_info("char-select-wario-meter-right"),
+    },
+    pie = {
+        [1] = get_texture_info("char-select-custom-meter-pie1"),
+        [2] = get_texture_info("char-select-custom-meter-pie2"),
+        [3] = get_texture_info("char-select-custom-meter-pie3"),
+        [4] = get_texture_info("char-select-custom-meter-pie4"),
+        [5] = get_texture_info("char-select-custom-meter-pie5"),
+        [6] = get_texture_info("char-select-custom-meter-pie6"),
+        [7] = get_texture_info("char-select-custom-meter-pie7"),
+        [8] = get_texture_info("char-select-custom-meter-pie8"),
     }
 }
 local HEALTH_METER_WALUIGI = {
     label = {
         left = get_texture_info("char-select-waluigi-meter-left"),
         right = get_texture_info("char-select-waluigi-meter-right"),
+    },
+    pie = {
+        [1] = get_texture_info("char-select-custom-meter-pie1"),
+        [2] = get_texture_info("char-select-custom-meter-pie2"),
+        [3] = get_texture_info("char-select-custom-meter-pie3"),
+        [4] = get_texture_info("char-select-custom-meter-pie4"),
+        [5] = get_texture_info("char-select-custom-meter-pie5"),
+        [6] = get_texture_info("char-select-custom-meter-pie6"),
+        [7] = get_texture_info("char-select-custom-meter-pie7"),
+        [8] = get_texture_info("char-select-custom-meter-pie8"),
     }
 }
 
