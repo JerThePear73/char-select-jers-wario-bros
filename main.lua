@@ -168,17 +168,6 @@ local PALETTES_WARIO = {
         [EMBLEM] = "0026a0",
     },
     {
-        name = "Biker",
-        [PANTS]  = "ff8590",
-        [SHIRT]  = "004779",
-        [GLOVES] = "ffff00",
-        [SHOES]  = "004779",
-        [HAIR]   = "735300",
-        [SKIN]   = "fec179",
-        [CAP]    = "ffff00",
-        [EMBLEM] = "4180D8",
-    },
-    {
         name = "Landio",
         [PANTS]  = "050000",
         [SHIRT]  = "F7F7F7",
@@ -210,6 +199,17 @@ local PALETTES_WARIO = {
         [SKIN]   = "ff9b56",
         [CAP]    = "ffbc47",
         [EMBLEM] = "000000",
+    },
+    {
+        name = "Biker",
+        [PANTS]  = "ff8590",
+        [SHIRT]  = "004779",
+        [GLOVES] = "ffff00",
+        [SHOES]  = "004779",
+        [HAIR]   = "735300",
+        [SKIN]   = "fec179",
+        [CAP]    = "ffff00",
+        [EMBLEM] = "4180D8",
     },
     {
         name = "Extra Crispy",
@@ -403,17 +403,6 @@ local PALETTES_SYRUP = {
         [EMBLEM] = "F6D919",
     },
     {
-        name = "Sea Side",
-        [PANTS]  = "8ec8ed",
-        [SHIRT]  = "8ec8ed",
-        [GLOVES] = "f9f33d",
-        [SHOES]  = "14461a",
-        [HAIR]   = "9b1e0b",
-        [SKIN]   = "fdceb9",
-        [CAP]    = "f9f33d",
-        [EMBLEM] = "c3225a",
-    },
-    {
         name = "Landio",
         [PANTS]  = "F7F7F7",
         [SHIRT]  = "F7F7F7",
@@ -437,14 +426,25 @@ local PALETTES_SYRUP = {
     },
     {
         name = "Fourth Horseman",
-        [PANTS]  = "b246ff",
-        [SHIRT]  = "b246ff",
-        [GLOVES] = "b20000",
-        [SHOES]  = "7435b5",
-        [HAIR]   = "b20000",
-        [SKIN]   = "ffbf94",
-        [CAP]    = "b246ff",
-        [EMBLEM] = "ffb64c",
+        [PANTS]  = "4f62ad",
+        [SHIRT]  = "f83898",
+        [GLOVES] = "000000",
+        [SHOES]  = "4f62ad",
+        [HAIR]   = "a80038",
+        [SKIN]   = "ff9a78",
+        [CAP]    = "f83898",
+        [EMBLEM] = "ffbc47",
+    },
+    {
+        name = "Sea Side",
+        [PANTS]  = "8ec8ed",
+        [SHIRT]  = "8ec8ed",
+        [GLOVES] = "f9f33d",
+        [SHOES]  = "14461a",
+        [HAIR]   = "9b1e0b",
+        [SKIN]   = "fdceb9",
+        [CAP]    = "f9f33d",
+        [EMBLEM] = "c3225a",
     },
     {
         name = "Maple",
@@ -455,18 +455,40 @@ local PALETTES_SYRUP = {
         [HAIR]   = "402f25",
         [SKIN]   = "e2a278",
         [CAP]    = "b63a27",
-        [EMBLEM] = "ff0000",
+        [EMBLEM] = "b63a27",
     },
     {
-        name = "Solar Sailor",
-        [PANTS]  = "ffbc00",
-        [SHIRT]  = "333333",
-        [GLOVES] = "74301e",
-        [SHOES]  = "333333",
-        [HAIR]   = "74301e",
-        [SKIN]   = "ffba90",
-        [CAP]    = "ff2222",
-        [EMBLEM] = "ffbc00",
+        name = "Royal Emerald",
+        [PANTS]  = "5fa700",
+        [SHIRT]  = "5fa700",
+        [GLOVES] = "52290a",
+        [SHOES]  = "315a00",
+        [HAIR]   = "7cdba8",
+        [SKIN]   = "fdc88b",
+        [CAP]    = "5fa700",
+        [EMBLEM] = "d8eef7",
+    },
+    {
+        name = "Sweet n' Salty",
+        [PANTS]  = "ffe5bd",
+        [SHIRT]  = "008d71",
+        [GLOVES] = "003d3b",
+        [SHOES]  = "008d71",
+        [HAIR]   = "522b2f",
+        [SKIN]   = "ffa66d",
+        [CAP]    = "d04626",
+        [EMBLEM] = "00ff90",
+    },
+    {
+        name = "Sapphire",
+        [PANTS]  = "3b305e",
+        [SHIRT]  = "6bb6ff",
+        [GLOVES] = "275b9d",
+        [SHOES]  = "6bb6ff",
+        [HAIR]   = "ffe0ab",
+        [SKIN]   = "ffa66d",
+        [CAP]    = "275b9d",
+        [EMBLEM] = "4e5bcd",
     },
     {
         name = "Sardine",
@@ -488,7 +510,7 @@ local PALETTES_SYRUP = {
         [HAIR]   = "462c1e",
         [SKIN]   = "ffba90",
         [CAP]    = "77bdff",
-        [EMBLEM] = "ffffff",
+        [EMBLEM] = "bbff4d",
     },
     {
         name = "Dynamite",
@@ -499,7 +521,7 @@ local PALETTES_SYRUP = {
         [HAIR]   = "FE050D",
         [SKIN]   = "A4E900",
         [CAP]    = "150921",
-        [EMBLEM] = "A4E900",
+        [EMBLEM] = "FE050D",
     },
 }
 
@@ -509,11 +531,11 @@ local ANIMTABLE_J_WARIO = {
     [MARIO_ANIM_LAND_FROM_SINGLE_JUMP] = "JWAR_SINGLE_JUMP_LAND",
     [CHAR_ANIM_START_TWIRL] = "JWAR_START_TWIRL",
     [CHAR_ANIM_TWIRL] = "JWAR_TWIRL",
-    [_G.charSelect.CS_ANIM_MENU] = "wario_anim_cs_menu",
+    [_G.charSelect.CS_ANIM_MENU] = "JWAR_MENU",
 }
 local ANIMTABLE_J_WALUIGI = {
     [CHAR_ANIM_RUNNING] = "JWAL_RUN",
-    [_G.charSelect.CS_ANIM_MENU] = "waluigi_anim_cs_menu",
+    [_G.charSelect.CS_ANIM_MENU] = "JWAL_MENU",
 }
 local ANIMTABLE_J_SYRUP = {
     --[CHAR_ANIM_RUNNING] = "JSYP_RUN",
@@ -523,17 +545,27 @@ local ANIMTABLE_J_SYRUP = {
 local EYES_J_WARIO = {
     [CHAR_ANIM_IDLE_HEAD_LEFT] = MARIO_EYES_LOOK_RIGHT,
     [CHAR_ANIM_IDLE_HEAD_RIGHT] = MARIO_EYES_LOOK_LEFT,
-    [_G.charSelect.CS_ANIM_MENU] = MARIO_EYES_LOOK_LEFT,
+    [_G.charSelect.CS_ANIM_MENU] = MARIO_EYES_LOOK_RIGHT,
 }
 local EYES_J_WALUIGI = {
     [CHAR_ANIM_IDLE_HEAD_LEFT] = MARIO_EYES_LOOK_RIGHT,
     [CHAR_ANIM_IDLE_HEAD_RIGHT] = MARIO_EYES_LOOK_LEFT,
-    [_G.charSelect.CS_ANIM_MENU] = MARIO_EYES_LOOK_RIGHT,
+    [_G.charSelect.CS_ANIM_MENU] = MARIO_EYES_LOOK_LEFT,
 }
 local EYES_J_SYRUP = {
     [CHAR_ANIM_IDLE_HEAD_LEFT] = MARIO_EYES_LOOK_RIGHT,
     [CHAR_ANIM_IDLE_HEAD_RIGHT] = MARIO_EYES_LOOK_LEFT,
     [_G.charSelect.CS_ANIM_MENU] = MARIO_EYES_LOOK_RIGHT,
+}
+
+local HANDS_J_WARIO = {
+    --[_G.charSelect.CS_ANIM_MENU] = MARIO_HAND_OPEN,
+}
+local HANDS_J_WALUIGI = {
+    [_G.charSelect.CS_ANIM_MENU] = MARIO_HAND_PEACE_SIGN,
+}
+local HANDS_J_SYRUP = {
+    [_G.charSelect.CS_ANIM_MENU] = MARIO_HAND_PEACE_SIGN,
 }
 
 local HEALTH_METER_WARIO = {
@@ -578,11 +610,11 @@ local HEALTH_METER_WALUIGI = {
 
 if _G.charSelectExists then
     CT_J_WARIO = _G.charSelect.character_add("Wario", { "A jolly feller with an eye for gold, no matter how dangerous.",
-        ""}, "JerThePear", {r = 255, g = 240, b = 000}, E_MODEL_J_WARIO, CT_WARIO, TEX_WARIO, 1)
+        ""}, "JerThePear", {r = 255, g = 240, b = 000}, E_MODEL_J_WARIO, CT_WARIO, TEX_WARIO, 1.05)
     CT_J_WALUIGI = _G.charSelect.character_add("Waluigi", { "A lanky rival out for mischief, mayhem, and... tennis?",
         ""}, "JerThePear", {r = 200, g = 000, b = 255}, E_MODEL_J_WALUIGI, CT_WALUIGI, TEX_WALUIGI, 1.1)
     CT_J_SYRUP = _G.charSelect.character_add("Captain Syrup", { "A cunning rival treasure hunter in search of goodies. What is her reason for helping the Wario Bros.?",
-        ""}, "JerThePear", {r = 255, g = 000, b = 255}, E_MODEL_J_SYRUP, CT_MARIO, TEX_SYRUP, 1.05)
+        ""}, "JerThePear", {r = 255, g = 000, b = 255}, E_MODEL_J_SYRUP, CT_MARIO, TEX_SYRUP, 1.08)
 end
 
 local CSloaded = false
@@ -600,10 +632,10 @@ local function on_character_select_load()
         _G.charSelect.character_add_palette_preset(E_MODEL_J_SYRUP, PALETTES_SYRUP[i], PALETTES_SYRUP[i].name)
 	end
 
-    _G.charSelect.character_add_animations(E_MODEL_J_WARIO, ANIMTABLE_J_WARIO, EYES_J_WARIO)
-    _G.charSelect.character_add_animations(E_MODEL_J_WARIO_T, ANIMTABLE_J_WARIO, EYES_J_WARIO)
-    _G.charSelect.character_add_animations(E_MODEL_J_WALUIGI, ANIMTABLE_J_WALUIGI, EYES_J_WALUIGI)
-    _G.charSelect.character_add_animations(E_MODEL_J_SYRUP, ANIMTABLE_J_SYRUP, EYES_J_SYRUP)
+    _G.charSelect.character_add_animations(E_MODEL_J_WARIO, ANIMTABLE_J_WARIO, EYES_J_WARIO, HANDS_J_WARIO)
+    _G.charSelect.character_add_animations(E_MODEL_J_WARIO_T, ANIMTABLE_J_WARIO, EYES_J_WARIO, HANDS_J_WARIO)
+    _G.charSelect.character_add_animations(E_MODEL_J_WALUIGI, ANIMTABLE_J_WALUIGI, EYES_J_WALUIGI, HANDS_J_WALUIGI)
+    _G.charSelect.character_add_animations(E_MODEL_J_SYRUP, ANIMTABLE_J_SYRUP, EYES_J_SYRUP, HANDS_J_SYRUP)
 
     _G.charSelect.character_add_voice(E_MODEL_J_WARIO, VOICETABLE_J_WARIO)
     _G.charSelect.character_add_voice(E_MODEL_J_WARIO_T, VOICETABLE_J_WARIO)
@@ -647,13 +679,6 @@ local function on_character_snore(m)
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_SYRUP then return _G.charSelect.voice.snore(m) end
 end
 
-local function menu_pose(m)
-    if m.marioObj.header.gfx.animInfo.animID == charSelect.CS_ANIM_MENU and CT_J_SYRUP == _G.charSelect.character_get_current_number() and m.playerIndex == 0 then
-        m.marioBodyState.handState = MARIO_HAND_PEACE_SIGN
-    end
-end
-
 hook_event(HOOK_ON_MODS_LOADED, on_character_select_load)
 hook_event(HOOK_CHARACTER_SOUND, on_character_sound)
 hook_event(HOOK_MARIO_UPDATE, on_character_snore)
-hook_event(HOOK_MARIO_UPDATE, menu_pose)
