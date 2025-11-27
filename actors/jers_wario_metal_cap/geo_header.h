@@ -1,0 +1,11 @@
+extern const GeoLayout jers_wario_metal_cap_6_Cap_Anim_State_Switch_opt1[];
+extern const GeoLayout jers_wario_metal_cap_geo[];
+extern Lights1 jers_wario_metal_cap_Gold_Metal_lights;
+extern u8 jers_wario_metal_cap_metal_gold_shine_rgba16[];
+extern u8 jers_wario_metal_cap_metal_gold_rgba16[];
+extern Vtx jers_wario_metal_cap_Metal_Cap_DL_mesh_layer_1_vtx_0[71];
+extern Gfx jers_wario_metal_cap_Metal_Cap_DL_mesh_layer_1_tri_0[];
+extern Gfx mat_jers_wario_metal_cap_Gold_Metal[];
+extern Gfx mat_revert_jers_wario_metal_cap_Gold_Metal[];
+extern Gfx jers_wario_metal_cap_Metal_Cap_DL_mesh_layer_1[];
+extern Gfx jers_wario_metal_cap_material_revert_render_settings[];

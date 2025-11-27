@@ -601,12 +601,24 @@ local HEALTH_METER_WALUIGI = {
     }
 }
 
---local CAP_SYRUP = {
---    normal = smlua_model_util_get_id("cap_normal_geo"),
---    wing = smlua_model_util_get_id("cap_wing_geo"),
---    metal = smlua_model_util_get_id("cap_metal_geo"),
---    metalWing = smlua_model_util_get_id("cap_metal_wing_geo")
---}
+local CAP_J_WARIO = {
+    normal = smlua_model_util_get_id("jers_wario_cap_geo"),
+    wing = smlua_model_util_get_id("jers_wario_wing_cap_geo"),
+    metal = smlua_model_util_get_id("jers_wario_metal_cap_geo"),
+    metalWing = smlua_model_util_get_id("jers_wario_metal_wing_cap_geo")
+}
+local CAP_J_WALUIGI = {
+    normal = smlua_model_util_get_id("jers_waluigi_cap_geo"),
+    wing = smlua_model_util_get_id("jers_waluigi_wing_cap_geo"),
+    metal = smlua_model_util_get_id("jers_waluigi_metal_cap_geo"),
+    metalWing = smlua_model_util_get_id("jers_waluigi_metal_wing_cap_geo")
+}
+local CAP_J_SYRUP = {
+    normal = smlua_model_util_get_id("jers_captain_syrup_cap_geo"),
+    wing = smlua_model_util_get_id("jers_captain_syrup_wing_cap_geo"),
+    metal = smlua_model_util_get_id("jers_captain_syrup_metal_cap_geo"),
+    metalWing = smlua_model_util_get_id("jers_captain_syrup_metal_wing_cap_geo")
+}
 
 if _G.charSelectExists then
     CT_J_WARIO = _G.charSelect.character_add("Wario", { "A jolly feller with an eye for gold, no matter how dangerous.",
@@ -641,6 +653,11 @@ local function on_character_select_load()
     _G.charSelect.character_add_voice(E_MODEL_J_WARIO_T, VOICETABLE_J_WARIO)
     _G.charSelect.character_add_voice(E_MODEL_J_WALUIGI, VOICETABLE_J_WALUIGI)
     _G.charSelect.character_add_voice(E_MODEL_J_SYRUP, VOICETABLE_J_SYRUP)
+
+    _G.charSelect.character_add_caps(E_MODEL_J_WARIO, CAP_J_WARIO)
+    _G.charSelect.character_add_caps(E_MODEL_J_WARIO_T, CAP_J_WARIO)
+    _G.charSelect.character_add_caps(E_MODEL_J_WALUIGI, CAP_J_WALUIGI)
+    _G.charSelect.character_add_caps(E_MODEL_J_SYRUP, CAP_J_SYRUP)
 
     if VERSION_NUMBER > 40 then
         _G.charSelect.character_add_graffiti(CT_J_WARIO, get_texture_info("char-select-graffiti-wario"))

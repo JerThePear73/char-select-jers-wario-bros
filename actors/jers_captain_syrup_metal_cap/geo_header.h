@@ -1,0 +1,16 @@
+extern const GeoLayout jers_captain_syrup_metal_cap_6_Cap_Anim_State_Switch_opt1[];
+extern const GeoLayout jers_captain_syrup_metal_cap_geo[];
+extern Lights1 jers_captain_syrup_metal_cap_Gold_Metal_lights;
+extern Lights1 jers_captain_syrup_metal_cap_Gold_Metal_No_Culling_lights;
+extern u8 jers_captain_syrup_metal_cap_metal_gold_shine_rgba16[];
+extern u8 jers_captain_syrup_metal_cap_metal_gold_rgba16[];
+extern Vtx jers_captain_syrup_metal_cap_Metal_Cap_DL_mesh_layer_1_vtx_0[57];
+extern Gfx jers_captain_syrup_metal_cap_Metal_Cap_DL_mesh_layer_1_tri_0[];
+extern Vtx jers_captain_syrup_metal_cap_Metal_Cap_DL_mesh_layer_1_vtx_1[8];
+extern Gfx jers_captain_syrup_metal_cap_Metal_Cap_DL_mesh_layer_1_tri_1[];
+extern Gfx mat_jers_captain_syrup_metal_cap_Gold_Metal[];
+extern Gfx mat_revert_jers_captain_syrup_metal_cap_Gold_Metal[];
+extern Gfx mat_jers_captain_syrup_metal_cap_Gold_Metal_No_Culling[];
+extern Gfx mat_revert_jers_captain_syrup_metal_cap_Gold_Metal_No_Culling[];
+extern Gfx jers_captain_syrup_metal_cap_Metal_Cap_DL_mesh_layer_1[];
+extern Gfx jers_captain_syrup_metal_cap_material_revert_render_settings[];

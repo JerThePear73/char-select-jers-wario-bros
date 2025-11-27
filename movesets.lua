@@ -8,7 +8,7 @@ for i = 0, MAX_PLAYERS - 1 do
     e.chop = 0
     e.prevVel = 0
     e.slashCooldown = 0
-    e.availCoins = 0
+    e.availCoins = 25
     e.coinFreq = 0
 end
 
@@ -163,7 +163,7 @@ local function do_gold_cap(m)
                 o.oFaceAngleYaw = m.faceAngle.y
                 o.oForwardVel = m.forwardVel*0.9
             end)
-            if e.availCoins == 1 then
+            if e.availCoins == 0 then
                 audio_sample_play(SOUND_TADA, m.pos, pause_check())
                 m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE | PARTICLE_HORIZONTAL_STAR
             end
@@ -316,14 +316,14 @@ local function act_war_sh_bash(m)
             m.vel.y = 50
             set_mario_action(m, ACT_WAR_SH_BASH_JUMP, 0)
         end
+    elseif m.input & INPUT_Z_PRESSED ~= 0 then
+        set_mario_action(m, ACT_CROUCH_SLIDE, 0)
     elseif (m.controller.buttonDown & B_BUTTON == 0) or ((is_game_paused() or _G.charSelect.is_menu_open()) and m.playerIndex == 0) then
         if m.prevAction == ACT_WAR_SH_BASH_JUMP then
             set_mario_action(m, ACT_BRAKING, 0)
         elseif m.actionTimer > WAR_SH_BASH_MIN then
             set_mario_action(m, ACT_BRAKING, 0)
         end
-    elseif m.input & INPUT_Z_PRESSED ~= 0 then
-        set_mario_action(m, ACT_CROUCH_SLIDE, 0)
     end
 
     m.actionTimer = m.actionTimer + 1
@@ -428,8 +428,11 @@ end
 hook_mario_action(ACT_WAL_SH_BASH, act_wal_sh_bash)
 
 local function act_wal_sh_bash_jump(m)
+    local e = gExtraStates[m.playerIndex]
+
     m.marioBodyState.eyeState = MARIO_EYES_LOOK_RIGHT
     m.particleFlags = m.particleFlags | PARTICLE_DUST
+    e.canBash = false
 
     m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
 
@@ -969,7 +972,7 @@ function wario_interact(m, o, intee)
         return false
     end
 
-    if (m.action == ACT_WAR_SH_BASH_JUMP or m.action == ACT_WAL_SH_BASH_JUMP) and (intee & damagableTypes) ~= 0 and m.forwardVel > 5 then
+    if (m.action == ACT_WAR_SH_BASH_JUMP or m.action == ACT_WAL_SH_BASH_JUMP) and (intee & damagableTypes) ~= 0 and m.forwardVel > 10 then
         dash_attacks(m, o, intee)
         humble_bump(m, -40, 15)
         return false
@@ -1159,7 +1162,7 @@ end
 local function syrup_before_phys_step(m)
     -- faster swimming
     if m.action == ACT_FLUTTER_KICK and m.marioObj.header.gfx.animInfo.animID == MARIO_ANIM_FLUTTERKICK then
-        mult = 2.5
+        mult = 3
         m.vel.x = m.vel.x * mult
         m.vel.y = m.vel.y * mult
         m.vel.z = m.vel.z * mult

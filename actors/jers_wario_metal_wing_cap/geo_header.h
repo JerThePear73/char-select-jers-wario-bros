@@ -1,0 +1,17 @@
+extern const GeoLayout jers_wario_metal_wing_cap_6_Cap_Anim_State_Switch_opt1[];
+extern const GeoLayout jers_wario_metal_wing_cap_geo[];
+extern Lights1 jers_wario_metal_wing_cap_Gold_Metal_lights;
+extern u8 jers_wario_metal_wing_cap_wing_gold_rgba16[];
+extern u8 jers_wario_metal_wing_cap_metal_gold_shine_rgba16[];
+extern u8 jers_wario_metal_wing_cap_metal_gold_rgba16[];
+extern Vtx jers_wario_metal_wing_cap_Winged_Metal_Cap_DL_mesh_layer_4_vtx_0[8];
+extern Gfx jers_wario_metal_wing_cap_Winged_Metal_Cap_DL_mesh_layer_4_tri_0[];
+extern Vtx jers_wario_metal_wing_cap_Winged_Metal_Cap_DL_mesh_layer_1_vtx_0[71];
+extern Gfx jers_wario_metal_wing_cap_Winged_Metal_Cap_DL_mesh_layer_1_tri_0[];
+extern Gfx mat_jers_wario_metal_wing_cap_Wings_Gold[];
+extern Gfx mat_revert_jers_wario_metal_wing_cap_Wings_Gold[];
+extern Gfx mat_jers_wario_metal_wing_cap_Gold_Metal[];
+extern Gfx mat_revert_jers_wario_metal_wing_cap_Gold_Metal[];
+extern Gfx jers_wario_metal_wing_cap_Winged_Metal_Cap_DL_mesh_layer_4[];
+extern Gfx jers_wario_metal_wing_cap_Winged_Metal_Cap_DL_mesh_layer_1[];
+extern Gfx jers_wario_metal_wing_cap_material_revert_render_settings[];
