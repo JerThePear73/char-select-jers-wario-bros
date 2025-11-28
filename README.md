@@ -4,7 +4,8 @@ What's more enticing than saving royalty? Getting rich baby!
 
 3 characters with custom movesets that get stronger as you pick up coins! Wario, Waluigi, and Captain Syrup.
 
-Moves
+# Moves:
+
 	Wario:
 	(B) = Shoulder Bash
 	GP + (B) = GP cancel
