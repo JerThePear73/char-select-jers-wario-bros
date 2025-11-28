@@ -4,6 +4,8 @@ What's more enticing than saving royalty? Getting rich baby!
 
 3 characters with custom movesets that get stronger as you pick up coins! Wario, Waluigi, and Captain Syrup.
 
+![CS Wario Bros.](images/title.png)
+
 # Moves:
 
 Wario:
@@ -33,11 +35,7 @@ Syrup:
 	Hold (A) in water = Fast Swim
 	Special cannon movement
 
-
-
-![CS Wario Bros.](images/title.png)
-
-Credits:
+# Credits:
 
 	theboomeragainstthezoomers...Voicetables, Palettes, Testing
 	Squishy6094..................Character Select, Coding, Testing
