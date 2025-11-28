@@ -7,6 +7,7 @@ What's more enticing than saving royalty? Getting rich baby!
 # Moves:
 
 Wario:
+
 	(B) = Shoulder Bash
 	GP + (B) = GP cancel
 	GP + (A) = Corkscrew
@@ -15,6 +16,7 @@ Wario:
 	Jumps slightly lower
 
 Waluigi:
+
 	(B) = Shoulder Bash
 	(B) in air + neutral stick = Arial Shoulder Bash
 	GP + (B) = GP cancel
@@ -23,6 +25,7 @@ Waluigi:
 	Jumps slightly higher
 
 Syrup:
+
 	(B) = Sword Slash
 	(B) in air + neutral stick = Sword Chop
 	GP + (A) = Sword Tornado
@@ -34,7 +37,8 @@ Syrup:
 
 ![CS Wario Bros.](images/title.png)
 
-	Credits:
+Credits:
+
 	theboomeragainstthezoomers...Voicetables, Palettes, Testing
 	Squishy6094..................Character Select, Coding, Testing
 	Charity......................Bug fixes, Testing
