@@ -1,5 +1,5 @@
 -- name: [CS] \\#F2D36F\\Wario \\#B47CF4\\Bros.
--- description: Wario,,, I gotta win,,,\n\n\\#ff7777\\This Pack requires Character Select\nto use as a Library!
+-- description: [CS] \\#F2D36F\\Wario \\#B47CF4\\Bros.\n\\#ffffff\\By \\#008800\\JerThePear\n\n\\#ffffff\\What's more enticing than saving royalty? Getting rich baby! \n\n3 characters with custom movesets that get stronger as you pick up coins! Wario, Waluigi, and Captain Syrup.\n\n\\#ff7777\\This Pack requires Character Select\nto use as a Library!
 
 local TEXT_MOD_NAME = "Wario Bros."
 
@@ -538,7 +538,7 @@ local ANIMTABLE_J_WALUIGI = {
     [_G.charSelect.CS_ANIM_MENU] = "JWAL_MENU",
 }
 local ANIMTABLE_J_SYRUP = {
-    --[CHAR_ANIM_RUNNING] = "JSYP_RUN",
+    [CHAR_ANIM_RUNNING] = "JSYP_RUN",
     [_G.charSelect.CS_ANIM_MENU] = "JSYP_MENU",
 }
 
@@ -675,9 +675,11 @@ local function on_character_select_load()
     _G.charSelect.credit_add(TEXT_MOD_NAME, "JerThePear", "Creator")
     _G.charSelect.credit_add(TEXT_MOD_NAME, "theboomeragainstthezoomers", "Voicetables, Palettes, Testing")
     _G.charSelect.credit_add(TEXT_MOD_NAME, "Squishy6094", "Character Select, Coding, Testing")
-    _G.charSelect.credit_add(TEXT_MOD_NAME, "Charity", "Bug Fixing, Testing")
-    _G.charSelect.credit_add(TEXT_MOD_NAME, "WBmarioo", "Modeling Help")
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "Charity", "Bug fixes, Testing")
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "WBmarioo", "Model help")
     _G.charSelect.credit_add(TEXT_MOD_NAME, "Morishiko", "Testing")
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "Wall_E20", "Testing")
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "SuperEdgarOrtiz64", "Bug fixes")
 
     CSloaded = true
 end

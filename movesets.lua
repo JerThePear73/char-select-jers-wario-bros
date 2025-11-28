@@ -10,10 +10,12 @@ for i = 0, MAX_PLAYERS - 1 do
     e.slashCooldown = 0
     e.availCoins = 25
     e.coinFreq = 0
+    e.prevPosY = 0
 end
 
 local ACT_WAR_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
 local ACT_WAR_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT)
+local ACT_WAR_ROLL = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
 local ACT_WAL_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
 local ACT_WAL_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT)
 local ACT_HUMBLE_GP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
@@ -362,6 +364,62 @@ local function act_war_sh_bash_jump(m)
     return 0
 end
 hook_mario_action(ACT_WAR_SH_BASH_JUMP, act_war_sh_bash_jump)
+
+local function act_war_roll(m)
+    local e = gExtraStates[m.playerIndex]
+    local speed = m.forwardVel
+    local speedCap = 80
+
+    e.prevPosY = m.pos.y
+
+    m.particleFlags = m.particleFlags | PARTICLE_DUST
+    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x200, 0x200)
+    apply_slope_accel(m)
+
+    if (m.marioObj.header.gfx.animInfo.animFrame % 30) == 0 then
+        play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
+    end
+
+    local stepResult = perform_ground_step(m)
+    if stepResult == GROUND_STEP_HIT_WALL and m.wall ~= nil then
+        if m.wall.object == nil or m.wall.object.oInteractType & (INTERACT_BREAKABLE) == 0 then
+            m.particleFlags = m.particleFlags | PARTICLE_VERTICAL_STAR
+            m.forwardVel = -15
+            return set_mario_action(m, ACT_BACKWARD_GROUND_KB, 0)
+        end
+    elseif stepResult == GROUND_STEP_LEFT_GROUND then
+        set_mario_action(m, ACT_FREEFALL, 0)
+    end
+        
+    set_mario_anim_with_accel(m, MARIO_ANIM_FORWARD_SPINNING, (m.forwardVel / 50) * 0x10000)
+
+    if speed <= speedCap then
+        speed = speed - 0.3 + (e.prevPosY - m.pos.y)/15
+    else
+        speed = speedCap
+    end
+    if speed < 31 then
+        if m.input & INPUT_NONZERO_ANALOG ~= 0 then
+            set_mario_action(m, ACT_WALKING, 0)
+        elseif speed < 10 then
+            set_mario_action(m, ACT_BRAKING, 0)
+        end
+    end
+
+    mario_set_forward_vel(m, speed)
+
+    if m.input & INPUT_A_PRESSED ~= 0 then
+        set_mario_action(m, ACT_JUMP, 0)
+    elseif m.input & INPUT_B_PRESSED ~= 0 then
+        set_mario_action(m, ACT_FORWARD_ROLLOUT, 0)
+        m.forwardVel = m.forwardVel * 0.7
+        m.marioObj.header.gfx.animInfo.animID = -1
+    end
+
+    m.actionTimer = m.actionTimer + 1
+    return 0
+end
+hook_mario_action(ACT_WAR_ROLL, act_war_roll)
 
 local function act_wal_sh_bash(m)
     m.marioBodyState.eyeState = MARIO_EYES_LOOK_RIGHT
@@ -916,6 +974,11 @@ local function wario_update(m)
         do_gold_cap(m)
     end
 
+    -- roll
+    if m.action == ACT_BUTT_SLIDE and ((m.input & INPUT_Z_PRESSED ~= 0) or (m.prevAction == ACT_BUTT_SLIDE_AIR and m.input & INPUT_Z_DOWN ~= 0)) and m.forwardVel > 30 then
+        set_mario_action(m, ACT_WAR_ROLL, 0)
+    end
+
     --if m.controller.buttonPressed & Y_BUTTON ~= 0 then -- for debugging
         --m.numCoins = 100
     --end
@@ -925,7 +988,7 @@ local function wario_set_action(m)
     local e = gExtraStates[m.playerIndex]
 
     -- shoulder bash
-    if (m.action == ACT_MOVE_PUNCHING and m.input & INPUT_NONZERO_ANALOG ~= 0 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0) then
+    if (m.action == ACT_MOVE_PUNCHING and m.intendedMag > 30 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0) then
         set_mario_action(m, ACT_WAR_SH_BASH, 0)
     end
     -- water flop
@@ -976,6 +1039,16 @@ function wario_interact(m, o, intee)
         dash_attacks(m, o, intee)
         humble_bump(m, -40, 15)
         return false
+    end
+
+    if m.action == ACT_WAR_ROLL and obj_has_behavior_id(o, id_bhvBreakableBox) ~= 0 then
+        if m.forwardVel > 40 then
+            o.oInteractStatus = INT_STATUS_INTERACTED | INT_STATUS_WAS_ATTACKED
+        else
+            m.particleFlags = m.particleFlags | PARTICLE_VERTICAL_STAR
+            m.forwardVel = -15
+            return set_mario_action(m, ACT_BACKWARD_GROUND_KB, 0)
+        end
     end
 end
 
@@ -1041,7 +1114,7 @@ local function waluigi_set_action(m)
     local e = gExtraStates[m.playerIndex]
 
     -- shoulder bash
-    if (m.action == ACT_MOVE_PUNCHING and m.input & INPUT_NONZERO_ANALOG ~= 0 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0) then
+    if (m.action == ACT_MOVE_PUNCHING and m.intendedMag > 30 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0) then
         set_mario_action(m, ACT_WAL_SH_BASH, 0)
     end
     if m.action == ACT_DIVE and m.vel.y < 20 and m.input & INPUT_NONZERO_ANALOG == 0 and e.canBash and m.forwardVel >= 0 then
@@ -1134,7 +1207,7 @@ local function syrup_set_action(m)
     local e = gExtraStates[m.playerIndex]
 
     -- slash
-    if ((m.action == ACT_MOVE_PUNCHING and m.input & INPUT_NONZERO_ANALOG ~= 0 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0)) and e.slashCooldown == 0 then
+    if ((m.action == ACT_MOVE_PUNCHING and m.intendedMag > 30 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0)) and e.slashCooldown == 0 then
         set_mario_action(m, ACT_SYP_SLASH, 0)
     end
     if m.numCoins >= 100 then
@@ -1172,7 +1245,7 @@ end
 local function syrup_interact(m, o, intee)
     local e = gExtraStates[m.playerIndex]
     local damagableTypes = (INTERACT_BOUNCE_TOP | INTERACT_BOUNCE_TOP2 | INTERACT_HIT_FROM_BELOW | 2097152 | INTERACT_KOOPA | INTERACT_BREAKABLE | INTERACT_GRABBABLE | INTERACT_BULLY)
-    local collideTypes = (INTERACT_GRABBABLE | INTERACT_BULLY)
+    local collideTypes = (INTERACT_KOOPA | INTERACT_GRABBABLE | INTERACT_BULLY)
 
     if (m.action == ACT_SYP_SLASH) and (intee & damagableTypes) ~= 0 then
         dash_attacks(m, o, intee)
@@ -1232,6 +1305,7 @@ local function greedy_hud()
     --djui_hud_print_text(string.format(m.forwardVel), 25, 550, 1)
     --djui_hud_print_text(string.format(math.floor(65 - m.forwardVel)), 25, 575, 1)
     --djui_hud_print_text(string.format(e.coinFreq), 25, 600, 1)
+    --djui_hud_print_text(string.format(m.intendedMag), 25, 625, 1)
 end
 
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_MARIO_UPDATE, wario_update)
