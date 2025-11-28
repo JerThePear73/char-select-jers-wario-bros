@@ -6,7 +6,7 @@ What's more enticing than saving royalty? Getting rich baby!
 
 # Moves:
 
-	Wario:
+Wario:
 	(B) = Shoulder Bash
 	GP + (B) = GP cancel
 	GP + (A) = Corkscrew
@@ -14,7 +14,7 @@ What's more enticing than saving royalty? Getting rich baby!
 	Swims slower
 	Jumps slightly lower
 
-	Waluigi:
+Waluigi:
 	(B) = Shoulder Bash
 	(B) in air + neutral stick = Arial Shoulder Bash
 	GP + (B) = GP cancel
@@ -22,7 +22,7 @@ What's more enticing than saving royalty? Getting rich baby!
 	Swims faster
 	Jumps slightly higher
 
-	Syrup:
+Syrup:
 	(B) = Sword Slash
 	(B) in air + neutral stick = Sword Chop
 	GP + (A) = Sword Tornado
@@ -34,12 +34,12 @@ What's more enticing than saving royalty? Getting rich baby!
 
 ![CS Wario Bros.](images/title.png)
 
-Credits:
-- theboomeragainstthezoomers...Voicetables, Palettes, Testing
-- Squishy6094...Character Select, Coding, Testing
-- Charity...Bug fixes, Testing
-- WBmarioo...Model help
-- Morishiko...Testing
-- Wall_E20...Testing
-- SuperEdgarOrtiz64...Bug fixes
-- JerThePear.....Creator
+	Credits:
+	theboomeragainstthezoomers...Voicetables, Palettes, Testing
+	Squishy6094..................Character Select, Coding, Testing
+	Charity......................Bug fixes, Testing
+	WBmarioo.....................Model help
+	Morishiko....................Testing
+	Wall_E20.....................Testing
+	SuperEdgarOrtiz64............Bug fixes
+	JerThePear...................Creator
