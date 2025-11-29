@@ -5,6 +5,7 @@ for i = 0, MAX_PLAYERS - 1 do
     e.gfxY = 0
     e.canBash = true
     e.bagScale = 0
+    e.swordScale = 0
     e.chop = 0
     e.prevVel = 0
     e.slashCooldown = 0
@@ -14,10 +15,10 @@ for i = 0, MAX_PLAYERS - 1 do
 end
 
 local ACT_WAR_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
-local ACT_WAR_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT)
+local ACT_WAR_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 local ACT_WAR_ROLL = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
 local ACT_WAL_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
-local ACT_WAL_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT)
+local ACT_WAL_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 local ACT_HUMBLE_GP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 local ACT_HUMBLE_GP_LAND = allocate_mario_action(ACT_GROUP_STATIONARY | ACT_FLAG_MOVING)
 local ACT_HUMBLE_GP_CANCEL = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
@@ -42,6 +43,8 @@ local SOUND_JSYP_CHOP = audio_sample_load("JW_SOUND_CHOP.ogg")
 local SOUND_TADA = audio_sample_load("JW_SOUND_TADA.ogg")
 
 local TEX_BAG = get_texture_info('jwar-bag-of-oins')
+local TEX_SWORD_BACK = get_texture_info("jwar-hud-sword-back")
+local TEX_SWORD_FRONT = get_texture_info("jwar-hud-sword-front")
 
 local PARTICLE_TIMER = 10
 local WAR_SH_BASH_MIN = 18
@@ -1278,6 +1281,8 @@ local function greedy_hud()
 
     e.bagScale = math.lerp(e.bagScale, 0, 0.2)
 
+    if gNetworkPlayers[0].currActNum == 99 or gMarioStates[0].action == ACT_INTRO_CUTSCENE or hud_is_hidden() or obj_get_first_with_behavior_id(id_bhvActSelector) then return end
+
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_font(FONT_RECOLOR_HUD)
     local width = djui_hud_get_screen_width()
@@ -1289,6 +1294,23 @@ local function greedy_hud()
 
     djui_hud_set_color(255, 255, colour, 255)
     djui_hud_print_text(add, x, y, 1)
+
+    if m.character.type == CT_MARIO then
+        local rate = (60 - e.slashCooldown)/60
+
+        if e.slashCooldown == 60 then
+            e.swordScale = math.lerp(e.swordScale, 0, 0.4)
+            if e.swordScale < 0.01 then
+                e.swordScale = 0
+            end
+        else
+            e.swordScale = rate
+        end
+
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_render_texture(TEX_SWORD_BACK, 20, 61, 1, 1)
+        djui_hud_render_texture(TEX_SWORD_FRONT, 24, 61, e.swordScale, 1)
+    end
 
 
     -- debug
