@@ -973,7 +973,7 @@ local function wario_update(m)
     end
 
     -- gold cap
-    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 then
+    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 and m.playerIndex == 0 then
         do_gold_cap(m)
     end
 
@@ -1108,7 +1108,7 @@ local function waluigi_update(m)
     end
 
     -- gold cap
-    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 then
+    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 and m.playerIndex == 0 then
         do_gold_cap(m)
     end
 end
@@ -1201,7 +1201,7 @@ local function syrup_update(m)
     end
 
     -- gold cap
-    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 then
+    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 and m.playerIndex == 0 then
         do_gold_cap(m)
     end
 end
