@@ -2,6 +2,7 @@
 -- description: [CS] \\#F2D36F\\Wario \\#B47CF4\\Bros.\n\\#ffffff\\By \\#008800\\JerThePear\n\n\\#ffffff\\What's more enticing than saving royalty? Getting rich baby! \n\n3 characters with custom movesets that get stronger as you pick up coins! Wario, Waluigi, and Captain Syrup.\n\n\\#ff7777\\This Pack requires Character Select\nto use as a Library!
 
 local TEXT_MOD_NAME = "Wario Bros."
+local boot = true
 
 -- Stops mod from loading if Character Select isn't on
 if not _G.charSelectExists then
@@ -18,8 +19,8 @@ local E_MODEL_J_WALUIGI = smlua_model_util_get_id('jers_waluigi_geo')
 local E_MODEL_J_SYRUP = smlua_model_util_get_id('jers_captain_syrup_geo')
 
 -- Textures --
-local TEX_WARIO = gTextures.wario_head
-local TEX_WALUIGI = gTextures.waluigi_head
+local TEX_WARIO = get_texture_info("jwar-wario-icon")
+local TEX_WALUIGI = get_texture_info("jwar-waluigi-icon")
 local TEX_SYRUP = get_texture_info("jwar-syrup-icon")
 
 local VOICETABLE_J_WARIO = {
@@ -667,6 +668,7 @@ local function on_character_select_load()
 
     _G.charSelect.character_add_health_meter(CT_J_WARIO, HEALTH_METER_WARIO)
     _G.charSelect.character_add_health_meter(CT_J_WALUIGI, HEALTH_METER_WALUIGI)
+    _G.charSelect.character_add_costume_health_meter(CT_J_WARIO, 2, HEALTH_METER_WARIO)
 
     _G.charSelect.character_set_category(CT_J_WARIO, "Wario Bros.")
     _G.charSelect.character_set_category(CT_J_WALUIGI, "Wario Bros.")
@@ -691,7 +693,15 @@ local function on_character_sound(m, sound)
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_SYRUP then return _G.charSelect.voice.sound(m, sound) end
 end
 
+local function startup_message(m)
+    djui_chat_message_create("Thank you for downloading [CS] \\#F2D36F\\Wario \\#B47CF4\\Bros.\\#ffffff\\!\nI want to give a special thanks to everybody who made this mod possible, and also a huge thanks to \\#00aa00\\boomeragainstthezoomers\\#ffffff\\ for all his help and inspiration to make the mod. Please check out his mod, [CS] Land Wario when it releases!")
+end
+
 local function on_character_snore(m)
+    if boot then
+        startup_message()
+        boot = false
+    end
     if not CSloaded then return end
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WARIO then return _G.charSelect.voice.snore(m) end
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WALUIGI then return _G.charSelect.voice.snore(m) end
