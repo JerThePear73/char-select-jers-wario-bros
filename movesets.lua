@@ -145,6 +145,8 @@ local function syrup_bump(m, x)
 end
 
 local function do_gold_cap(m)
+    if m.playerIndex ~= 0 then return end
+
     m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
     local e = gExtraStates[m.playerIndex]
     local freqMax = math.floor(65 - m.forwardVel)
@@ -973,7 +975,7 @@ local function wario_update(m)
     end
 
     -- gold cap
-    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 and m.playerIndex == 0 then
+    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 then
         do_gold_cap(m)
     end
 
@@ -1108,7 +1110,7 @@ local function waluigi_update(m)
     end
 
     -- gold cap
-    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 and m.playerIndex == 0 then
+    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 then
         do_gold_cap(m)
     end
 end
@@ -1201,7 +1203,7 @@ local function syrup_update(m)
     end
 
     -- gold cap
-    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 and m.playerIndex == 0 then
+    if m.flags & MARIO_METAL_CAP ~= 0 and e.availCoins > 0 then
         do_gold_cap(m)
     end
 end
