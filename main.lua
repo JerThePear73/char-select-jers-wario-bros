@@ -633,7 +633,7 @@ end
 local CSloaded = false
 local function on_character_select_load()
     _G.charSelect.character_add_costume(CT_J_WARIO, "Wario", { "A jolly feller with an eye for gold, no matter how dangerous.",
-        ""}, "JerThePear", {r = 255, g = 255, b = 000}, E_MODEL_J_WARIO_T, CT_WARIO, gTextures.wario_head)
+        ""}, "JerThePear", {r = 255, g = 255, b = 000}, E_MODEL_J_WARIO_T, CT_WARIO, TEX_WARIO)
     for i = 1, #PALETTES_WARIO do
         _G.charSelect.character_add_palette_preset(E_MODEL_J_WARIO, PALETTES_WARIO[i], PALETTES_WARIO[i].name)
         _G.charSelect.character_add_palette_preset(E_MODEL_J_WARIO_T, PALETTES_WARIO[i], PALETTES_WARIO[i].name)
@@ -682,6 +682,7 @@ local function on_character_select_load()
     _G.charSelect.credit_add(TEXT_MOD_NAME, "Morishiko", "Testing")
     _G.charSelect.credit_add(TEXT_MOD_NAME, "Wall_E20", "Testing")
     _G.charSelect.credit_add(TEXT_MOD_NAME, "SuperEdgarOrtiz64", "Bug fixes")
+    _G.charSelect.credit_add(TEXT_MOD_NAME, "steven3004", "Character Movesets")
 
     CSloaded = true
 end
