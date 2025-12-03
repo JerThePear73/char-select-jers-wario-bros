@@ -6,6 +6,13 @@ What's more enticing than saving royalty? Getting rich baby!
 
 ![CS Wario Bros.](images/title.png)
 
+# What is this?
+![Coin bag hud element](images/coinbag.png)
+
+This is your stash of cash! 
+
+Every 4 coins you collect will add +1 speed to your <ins>**Shoulder Bash**</ins> or <ins>**Sword Slash**</ins> with a max of +25 speed at 100 coins.
+
 # Moves:
 
 Wario:
