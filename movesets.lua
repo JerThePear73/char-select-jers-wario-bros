@@ -199,7 +199,7 @@ function particle_clone_init(o)
   o.header.gfx.animInfo.animYTrans = m.unkB0
   o.header.gfx.animInfo.animAccel = 0            --m.marioObj.header.gfx.animInfo.animAccel
   o.header.gfx.animInfo.animFrame = m.marioObj.header.gfx.animInfo.animFrame
-  o.header.gfx.animInfo.animTimer = 0            --m.marioObj.header.gfx.animInfo.animTimer
+  o.header.gfx.animInfo.animTimer = m.marioObj.header.gfx.animInfo.animTimer
   o.header.gfx.animInfo.animFrameAccelAssist = 0 --m.marioObj.header.gfx.animInfo.animFrameAccelAssist
   o.header.gfx.scale.x = m.marioObj.header.gfx.scale.x
   o.header.gfx.scale.y = m.marioObj.header.gfx.scale.y
@@ -996,10 +996,6 @@ local function wario_set_action(m)
     if (m.action == ACT_MOVE_PUNCHING and m.intendedMag > 30 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0) then
         set_mario_action(m, ACT_WAR_SH_BASH, 0)
     end
-    -- water flop
-    --if m.action == ACT_WATER_PLUNGE and m.prevAction == ACT_HUMBLE_GP then
-        --audio_sample_play(SOUND_HUMBLE_FLOP, m.pos, 0.5)
-    --end
 
     -- ring particles
     if (m.playerIndex == 0 or is_player_active(m) ~= 0) and m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE ~= 0 then
