@@ -938,9 +938,9 @@ local function wario_update(m)
         set_mario_action(m, ACT_WAR_ROLL, 0)
     end
 
-    if m.controller.buttonPressed & Y_BUTTON ~= 0 then -- for debugging
-        m.numCoins = 100
-    end
+    --if m.controller.buttonPressed & Y_BUTTON ~= 0 then -- for debugging
+    --    m.numCoins = 100
+    --end
 end
 
 local function wario_set_action(m)

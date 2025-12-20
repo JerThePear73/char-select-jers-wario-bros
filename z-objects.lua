@@ -70,21 +70,18 @@ local function on_object_render(o)
     if get_id_from_behavior(o.behavior) == id_bhvRingParticle then
         local rot = (((m.forwardVel - 58)/3)*1000)
 
-        o.oPosX = m.marioObj.header.gfx.pos.x
-        o.oPosY = m.marioObj.header.gfx.pos.y + 80
-        o.oPosZ = m.marioObj.header.gfx.pos.z
+        o.oPosX = m.pos.x
+        o.oPosY = m.pos.y + 80
+        o.oPosZ = m.pos.z
         o.oFaceAnglePitch = o.oFaceAnglePitch + rot
         o.oFaceAngleYaw = m.marioObj.header.gfx.angle.y - degrees_to_sm64(90)
     
         -- if the player is off screen, move the obj to the player origin
         if m.marioBodyState.updateTorsoTime ~= gMarioStates[0].marioBodyState.updateTorsoTime then
-            o.oPosX = m.pos.x
+            --o.oPosX = m.pos.x
             o.oPosY = m.pos.y
-            o.oPosZ = m.pos.z
+            --o.oPosZ = m.pos.z
         end
-    
-        o.oPosX = o.oPosX + sins(m.faceAngle.y) * 10
-        o.oPosZ = o.oPosZ + coss(m.faceAngle.y) * 10
     
         o.header.gfx.pos.x = o.oPosX
         o.header.gfx.pos.y = o.oPosY
