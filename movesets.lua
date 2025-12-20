@@ -14,22 +14,21 @@ for i = 0, MAX_PLAYERS - 1 do
     e.prevPosY = 0
 end
 
-local ACT_WAR_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
-local ACT_WAR_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-local ACT_WAR_ROLL = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
-local ACT_WAL_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
-local ACT_WAL_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-local ACT_HUMBLE_GP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-local ACT_HUMBLE_GP_LAND = allocate_mario_action(ACT_GROUP_STATIONARY | ACT_FLAG_MOVING)
-local ACT_HUMBLE_GP_CANCEL = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-local ACT_CORKSCREW = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-local ACT_SYP_SLASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
-local ACT_SYP_CHOP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-local ACT_SYP_CANNON = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-local ACT_SYP_ELEGANT_DIVE = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_WAR_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
+ACT_WAR_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_WAR_ROLL = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
+ACT_WAL_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
+ACT_WAL_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_HUMBLE_GP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_HUMBLE_GP_LAND = allocate_mario_action(ACT_GROUP_STATIONARY | ACT_FLAG_MOVING)
+ACT_HUMBLE_GP_CANCEL = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_CORKSCREW = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_SYP_SLASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
+ACT_SYP_CHOP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_SYP_CANNON = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_SYP_ELEGANT_DIVE = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 
 local E_MODEL_PARTICLE_CLONE_WARIO = smlua_model_util_get_id('jers_wario_clone_geo')
-local E_MODEL_PARTICLE_RING = smlua_model_util_get_id('jers_wario_ring_particle_geo')
 local E_MODEL_PARTICLE_CLONE_WALUIGI = smlua_model_util_get_id('jers_waluigi_clone_geo')
 
 local SOUND_JWAR_SH_BASH = audio_sample_load("JW_SOUND_BASH.ogg")
@@ -208,58 +207,13 @@ end
 
 function particle_clone_loop(o)
   o.oOpacity = 150 - (o.oTimer * (150/PARTICLE_TIMER))
-  o.header.gfx.animInfo.animFrame = o.header.gfx.animInfo.animFrame
+  o.header.gfx.animInfo.animAccel = -1
   if o.oTimer >= PARTICLE_TIMER then
     obj_mark_for_deletion(o)
   end
 end
 
 id_bhvParticleClone = hook_behavior(nil, OBJ_LIST_UNIMPORTANT, true, particle_clone_init, particle_clone_loop, "bhvParticleClone")
-
-
-function particle_ring_init(o)
-    local index = network_local_index_from_global(o.globalPlayerIndex) or 255
-    if index == 255 then
-        obj_mark_for_deletion(o)
-        return
-    end
-    local m = gMarioStates[index]
-    o.oFlags = OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE
-    o.oFaceAngleRoll = 0 - degrees_to_sm64(90)
-    o.header.gfx.scale.x = 0
-    o.header.gfx.scale.y = 0
-    o.header.gfx.scale.z = 0
-end
-
-function particle_ring_loop(o)
-    local index = network_local_index_from_global(o.globalPlayerIndex) or 255
-    if index == 255 then
-        obj_mark_for_deletion(o)
-        return
-    end
-    local m = gMarioStates[index]
-    local rot = (((m.forwardVel - 58)/3)*1000)
-    o.oPosX = m.marioObj.header.gfx.pos.x
-    o.oPosY = m.marioObj.header.gfx.pos.y + 80
-    o.oPosZ = m.marioObj.header.gfx.pos.z
-    o.oFaceAnglePitch = o.oFaceAnglePitch + rot
-    o.oFaceAngleYaw = m.marioObj.header.gfx.angle.y - degrees_to_sm64(90)
-    if m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP then
-        if m.forwardVel >= 64 then
-            o.header.gfx.scale.x = 1
-            o.header.gfx.scale.y = 1
-            o.header.gfx.scale.z = 1
-        else
-            o.header.gfx.scale.x = 0
-            o.header.gfx.scale.y = 0
-            o.header.gfx.scale.z = 0
-        end
-    else
-        obj_mark_for_deletion(o)
-    end
-end
-
-id_bhvParticleRing = hook_behavior(nil, OBJ_LIST_UNIMPORTANT, true, particle_ring_init, particle_ring_loop, "bhvRingParticle")
 
 -- CUSTOM ACTIONS --
 
@@ -984,9 +938,9 @@ local function wario_update(m)
         set_mario_action(m, ACT_WAR_ROLL, 0)
     end
 
-    --if m.controller.buttonPressed & Y_BUTTON ~= 0 then -- for debugging
-        --m.numCoins = 100
-    --end
+    if m.controller.buttonPressed & Y_BUTTON ~= 0 then -- for debugging
+        m.numCoins = 100
+    end
 end
 
 local function wario_set_action(m)
@@ -995,14 +949,6 @@ local function wario_set_action(m)
     -- shoulder bash
     if (m.action == ACT_MOVE_PUNCHING and m.intendedMag > 30 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0) then
         set_mario_action(m, ACT_WAR_SH_BASH, 0)
-    end
-
-    -- ring particles
-    if (m.playerIndex == 0 or is_player_active(m) ~= 0) and m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE ~= 0 then
-        if m.action == ACT_WAR_SH_BASH and m.prevAction ~= ACT_WAR_SH_BASH_JUMP then
-            spawn_non_sync_object(id_bhvParticleRing, E_MODEL_PARTICLE_RING, m.pos.x, m.pos.y, m.pos.z,
-            function(o) o.globalPlayerIndex = network_global_index_from_local(m.playerIndex) end)
-        end
     end
 
     -- sick tricks with wario
