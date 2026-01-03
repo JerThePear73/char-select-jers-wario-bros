@@ -19,9 +19,9 @@ local E_MODEL_J_WALUIGI = smlua_model_util_get_id('jers_waluigi_geo')
 local E_MODEL_J_SYRUP = smlua_model_util_get_id('jers_captain_syrup_geo')
 
 -- Textures --
-local TEX_WARIO = get_texture_info("jwar-wario-icon")
-local TEX_WALUIGI = get_texture_info("jwar-waluigi-icon")
-local TEX_SYRUP = get_texture_info("jwar-syrup-icon")
+local TEX_WARIO = get_texture_info("jwar_wario_icon")
+local TEX_WALUIGI = get_texture_info("jwar_waluigi_icon")
+local TEX_SYRUP = get_texture_info("jwar_syrup_icon")
 
 local VOICETABLE_J_WARIO = {
    	[CHAR_SOUND_OKEY_DOKEY] = 'JWAR_HERE_WE_GO.ogg',
@@ -615,34 +615,34 @@ local HANDS_J_SYRUP = {
 
 local HEALTH_METER_WARIO = {
     label = {
-        left = get_texture_info("char-select-wario-meter-left"),
-        right = get_texture_info("char-select-wario-meter-right"),
+        left = get_texture_info("char_select_wario_meter_left"),
+        right = get_texture_info("char_select_wario_meter_right"),
     },
     pie = {
-        [1] = get_texture_info("char-select-custom-meter-pie1"),
-        [2] = get_texture_info("char-select-custom-meter-pie2"),
-        [3] = get_texture_info("char-select-custom-meter-pie3"),
-        [4] = get_texture_info("char-select-custom-meter-pie4"),
-        [5] = get_texture_info("char-select-custom-meter-pie5"),
-        [6] = get_texture_info("char-select-custom-meter-pie6"),
-        [7] = get_texture_info("char-select-custom-meter-pie7"),
-        [8] = get_texture_info("char-select-custom-meter-pie8"),
+        [1] = get_texture_info("char_select_custom_meter_pie1"),
+        [2] = get_texture_info("char_select_custom_meter_pie2"),
+        [3] = get_texture_info("char_select_custom_meter_pie3"),
+        [4] = get_texture_info("char_select_custom_meter_pie4"),
+        [5] = get_texture_info("char_select_custom_meter_pie5"),
+        [6] = get_texture_info("char_select_custom_meter_pie6"),
+        [7] = get_texture_info("char_select_custom_meter_pie7"),
+        [8] = get_texture_info("char_select_custom_meter_pie8"),
     }
 }
 local HEALTH_METER_WALUIGI = {
     label = {
-        left = get_texture_info("char-select-waluigi-meter-left"),
-        right = get_texture_info("char-select-waluigi-meter-right"),
+        left = get_texture_info("char_select_waluigi_meter_left"),
+        right = get_texture_info("char_select_waluigi_meter_right"),
     },
     pie = {
-        [1] = get_texture_info("char-select-custom-meter-pie1"),
-        [2] = get_texture_info("char-select-custom-meter-pie2"),
-        [3] = get_texture_info("char-select-custom-meter-pie3"),
-        [4] = get_texture_info("char-select-custom-meter-pie4"),
-        [5] = get_texture_info("char-select-custom-meter-pie5"),
-        [6] = get_texture_info("char-select-custom-meter-pie6"),
-        [7] = get_texture_info("char-select-custom-meter-pie7"),
-        [8] = get_texture_info("char-select-custom-meter-pie8"),
+        [1] = get_texture_info("char_select_custom_meter_pie1"),
+        [2] = get_texture_info("char_select_custom_meter_pie2"),
+        [3] = get_texture_info("char_select_custom_meter_pie3"),
+        [4] = get_texture_info("char_select_custom_meter_pie4"),
+        [5] = get_texture_info("char_select_custom_meter_pie5"),
+        [6] = get_texture_info("char_select_custom_meter_pie6"),
+        [7] = get_texture_info("char_select_custom_meter_pie7"),
+        [8] = get_texture_info("char_select_custom_meter_pie8"),
     }
 }
 
@@ -705,9 +705,9 @@ local function on_character_select_load()
     _G.charSelect.character_add_caps(E_MODEL_J_SYRUP, CAP_J_SYRUP)
 
     if VERSION_NUMBER > 40 then
-        _G.charSelect.character_add_graffiti(CT_J_WARIO, get_texture_info("char-select-graffiti-wario"))
-        _G.charSelect.character_add_graffiti(CT_J_WALUIGI, get_texture_info("char-select-graffiti-waluigi"))
-        _G.charSelect.character_add_graffiti(CT_J_SYRUP, get_texture_info("jwar-graffiti-syrup"))
+        _G.charSelect.character_add_graffiti(CT_J_WARIO, get_texture_info("char_select_graffiti_wario"))
+        _G.charSelect.character_add_graffiti(CT_J_WALUIGI, get_texture_info("char_select_graffiti_waluigi"))
+        _G.charSelect.character_add_graffiti(CT_J_SYRUP, get_texture_info("jwar_graffiti_syrup"))
     end
 
     _G.charSelect.character_add_health_meter(CT_J_WARIO, HEALTH_METER_WARIO)

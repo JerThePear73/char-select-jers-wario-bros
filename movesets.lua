@@ -41,9 +41,9 @@ local SOUND_JSYP_SLASH = audio_sample_load("JW_SOUND_SLASH.ogg")
 local SOUND_JSYP_CHOP = audio_sample_load("JW_SOUND_CHOP.ogg")
 local SOUND_TADA = audio_sample_load("JW_SOUND_TADA.ogg")
 
-local TEX_BAG = get_texture_info('jwar-bag-of-oins')
-local TEX_SWORD_BACK = get_texture_info("jwar-hud-sword-back")
-local TEX_SWORD_FRONT = get_texture_info("jwar-hud-sword-front")
+local TEX_BAG = get_texture_info('jwar_bag_of_oins')
+local TEX_SWORD_BACK = get_texture_info("jwar_hud_sword_back")
+local TEX_SWORD_FRONT = get_texture_info("jwar_hud_sword_front")
 
 local PARTICLE_TIMER = 10
 local WAR_SH_BASH_MIN = 18
