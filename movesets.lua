@@ -45,7 +45,7 @@ local TEX_BAG = get_texture_info('jwar_bag_of_oins')
 local TEX_SWORD_BACK = get_texture_info("jwar_hud_sword_back")
 local TEX_SWORD_FRONT = get_texture_info("jwar_hud_sword_front")
 
-local PARTICLE_TIMER = 10
+local PARTICLE_TIMER = 8
 local WAR_SH_BASH_MIN = 18
 local WAL_SH_BASH_MAX = 20
 local prevNumCoins = 0
@@ -219,7 +219,7 @@ id_bhvParticleClone = hook_behavior(nil, OBJ_LIST_UNIMPORTANT, true, particle_cl
 
 local function act_war_sh_bash(m)
     m.marioBodyState.eyeState = MARIO_EYES_LOOK_RIGHT
-    m.marioBodyState.punchState = 66
+    m.marioBodyState.punchState = 67
     m.particleFlags = m.particleFlags | PARTICLE_DUST
 
     m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
@@ -299,7 +299,7 @@ local function act_war_sh_bash_jump(m)
         smlua_anim_util_set_animation(m.marioObj, "JWAL_SH_BASH_JUMP")
     else
         smlua_anim_util_set_animation(m.marioObj, "JWAR_SH_BASH_JUMP")
-        m.marioBodyState.punchState = 66
+        m.marioBodyState.punchState = 67
     end
 
     --m.peakHeight = m.pos.y
@@ -569,7 +569,7 @@ end
 hook_mario_action(ACT_HUMBLE_GP_LAND, act_humble_gp_land, INT_GROUND_POUND)
 
 local function act_humble_gp_cancel(m)
-    local anim = MARIO_ANIM_START_GROUND_POUND
+    local anim = MARIO_ANIM_TRIPLE_JUMP_GROUND_POUND
     local act = ACT_BUTT_SLIDE_AIR
     local pitch = m.vel.y * -1
 
@@ -872,8 +872,13 @@ local function wario_update(m)
 
     -- torso tilt
     if m.action == ACT_WALKING then
-        if m.flags & MARIO_METAL_CAP == 0 then
-            m.marioBodyState.torsoAngle.x = m.forwardVel * 80
+        if m.marioObj.header.gfx.animInfo.animID == MARIO_ANIM_RUNNING then
+            if m.flags & MARIO_METAL_CAP == 0 then
+                m.marioBodyState.torsoAngle.x = 2100
+            end
+        end
+        if m.marioObj.header.gfx.animInfo.animID == MARIO_ANIM_WALKING then
+                m.marioBodyState.torsoAngle.x = 0
         end
 
         if m.marioBodyState.torsoAngle.z < -3000 then
