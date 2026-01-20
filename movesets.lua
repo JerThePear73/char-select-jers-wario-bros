@@ -251,7 +251,7 @@ local function act_war_sh_bash(m)
 
     -- speed
     local add = m.numCoins/4
-    if m.numCoins > 100 then
+    if m.numCoins > 100 or greedyMode then
         add = 25
     end
     local speedCap = 40 + add
@@ -407,7 +407,7 @@ local function act_wal_sh_bash(m)
 
     -- speed
     local add = m.numCoins/4
-    if m.numCoins > 100 then
+    if m.numCoins > 100 or greedyMode then
         add = 25
     end
     local speedCap = 40 + add
@@ -473,7 +473,7 @@ local function act_wal_sh_bash_jump(m)
 
     -- speed
     local add = m.numCoins/4
-    if m.numCoins > 100 then
+    if m.numCoins > 100 or greedyMode then
         add = 25
     end
     local speed = m.forwardVel
@@ -701,7 +701,7 @@ local function act_syp_slash(m)
     -- speed
     local speed = m.forwardVel
     local add = m.numCoins/4
-    if m.numCoins > 100 then
+    if m.numCoins > 100 or greedyMode then
         add = 25
     end
 
@@ -1162,7 +1162,7 @@ local function syrup_set_action(m)
     if ((m.action == ACT_MOVE_PUNCHING and m.intendedMag > 30 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0)) and e.slashCooldown == 0 then
         set_mario_action(m, ACT_SYP_SLASH, 0)
     end
-    if m.numCoins >= 100 then
+    if m.numCoins >= 100 or greedyMode then
         chopMax = 2
     else 
         chopMax = 1
@@ -1223,7 +1223,7 @@ local function greedy_hud()
         e.bagScale = 0.4
     end
 
-    if m.numCoins >= 100 then
+    if m.numCoins >= 100 or greedyMode then
         add = "MAX"
         colour = math.abs(math.sin(get_global_timer()*0.5))*255
     end
