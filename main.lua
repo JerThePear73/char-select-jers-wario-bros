@@ -257,17 +257,6 @@ local PALETTES_WARIO = {
         [CAP]    = "c7b08f",
         [EMBLEM] = "36210e",
     },
-    {
-        name = "Delirious",
-        [PANTS]  = "ffff00",
-        [SHIRT]  = "000000",
-        [GLOVES] = "ffff00",
-        [SHOES]  = "0000ff",
-        [HAIR]   = "000000",
-        [SKIN]   = "0000ff",
-        [CAP]    = "ffff00",
-        [EMBLEM] = "000000",
-    },
 }
 local PALETTES_WALUIGI = {
     {
@@ -380,17 +369,6 @@ local PALETTES_WALUIGI = {
         [CAP]    = "fd3db5",
         [EMBLEM] = "636b2f",
     },
-    {
-        name = "Delirious",
-        [PANTS]  = "0000ff",
-        [SHIRT]  = "000000",
-        [GLOVES] = "0000ff",
-        [SHOES]  = "ff0000",
-        [HAIR]   = "000000",
-        [SKIN]   = "ff0000",
-        [CAP]    = "0000ff",
-        [EMBLEM] = "000000",
-    },
 }
 local PALETTES_SYRUP = {
     {
@@ -502,17 +480,6 @@ local PALETTES_SYRUP = {
         [SKIN]   = "62a4da",
         [CAP]    = "222233",
         [EMBLEM] = "fff200",
-    },
-    {
-        name = "Delirious",
-        [PANTS]  = "ff0000",
-        [SHIRT]  = "000000",
-        [GLOVES] = "ff0000",
-        [SHOES]  = "000000",
-        [HAIR]   = "000000",
-        [SKIN]   = "00ffff",
-        [CAP]    = "ff0000",
-        [EMBLEM] = "ff0000",
     },
 }
 
