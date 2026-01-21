@@ -12,6 +12,7 @@ for i = 0, MAX_PLAYERS - 1 do
     e.availCoins = 25
     e.coinFreq = 0
     e.prevPosY = 0
+    e.potentialSpeed = 0
 end
 
 ACT_WAR_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
@@ -51,6 +52,7 @@ local WAL_SH_BASH_MAX = 20
 local prevNumCoins = 0
 local chopMax = 1
 local availCoinsMax = 25
+bashSpeedBase = 50
 
 -- BEHAVIOURS --
 
@@ -254,7 +256,7 @@ local function act_war_sh_bash(m)
     if m.numCoins > 100 or greedyMode then
         add = 25
     end
-    local speedCap = 40 + add
+    local speedCap = bashSpeedBase + add
     local speed = m.forwardVel
 
     if m.actionTimer < 3 and m.forwardVel < 30 then
@@ -327,7 +329,7 @@ hook_mario_action(ACT_WAR_SH_BASH_JUMP, act_war_sh_bash_jump)
 local function act_war_roll(m)
     local e = gExtraStates[m.playerIndex]
     local speed = m.forwardVel
-    local speedCap = 80
+    local speedCap = 100
 
     e.prevPosY = m.pos.y
 
@@ -410,7 +412,7 @@ local function act_wal_sh_bash(m)
     if m.numCoins > 100 or greedyMode then
         add = 25
     end
-    local speedCap = 40 + add
+    local speedCap = bashSpeedBase - 10 + add
     local speed = m.forwardVel
 
     if m.actionTimer < 3 then
@@ -479,7 +481,7 @@ local function act_wal_sh_bash_jump(m)
     local speed = m.forwardVel
 
     if m.actionTimer < WAL_SH_BASH_MAX then
-        speed = 40 + add
+        speed = bashSpeedBase - 10 + add
         mario_set_forward_vel(m, speed)
     else
         m.forwardVel = speed - 15
@@ -549,24 +551,24 @@ local function act_humble_gp(m)
 end
 hook_mario_action(ACT_HUMBLE_GP, act_humble_gp, INT_GROUND_POUND)
 
-local function act_humble_gp_land(m)
-    if m.actionTimer < 2 then
-        m.vel.x = 0
-        m.vel.z = 0
-    end
-
-    if (m.input & INPUT_OFF_FLOOR ~= 0) then
-        return set_mario_action(m, ACT_FREEFALL, 0)
-    elseif (m.input & INPUT_ABOVE_SLIDE ~= 0) then
-        return set_mario_action(m, ACT_DIVE_SLIDE, 0)
-    elseif m.actionTimer == 2 then
-        return set_mario_action(m, ACT_STOMACH_SLIDE_STOP, 0)
-    end
-
-    m.actionTimer = m.actionTimer + 1
-    return 0
-end
-hook_mario_action(ACT_HUMBLE_GP_LAND, act_humble_gp_land, INT_GROUND_POUND)
+--local function act_humble_gp_land(m)
+--    if m.actionTimer < 2 then
+--        m.vel.x = 0
+--        m.vel.z = 0
+--    end
+--
+--    if (m.input & INPUT_OFF_FLOOR ~= 0) then
+--        return set_mario_action(m, ACT_FREEFALL, 0)
+--    elseif (m.input & INPUT_ABOVE_SLIDE ~= 0) then
+--        return set_mario_action(m, ACT_DIVE_SLIDE, 0)
+--    elseif m.actionTimer == 2 then
+--        return set_mario_action(m, ACT_STOMACH_SLIDE_STOP, 0)
+--    end
+--
+--    m.actionTimer = m.actionTimer + 1
+--    return 0
+--end
+--hook_mario_action(ACT_HUMBLE_GP_LAND, act_humble_gp_land, INT_GROUND_POUND)
 
 local function act_humble_gp_cancel(m)
     local anim = MARIO_ANIM_TRIPLE_JUMP_GROUND_POUND
@@ -709,10 +711,10 @@ local function act_syp_slash(m)
         m.actionState = 1
         m.particleFlags = m.particleFlags | PARTICLE_TRIANGLE
         audio_sample_play(SOUND_JSYP_SLASH, m.pos, pause_check())
-        if speed < (45 + add) then
-            speed = 45 + add
+        if speed < (bashSpeedBase - 5 + add) then
+            speed = bashSpeedBase - 5 + add
         else
-            speed = m.forwardVel + 10 + add
+            speed = m.forwardVel + (bashSpeedBase - 40) + add
         end
     else
         speed = speed - 2
@@ -734,7 +736,7 @@ local function act_syp_slash(m)
     set_mario_animation(m, MARIO_ANIM_RUNNING_UNUSED)
     smlua_anim_util_set_animation(m.marioObj, "JSYP_SLASH")
 
-    if m.forwardVel < 20 then
+    if m.forwardVel < 33 then
         if m.input & INPUT_NONZERO_ANALOG ~= 0 then
             set_mario_action(m, ACT_WALKING, 0)
         elseif m.forwardVel < 5 then
@@ -831,7 +833,8 @@ hook_mario_action(ACT_SYP_CANNON, act_syp_cannon)
 local function act_syp_elegant_dive(m)
     m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
 
-    local rate = math.abs(m.forwardVel) / 30 * 0x10000
+    local e = gExtraStates[m.playerIndex]
+    local rate = math.abs(m.forwardVel + (e.potentialSpeed)) / 30 * 0x10000
     local frame = m.marioObj.header.gfx.animInfo.animFrame
 
     if rate < 0x10000 then
@@ -842,12 +845,34 @@ local function act_syp_elegant_dive(m)
         play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
     end
 
+    if m.actionTimer == 0 then
+        e.potentialSpeed = 1
+    end
+
+    if m.input & INPUT_Z_DOWN ~= 0 and m.vel.y < 0 then
+        e.potentialSpeed = e.potentialSpeed + 1
+        m.peakHeight = m.pos.y
+        m.vel.y = m.vel.y - 1
+    end
+
     local stepResult = common_air_action_step(m, ACT_TRIPLE_JUMP_LAND, MARIO_ANIM_FORWARD_SPINNING, AIR_STEP_CHECK_LEDGE_GRAB)
     if stepResult == AIR_STEP_HIT_WALL and m.wall ~= nil then
         if m.wall.object == nil or m.wall.object.oInteractType & (INTERACT_BREAKABLE) == 0 then
             set_mario_action(m, ACT_AIR_HIT_WALL, 0)
         end
     elseif stepResult == AIR_STEP_LANDED then
+        if m.controller.buttonDown & B_BUTTON ~= 0 then
+            m.forwardVel = m.forwardVel/e.potentialSpeed
+            m.vel.y = 45 + e.potentialSpeed * 1.5
+            m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
+            if e.potentialSpeed < 15 then
+                play_sound(SOUND_GENERAL_BOING1, m.marioObj.header.gfx.cameraToObject)
+            else
+                play_sound(SOUND_GENERAL_BOING2, m.marioObj.header.gfx.cameraToObject)
+            end
+            set_mario_action(m, ACT_VERTICAL_WIND, 0)
+            return 0
+        end
         landing_step(m, CHAR_ANIM_TRIPLE_JUMP_LAND, ACT_CROUCHING)
     end
     set_mario_anim_with_accel(m, MARIO_ANIM_FORWARD_SPINNING, rate)
@@ -905,9 +930,9 @@ local function wario_update(m)
         end
     end
 
-      -- clone particles
+      -- after frames
     if (m.playerIndex == 0 or is_player_active(m) ~= 0) and m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE ~= 0 then
-        if ((m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel >= 50) or (m.action == ACT_CORKSCREW and m.vel.y > 20) then
+        if ((m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel >= (bashSpeedBase + 10)) or (m.action == ACT_CORKSCREW and m.vel.y > 20) then
             if (m.actionTimer) % 3 == 0 then
                 spawn_non_sync_object(id_bhvParticleClone, E_MODEL_PARTICLE_CLONE_WARIO, m.pos.x, m.pos.y, m.pos.z,
                 function(o) o.globalPlayerIndex = network_global_index_from_local(m.playerIndex) end)
@@ -1034,9 +1059,9 @@ local function waluigi_update(m)
         end
     end
 
-      -- clone particles
+      -- after frames
     if (m.playerIndex == 0 or is_player_active(m) ~= 0) and m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE ~= 0 then
-        if ((m.action == ACT_WAL_SH_BASH or m.action == ACT_WAL_SH_BASH_JUMP) and m.forwardVel >= 50) or (m.action == ACT_CORKSCREW and m.vel.y > 20) then
+        if ((m.action == ACT_WAL_SH_BASH or m.action == ACT_WAL_SH_BASH_JUMP) and m.forwardVel >= bashSpeedBase) or (m.action == ACT_CORKSCREW and m.vel.y > 20) then
             if (m.actionTimer) % 3 == 0 then
                 spawn_non_sync_object(id_bhvParticleClone, E_MODEL_PARTICLE_CLONE_WALUIGI, m.pos.x, m.pos.y, m.pos.z,
                 function(o) o.globalPlayerIndex = network_global_index_from_local(m.playerIndex) end)

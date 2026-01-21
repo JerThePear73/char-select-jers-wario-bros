@@ -43,7 +43,7 @@ local function ring_particle_loop(o)
         obj_scale(o, 1)
     end
 
-    if (m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel >= 64 then
+    if (m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel >= (bashSpeedBase + 24) then
         cur_obj_unhide()
     else
         cur_obj_hide()
@@ -68,7 +68,7 @@ end
 local function on_object_render(o)
     local m = gMarioStates[o.oPlayerIndex]
     if get_id_from_behavior(o.behavior) == id_bhvRingParticle then
-        local rot = (((m.forwardVel - 58)/3)*1000)
+        local rot = (((m.forwardVel - (bashSpeedBase + 18))/3)*1000)
 
         o.oPosX = m.pos.x
         o.oPosY = m.pos.y + 80
