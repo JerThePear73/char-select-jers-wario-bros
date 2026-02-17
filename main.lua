@@ -652,7 +652,7 @@ local function on_character_sound(m, sound)
 end
 
 local function startup_message(m)
-    djui_chat_message_create("Thank you for downloading [CS] \\#F2D36F\\Wario \\#B47CF4\\Bros.\\#ffffff\\!\nI want to give a special thanks to everybody who made this mod possible, and also a huge thanks to \\#00aa00\\boomeragainstthezoomers\\#ffffff\\ for all his help and inspiration to make the mod. Please check out his mod, [CS] Land Wario when it releases!")
+    djui_chat_message_create("Thank you for downloading [CS] \\#F2D36F\\Wario \\#B47CF4\\Bros.\\#ffffff\\!\nA special thanks to everybody who made this mod possible, including \\#ffff00\\SwagSkeleton95\\#ffffff\\ & \\#ffff00\\boomeragainstthezoomers\\#ffffff\\ for all their inspiration to make the mod. Make sure to also check out their mod, [CS] Wario Land 64!")
     for _,mods in pairs(gActiveMods) do
         if mods.name == "Sonic Character: \\#4084d9\\Rebooted \\#fd90a7\\v1.2\\#ffffff\\" then
             djui_chat_message_create("\\#ff7777\\[CS] Wario Bros. has incompatibility issues with Sonic Character: Rebooted. Please be aware if you do not disable one of the two you may experience missing hud elements, voices, and other issues.")

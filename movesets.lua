@@ -940,6 +940,11 @@ local function wario_update(m)
             m.marioObj.header.gfx.scale.x = (m.actionTimer + 5)/12
             m.marioObj.header.gfx.scale.z = (m.actionTimer + 5)/12
         end
+    elseif m.action == ACT_WAR_SH_BASH_JUMP and m.forwardVel < 0 and m.vel.y > 0 then
+        local scale = math.abs(m.vel.y/80)
+        m.marioObj.header.gfx.scale.x = 1 - scale
+        m.marioObj.header.gfx.scale.y = 1 + scale
+        m.marioObj.header.gfx.scale.z = 1 - scale
     end
 
     -- slower swimming
@@ -1071,6 +1076,11 @@ local function waluigi_update(m)
         if m.actionTimer < 8 then
             m.marioObj.header.gfx.scale.y = (m.actionTimer + 22)/30
         end
+    elseif m.action == ACT_WAR_SH_BASH_JUMP and m.forwardVel < 0 and m.vel.y > 0 then
+        local scale = math.abs(m.vel.y/80)
+        m.marioObj.header.gfx.scale.x = 1 - scale
+        m.marioObj.header.gfx.scale.y = 1 + scale
+        m.marioObj.header.gfx.scale.z = 1 - scale
     end
 
     -- gold cap
