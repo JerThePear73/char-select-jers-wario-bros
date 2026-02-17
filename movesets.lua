@@ -1231,10 +1231,7 @@ end
 ---------
 -- HUD --
 ---------
-
-local function greedy_hud()
-    local m = gMarioStates[0]
-    local e = gExtraStates[0]
+local function do_coin_hud(m, e)
     local colour = 0
     local add = string.format("+%.0f", (m.numCoins/4))
 
@@ -1250,8 +1247,6 @@ local function greedy_hud()
 
     e.bagScale = math.lerp(e.bagScale, 0, 0.2)
 
-    if gNetworkPlayers[0].currActNum == 99 or gMarioStates[0].action == ACT_INTRO_CUTSCENE or hud_is_hidden() or obj_get_first_with_behavior_id(id_bhvActSelector) then return end
-
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_font(FONT_RECOLOR_HUD)
     local width = djui_hud_get_screen_width()
@@ -1263,30 +1258,16 @@ local function greedy_hud()
 
     djui_hud_set_color(255, 255, colour, 255)
     djui_hud_print_text(add, x, y, 1)
-    local apparentCooldown = 0
-    local minCooldown = 55
-    if m.character.type == CT_MARIO then
-        if e.slashCooldown > minCooldown then
-            apparentCooldown = minCooldown
-        else
-            apparentCooldown = e.slashCooldown
-        end
-        local rate = (minCooldown - apparentCooldown)/minCooldown
+    
+end
 
-        if e.slashCooldown == minCooldown then
-            e.swordScale = math.lerp(e.swordScale, 0, 0.4)
-            if e.swordScale < 0.01 then
-                e.swordScale = 0
-            end
-        else
-            e.swordScale = rate
-        end
+local function greedy_hud()
+    local m = gMarioStates[0]
+    local e = gExtraStates[0]
 
-        djui_hud_set_color(255, 255, 255, 255)
-        djui_hud_render_texture(TEX_SWORD_BACK, 20, 61, 1, 1)
-        djui_hud_render_texture(TEX_SWORD_FRONT, 24, 61, e.swordScale, 1)
-    end
-
+    if gNetworkPlayers[0].currActNum == 99 or gMarioStates[0].action == ACT_INTRO_CUTSCENE or hud_is_hidden() or obj_get_first_with_behavior_id(id_bhvActSelector) then return end
+    
+    do_coin_hud(m, e)
 
     -- debug
     --djui_hud_set_resolution(RESOLUTION_DJUI)
@@ -1303,6 +1284,35 @@ local function greedy_hud()
     --djui_hud_print_text(string.format(math.floor(65 - m.forwardVel)), 25, 575, 1)
     --djui_hud_print_text(string.format(e.coinFreq), 25, 600, 1)
     --djui_hud_print_text(string.format(m.intendedMag), 25, 625, 1)
+end
+
+local function syrup_hud()
+    local m = gMarioStates[0]
+    local e = gExtraStates[0]
+
+    if gNetworkPlayers[0].currActNum == 99 or gMarioStates[0].action == ACT_INTRO_CUTSCENE or hud_is_hidden() or obj_get_first_with_behavior_id(id_bhvActSelector) then return end
+    
+    do_coin_hud(m, e)
+
+    local apparentCooldown = 0
+    local minCooldown = 55
+    if e.slashCooldown > minCooldown then
+        apparentCooldown = minCooldown
+    else
+        apparentCooldown = e.slashCooldown
+    end
+    local rate = (minCooldown - apparentCooldown)/minCooldown
+    if e.slashCooldown == minCooldown then
+        e.swordScale = math.lerp(e.swordScale, 0, 0.4)
+        if e.swordScale < 0.01 then
+            e.swordScale = 0
+        end
+    else
+        e.swordScale = rate
+    end
+    djui_hud_set_color(255, 255, 255, 255)
+    djui_hud_render_texture(TEX_SWORD_BACK, 20, 61, 1, 1)
+    djui_hud_render_texture(TEX_SWORD_FRONT, 24, 61, e.swordScale, 1)
 end
 
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_MARIO_UPDATE, wario_update)
@@ -1327,5 +1337,5 @@ _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_SET_MARIO_ACTION, syrup
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_BEFORE_SET_MARIO_ACTION, syrup_before_set_action)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_BEFORE_PHYS_STEP, syrup_before_phys_step)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_INTERACT, syrup_interact)
-_G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_HUD_RENDER_BEHIND, greedy_hud)
+_G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_HUD_RENDER_BEHIND, syrup_hud)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_LEVEL_INIT, wario_level_init)
