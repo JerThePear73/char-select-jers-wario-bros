@@ -904,7 +904,7 @@ local function wario_update(m)
             m.marioBodyState.eyeState = MARIO_EYES_LOOK_LEFT
         end
 
-        if m.marioObj.header.gfx.animInfo.animID == MARIO_ANIM_RUNNING and m.flags & MARIO_METAL_CAP == 0 then
+        if m.marioObj.header.gfx.animInfo.animID == MARIO_ANIM_RUNNING and m.flags & MARIO_METAL_CAP == 0 and smlua_anim_util_get_current_animation_name(m.marioObj) == "JWAR_RUN" then
             local frame = m.marioObj.header.gfx.animInfo.animFrame
             local scale = 1
 

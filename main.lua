@@ -579,11 +579,11 @@ local CAP_J_SYRUP = {
 }
 
 if _G.charSelectExists then
-    CT_J_WARIO = _G.charSelect.character_add("Wario", { "A jolly feller with an eye for gold, no matter how dangerous.",
+    _G.CT_J_WARIO = _G.charSelect.character_add("Wario", { "A jolly feller with an eye for gold, no matter how dangerous.",
         ""}, "JerThePear", {r = 255, g = 240, b = 000}, E_MODEL_J_WARIO, CT_WARIO, TEX_WARIO, 1.05)
-    CT_J_WALUIGI = _G.charSelect.character_add("Waluigi", { "A lanky rival out for mischief, mayhem, and... tennis?",
+    _G.CT_J_WALUIGI = _G.charSelect.character_add("Waluigi", { "A lanky rival out for mischief, mayhem, and... tennis?",
         ""}, "JerThePear", {r = 200, g = 000, b = 255}, E_MODEL_J_WALUIGI, CT_WALUIGI, TEX_WALUIGI, 1.1)
-    CT_J_SYRUP = _G.charSelect.character_add("Captain Syrup", { "A cunning rival treasure hunter in search of goodies. What is her reason for helping the Wario Bros.?",
+    _G.CT_J_SYRUP = _G.charSelect.character_add("Captain Syrup", { "A cunning rival treasure hunter in search of goodies. What is her reason for helping the Wario Bros.?",
         ""}, "JerThePear", {r = 255, g = 000, b = 255}, E_MODEL_J_SYRUP, CT_MARIO, TEX_SYRUP, 1.08)
 end
 
