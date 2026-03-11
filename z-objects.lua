@@ -5,18 +5,34 @@ E_MODEL_PARTICLE_RING = smlua_model_util_get_id('jers_wario_ring_particle_geo')
 gPlayerObjects = {}
 for i = 0, (MAX_PLAYERS - 1) do
     gPlayerObjects[i] = nil
+    gPlayerSyncTable[i].jwarRingFrame = 0
 end
 
 ------------
+
+local ringScale = 1.2
 
 define_custom_obj_fields({
     oPlayerIndex = 'u32',
 })
 
+function jwar_ring_particle_anim(node, matStackIndex)
+    local asSwitchNode = cast_graph_node(node)
+    local m = geo_get_mario_state()
+    local s = gPlayerSyncTable[m.playerIndex]
+    local toNode = s.jwarRingFrame
+    if s.jwarRingFrame > 10 then
+        s.jwarRingFrame = 1
+    else
+        s.jwarRingFrame = s.jwarRingFrame + 1
+    end
+    asSwitchNode.selectedCase = toNode
+end
+
 local function ring_particle_init(o)
     o.oFlags = OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE
     o.hookRender = 1
-    obj_scale(o, 1)
+    obj_scale(o, ringScale)
     o.oFaceAngleRoll = 0 - degrees_to_sm64(90)
     cur_obj_hide()
 end
@@ -40,7 +56,7 @@ local function ring_particle_loop(o)
     if obj_is_hidden(o) ~= 0 then
         cur_obj_unhide()
         obj_set_model_extended(o, E_MODEL_PARTICLE_RING)
-        obj_scale(o, 1)
+        obj_scale(o, ringScale)
     end
 
     if (m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel >= (bashSpeedBase + 24) then
@@ -73,7 +89,7 @@ local function on_object_render(o)
         o.oPosX = m.pos.x
         o.oPosY = m.pos.y + 80
         o.oPosZ = m.pos.z
-        o.oFaceAnglePitch = o.oFaceAnglePitch + rot
+        --o.oFaceAnglePitch = o.oFaceAnglePitch + rot
         o.oFaceAngleYaw = m.marioObj.header.gfx.angle.y - degrees_to_sm64(90)
     
         -- if the player is off screen, move the obj to the player origin
