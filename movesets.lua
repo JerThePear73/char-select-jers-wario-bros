@@ -13,9 +13,8 @@ for i = 0, MAX_PLAYERS - 1 do
     e.coinFreq = 0
     e.prevPosY = 0
     e.wallet = 0
+    e.prevLives = 4
 end
-
--- maybe make syrup's chop bump player back
 
 ACT_WAR_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
 ACT_WAR_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
@@ -176,10 +175,11 @@ end
 
 local function coin_add()
     local m = gMarioStates[0]
+    local e = gExtraStates[0]
     if greedyMode then
         return 25
     else
-        return m.numCoins/4
+        return e.wallet/4
     end
 end
 
@@ -1033,9 +1033,15 @@ function wario_attack(a, v)
 end
 
 function wario_level_init()
+    local m = gMarioStates[0]
     local e = gExtraStates[0]
 
     e.availCoins = availCoinsMax
+
+    if e.prevLives > m.numLives then
+        e.prevLives = m.numLives
+        e.wallet = 0
+    end
 end
 
 -------------
@@ -1192,7 +1198,7 @@ local function syrup_set_action(m)
         set_mario_action(m, ACT_SYP_SLASH, 0)
         e.slashCooldown = slashCooldownBase - coin_add()
     end
-    if m.numCoins >= 100 or greedyMode then
+    if e.wallet >= 100 or greedyMode then
         chopMax = 2
     else 
         chopMax = 1
@@ -1243,14 +1249,14 @@ end
 ---------
 local function do_coin_hud(m, e)
     local colour = 0
-    local add = string.format("+%.0f", (m.numCoins/4))
+    local add = string.format("+%.0f", (e.wallet/4))
 
-    if m.numCoins > prevNumCoins then
+    if e.wallet > prevNumCoins then
         prevNumCoins = prevNumCoins + 1
         e.bagScale = 0.4
     end
 
-    if m.numCoins >= 100 or greedyMode then
+    if e.wallet >= 100 or greedyMode then
         add = "MAX"
         colour = math.abs(math.sin(get_global_timer()*0.5))*255
     end
@@ -1324,6 +1330,24 @@ local function syrup_hud()
     djui_hud_render_texture(TEX_SWORD_BACK, 20, 61, 1, 1)
     djui_hud_render_texture(TEX_SWORD_FRONT, 24, 61, e.swordScale, 1)
 end
+
+local function bank_add_coin(id)
+    local m = gMarioStates[0]
+    local e = gExtraStates[0]
+    if id == SOUND_GENERAL_COIN or id == SOUND_GENERAL_COIN_WATER then
+        e.wallet = e.wallet + 1
+    end
+end
+hook_event(HOOK_ON_PLAY_SOUND, bank_add_coin)
+
+function set_prev_lives(m)
+    local e = gExtraStates[m.playerIndex]
+
+    if e.prevLives < m.numLives then
+        e.prevLives = m.numLives
+    end
+end
+hook_event(HOOK_MARIO_UPDATE, set_prev_lives)
 
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_MARIO_UPDATE, wario_update)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_SET_MARIO_ACTION, wario_set_action)
