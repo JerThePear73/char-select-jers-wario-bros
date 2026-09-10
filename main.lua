@@ -3,7 +3,6 @@
 
 local TEXT_MOD_NAME = "Wario Bros."
 local boot = true
-greedyMode = mod_storage_load_bool("greedyMode")
 
 -- Stops mod from loading if Character Select isn't on
 if not _G.charSelectExists then
@@ -675,7 +674,7 @@ if _G.charSelectExists then
         ""}, "JerThePear", {r = 255, g = 240, b = 000}, E_MODEL_J_WARIO, CT_WARIO, TEX_WARIO, 1.05)
     _G.CT_J_WALUIGI = _G.charSelect.character_add("Waluigi", { "A lanky rival out for mischief, mayhem, and... tennis?",
         ""}, "JerThePear", {r = 200, g = 000, b = 255}, E_MODEL_J_WALUIGI, CT_WALUIGI, TEX_WALUIGI, 1.1)
-    _G.CT_J_SYRUP = _G.charSelect.character_add("Captain Syrup", { "A cunning rival treasure hunter in search of goodies. What is her reason for helping the Wario Bros.?",
+    _G.CT_J_SYRUP = _G.charSelect.character_add("Captain Syrup", { "A cunning treasure hunter in search of goodies. What is her reason for helping the Wario Bros.?",
         ""}, "JerThePear", {r = 255, g = 000, b = 255}, E_MODEL_J_SYRUP, CT_MARIO, TEX_SYRUP, 1.08)
 end
 
@@ -766,23 +765,3 @@ end
 hook_event(HOOK_ON_MODS_LOADED, on_character_select_load)
 hook_event(HOOK_CHARACTER_SOUND, on_character_sound)
 hook_event(HOOK_MARIO_UPDATE, on_character_snore)
-
-local function command_greedy_mode(msg)
-	if not network_is_server() then
-		djui_chat_message_create("\\#ffaaaa\\Only the host may use this command")
-		return true
-	else
-	    if greedyMode then
-			djui_chat_message_create("Greedy Mode: \\#ff0000\\OFF")
-			greedyMode = false
-		else
-			djui_chat_message_create("Greedy Mode: \\#00ff00\\ON")
-			greedyMode = true
-		end
-		mod_storage_save_bool("greedyMode", greedyMode)
-		return true
-	end
-	return false
-end
-
-hook_chat_command("greedyMode", "- toggles Shoulder Bash always at max speed (host only)", command_greedy_mode)

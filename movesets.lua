@@ -12,7 +12,9 @@ for i = 0, MAX_PLAYERS - 1 do
     e.availCoins = 25
     e.coinFreq = 0
     e.prevPosY = 0
+    e.bank = 0
     e.wallet = 0
+    e.coinQueue = 100
     e.prevLives = 4
     e.hardPos = gVec3fZero{}
     e.bombsStashed = 0
@@ -54,12 +56,15 @@ local TEX_SWORD_FRONT = get_texture_info("jwar_hud_sword_front")
 local PARTICLE_TIMER = 8
 local WAR_SH_BASH_MIN = 18
 local WAL_SH_BASH_MAX = 20
-local prevNumCoins = 0
 local chopMax = 1
 local availCoinsMax = 25
+local prevNumCoins = -1
 bashSpeedBase = 50
-local slashCooldownBase = 100
-local maxBombs = 5
+--local slashCooldownBase = 100
+local maxBombs = 10
+local powerScaling = charSelect.add_option("Power Scaling", 1, 1, nil, {"Coins increase speed."}, true)
+local powerScalingCheck = charSelect.get_options_status(powerScaling) == 0
+local betterCoins = false
 
 local ARG_WARIO     = 0
 local ARG_WALUIGI   = 1
@@ -86,6 +91,15 @@ local function pause_check()
 
     return 1
 end
+
+local function better_coins_compat()
+    for _,mods in pairs(gActiveMods) do
+        if mods.name == "Better Coins" then
+            betterCoins = true
+        end
+    end
+end
+hook_event(HOOK_ON_MODS_LOADED, better_coins_compat)
 
 local function dash_attacks(m, o, intee)
     if obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
@@ -186,8 +200,8 @@ end
 local function coin_add()
     local m = gMarioStates[0]
     local e = gExtraStates[0]
-    if greedyMode then
-        return 25
+    if powerScalingCheck then
+        return 50/4
     else
         return e.wallet/4
     end
@@ -1152,6 +1166,17 @@ local function wario_update(m)
         do_better_throw(m, m.usedObj)
     end
 
+    -- coins
+    if e.coinQueue > 0 then
+        if e.wallet < 100 then
+            e.wallet = e.wallet + 1
+        else
+            e.bank = e.bank + 1
+        end
+        e.coinQueue = e.coinQueue - 1
+        e.bagScale = 0.4
+    end
+
     --if m.controller.buttonPressed & Y_BUTTON ~= 0 then -- for debugging
     --    m.numCoins = 100
     --end
@@ -1192,20 +1217,20 @@ local function wario_before_set_action(m, act)
     end
 end
 
-function wario_interact(m, o, intee)
+local function wario_interact(m, o, type)
     local e = gExtraStates[m.playerIndex]
     local damagableTypes = (INTERACT_BOUNCE_TOP | INTERACT_BOUNCE_TOP2 | INTERACT_HIT_FROM_BELOW | 2097152 | INTERACT_KOOPA | INTERACT_BREAKABLE | INTERACT_GRABBABLE | INTERACT_BULLY)
 
-    if (m.action == ACT_WAR_SH_BASH) and (intee & damagableTypes) ~= 0 then
-        dash_attacks(m, o, intee)
+    if (m.action == ACT_WAR_SH_BASH) and (type & damagableTypes) ~= 0 then
+        dash_attacks(m, o, type)
         if m.flags & MARIO_METAL_CAP == 0 and obj_has_behavior_id(o, id_bhvBreakableBox) == 0 then
             humble_bump(m, -40, 30, ACT_WAR_SH_BASH_JUMP, ARG_WARIO)
         end
         return false
     end
 
-    if (m.action == ACT_WAR_SH_BASH_JUMP) and (intee & damagableTypes) ~= 0 and m.forwardVel > 10 then
-        dash_attacks(m, o, intee)
+    if (m.action == ACT_WAR_SH_BASH_JUMP) and (type & damagableTypes) ~= 0 and m.forwardVel > 10 then
+        dash_attacks(m, o, type)
         humble_bump(m, -40, 15, ACT_WAR_SH_BASH_JUMP, ARG_WARIO)
         return false
     end
@@ -1223,24 +1248,23 @@ function wario_interact(m, o, intee)
     if m.action == ACT_PICKING_UP and obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
         o.oBobombFuseTimer = -150
     end
+
+    if type & INTERACT_COIN ~= 0 then
+        e.coinQueue = e.coinQueue + o.oDamageOrCoinValue
+    end
 end
 
-function wario_attack(a, v)
+local function wario_attack(a, v)
     if (a.action == ACT_WAR_SH_BASH or a.action == ACT_WAR_SH_BASH_JUMP) and a.forwardVel > 5 then
         humble_bump(a, -40, 30, ACT_WAR_SH_BASH_JUMP, ARG_WARIO)
     end
 end
 
-function wario_level_init()
+local function wario_level_init()
     local m = gMarioStates[0]
-    local e = gExtraStates[0]
+    local e = gExtraStates[m.playerIndex]
 
     e.availCoins = availCoinsMax
-
-    if e.prevLives > m.numLives then
-        e.prevLives = m.numLives
-        e.wallet = 0
-    end
 end
 
 -------------
@@ -1312,6 +1336,17 @@ local function waluigi_update(m)
             end
         end
     end
+
+    -- coins
+    if e.coinQueue > 0 then
+        if e.wallet < 100 then
+            e.wallet = e.wallet + 1
+        else
+            e.bank = e.bank + 1
+        end
+        e.coinQueue = e.coinQueue - 1
+        e.bagScale = 0.4
+    end
 end
 
 local function waluigi_set_action(m)
@@ -1346,26 +1381,30 @@ local function waluigi_before_set_action(m, act)
     end
 end
 
-function waluigi_interact(m, o, intee)
+local function waluigi_interact(m, o, type)
     local e = gExtraStates[m.playerIndex]
     local damagableTypes = (INTERACT_BOUNCE_TOP | INTERACT_BOUNCE_TOP2 | INTERACT_HIT_FROM_BELOW | 2097152 | INTERACT_KOOPA | INTERACT_BREAKABLE | INTERACT_GRABBABLE | INTERACT_BULLY)
 
-    if (m.action == ACT_WAL_SH_BASH) and (intee & damagableTypes) ~= 0 then
-        dash_attacks(m, o, intee)
+    if (m.action == ACT_WAL_SH_BASH) and (type & damagableTypes) ~= 0 then
+        dash_attacks(m, o, type)
         if m.flags & MARIO_METAL_CAP == 0 and obj_has_behavior_id(o, id_bhvBreakableBox) == 0 then
             humble_bump(m, -40, 30, ACT_WAR_SH_BASH_JUMP, ARG_WALUIGI)
         end
         return false
     end
 
-    if (m.action == ACT_WAL_SH_BASH_JUMP) and (intee & damagableTypes) ~= 0 and m.forwardVel > 10 then
-        dash_attacks(m, o, intee)
+    if (m.action == ACT_WAL_SH_BASH_JUMP) and (type & damagableTypes) ~= 0 and m.forwardVel > 10 then
+        dash_attacks(m, o, type)
         humble_bump(m, -40, 15, ACT_WAR_SH_BASH_JUMP, ARG_WALUIGI)
         return false
     end
 
     if m.action == ACT_PICKING_UP and obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
         o.oBobombFuseTimer = -300
+    end
+
+    if type & INTERACT_COIN ~= 0 then
+        e.coinQueue = e.coinQueue + o.oDamageOrCoinValue
     end
 end
 
@@ -1441,6 +1480,17 @@ local function syrup_update(m)
     if (m.action == ACT_THROWING and m.actionTimer == 8) or (m.action == ACT_AIR_THROW and m.actionTimer == 5) then
         do_better_throw(m, m.usedObj)
     end
+
+    -- coins
+    if e.coinQueue > 0 then
+        if e.wallet < 100 then
+            e.wallet = e.wallet + 1
+        else
+            e.bank = e.bank + 1
+        end
+        e.coinQueue = e.coinQueue - 1
+        e.bagScale = 0.4
+    end
 end
 
 local function syrup_set_action(m)
@@ -1449,9 +1499,9 @@ local function syrup_set_action(m)
     -- slash
     if ((m.action == ACT_MOVE_PUNCHING and m.intendedMag > 30 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0)) and e.slashCooldown == 0 then
         set_mario_action(m, ACT_SYP_SLASH, 0)
-        e.slashCooldown = slashCooldownBase - coin_add()
+        e.slashCooldown = 300 - (coin_add()*4*2)
     end
-    if e.wallet >= 100 or greedyMode then
+    if e.wallet >= 100 then
         chopMax = 2
     else 
         chopMax = 1
@@ -1487,13 +1537,13 @@ local function syrup_before_phys_step(m)
     end
 end
 
-local function syrup_interact(m, o, intee)
+local function syrup_interact(m, o, type)
     local e = gExtraStates[m.playerIndex]
     local damagableTypes = (INTERACT_BOUNCE_TOP | INTERACT_BOUNCE_TOP2 | INTERACT_HIT_FROM_BELOW | 2097152 | INTERACT_KOOPA | INTERACT_BREAKABLE | INTERACT_GRABBABLE | INTERACT_BULLY)
     local collideTypes = (INTERACT_KOOPA | INTERACT_GRABBABLE | INTERACT_BULLY)
 
-    if (m.action == ACT_SYP_SLASH) and (intee & damagableTypes) ~= 0 then
-        dash_attacks(m, o, intee)
+    if (m.action == ACT_SYP_SLASH) and (type & damagableTypes) ~= 0 then
+        dash_attacks(m, o, type)
         if m.flags & MARIO_METAL_CAP == 0 and obj_has_behavior_id(o, id_bhvBreakableBox) == 0 then
             humble_bump(m, -40, 0, ACT_BACKWARD_ROLLOUT, 0)
         end
@@ -1504,39 +1554,37 @@ local function syrup_interact(m, o, intee)
         o.oBobombFuseTimer = -150
         return false
     end
+
+    if type & INTERACT_COIN ~= 0 then
+        e.coinQueue = e.coinQueue + o.oDamageOrCoinValue
+    end
 end
 
 ---------
 -- HUD --
 ---------
-local function do_coin_hud(m, e)
-    local colour = 0
-    local add = string.format("+%.0f", (e.wallet/4))
-
-    if e.wallet > prevNumCoins then
-        prevNumCoins = prevNumCoins + 1
-        e.bagScale = 0.4
-    end
-
-    if e.wallet >= 100 or greedyMode then
-        add = "MAX"
-        colour = math.abs(math.sin(get_global_timer()*0.5))*255
-    end
+local function do_coin_hud(m)
+    local e = gExtraStates[m.playerIndex]
+    local colour = e.wallet == 100 and math.abs(math.sin(get_global_timer()*0.5))*255 or 0
+    local coins = string.format("%.0f", e.wallet)
+    local lives = string.format("%.0f", m.numLives)
 
     e.bagScale = math.lerp(e.bagScale, 0, 0.2)
 
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_font(FONT_RECOLOR_HUD)
     local width = djui_hud_get_screen_width()
-    local x = 26
-    local y = 45
+    local x = 74 - 12 + (#lives * 12)
+    local y = 15
 
     djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_render_texture(TEX_BAG, (29 - (16*e.bagScale)), (32 + (24*e.bagScale)), (1 + e.bagScale), (1 - e.bagScale))
+    djui_hud_render_texture(TEX_BAG, (x + 3 - (16*e.bagScale)), (y - 13 + (24*e.bagScale)), (1 + e.bagScale), (1 - e.bagScale))
 
     djui_hud_set_color(255, 255, colour, 255)
-    djui_hud_print_text(add, x, y, 1)
-    
+    djui_hud_print_text(coins, x - (#coins * 6) + 17, y, 1, 1)
+    if e.wallet == 100 then
+        djui_hud_print_text("MAX", x + 9, y - 10, 0.5, 0.5)
+    end
 end
 
 local function greedy_hud()
@@ -1545,7 +1593,7 @@ local function greedy_hud()
 
     if gNetworkPlayers[0].currActNum == 99 or gMarioStates[0].action == ACT_INTRO_CUTSCENE or obj_get_first_with_behavior_id(id_bhvActSelector) then return end --or hud_is_hidden()
     
-    do_coin_hud(m, e)
+    do_coin_hud(m)
 
     -- debug
     --djui_hud_set_resolution(RESOLUTION_DJUI)
@@ -1571,12 +1619,14 @@ end
 
 local function syrup_hud()
     local m = gMarioStates[0]
-    local e = gExtraStates[0]
+    local e = gExtraStates[m.playerIndex]
 
     if gNetworkPlayers[0].currActNum == 99 or gMarioStates[0].action == ACT_INTRO_CUTSCENE or obj_get_first_with_behavior_id(id_bhvActSelector) then return end --or hud_is_hidden() 
-    
-    do_coin_hud(m, e)
 
+    do_coin_hud(m)
+
+    local x = 16
+    local y = betterCoins and 48 or 28
     local apparentCooldown = 0
     local minCooldown = 55
     if e.slashCooldown > minCooldown then
@@ -1594,27 +1644,16 @@ local function syrup_hud()
         e.swordScale = rate
     end
     djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_render_texture(TEX_SWORD_BACK, 20, 61, 1, 1)
-    djui_hud_render_texture(TEX_SWORD_FRONT, 24, 61, e.swordScale, 1)
+    djui_hud_render_texture(TEX_SWORD_BACK, x, y, 1, 1)
+    djui_hud_render_texture(TEX_SWORD_FRONT, x + 4, y, e.swordScale, 1)
 end
 
-local function bank_add_coin(id)
+local function on_death(m)
     local m = gMarioStates[0]
-    local e = gExtraStates[0]
-    if id == SOUND_GENERAL_COIN or id == SOUND_GENERAL_COIN_WATER then
-        e.wallet = e.wallet + 1
-    end
-end
-hook_event(HOOK_ON_PLAY_SOUND, bank_add_coin)
-
-function set_prev_lives(m)
     local e = gExtraStates[m.playerIndex]
-
-    if e.prevLives < m.numLives then
-        e.prevLives = m.numLives
-    end
+    e.wallet = 0
 end
-hook_event(HOOK_MARIO_UPDATE, set_prev_lives)
+hook_event(HOOK_ON_DEATH, on_death)
 
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_MARIO_UPDATE, wario_update)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_SET_MARIO_ACTION, wario_set_action)
