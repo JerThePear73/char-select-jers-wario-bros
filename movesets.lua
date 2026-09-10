@@ -15,6 +15,7 @@ for i = 0, MAX_PLAYERS - 1 do
     e.wallet = 0
     e.prevLives = 4
     e.hardPos = gVec3fZero{}
+    e.bombsStashed = 0
 end
 
 ACT_WAR_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
@@ -31,6 +32,7 @@ ACT_SYP_SLASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_F
 ACT_SYP_CHOP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 ACT_SYP_CANNON = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 ACT_SYP_VERTICAL_BOOST = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_BOMB_STASH = allocate_mario_action(ACT_GROUP_STATIONARY | ACT_FLAG_STATIONARY)
 
 local E_MODEL_PARTICLE_CLONE_WARIO = smlua_model_util_get_id('jers_wario_clone_geo')
 local E_MODEL_PARTICLE_CLONE_WALUIGI = smlua_model_util_get_id('jers_waluigi_clone_geo')
@@ -57,6 +59,7 @@ local chopMax = 1
 local availCoinsMax = 25
 bashSpeedBase = 50
 local slashCooldownBase = 100
+local maxBombs = 5
 
 local ARG_WARIO     = 0
 local ARG_WALUIGI   = 1
@@ -1004,6 +1007,53 @@ local function act_syp_vertical_boost(m)
 end
 hook_mario_action(ACT_SYP_VERTICAL_BOOST, act_syp_vertical_boost)
 
+local function act_bomb_stash(m)
+    local e = gExtraStates[m.playerIndex]
+    local accel = m.actionArg == 0 and -0x10000 or 0x10000
+    local exitAction = m.actionArg == 0 and ACT_IDLE or ACT_HOLD_IDLE
+    local exitFrame = (m.actionArg == 0 or m.input & INPUT_NONZERO_ANALOG ~= 0) and 20 or 30
+    local animObj = 16
+    local hand = gVec3fZero{}
+
+    get_mario_anim_part_pos(m, MARIO_ANIM_PART_RIGHT_HAND, hand)
+    set_mario_anim_with_accel(m, CHAR_ANIM_THROW_CATCH_KEY, accel*2)
+
+    if m.actionState == 0 then
+        if m.actionArg == 0 then
+            set_anim_to_frame(m, 40)
+        end
+        m.actionState = 1
+    end
+
+    stationary_ground_step(m)
+
+    if m.marioObj.header.gfx.animInfo.animFrame == animObj then
+        if m.actionArg == 0 then
+            m.heldObj.activeFlags = ACTIVE_FLAG_DEACTIVATED
+            m.heldObj = nil
+            m.usedObj = nil
+            e.bombsStashed = e.bombsStashed + 1
+        elseif m.actionArg == 1 then
+            spawn_non_sync_object(id_bhvBobomb, E_MODEL_BLACK_BOBOMB, m.pos.x, m.pos.y, m.pos.z, function(o)
+                m.usedObj = o
+                m.heldObj = o
+                o.oHeldState = HELD_HELD
+                o.oBobombFuseTimer = -300
+                mario_grab_used_object(m)
+            end)
+            e.bombsStashed = e.bombsStashed - 1
+        end
+    end
+
+    if m.actionTimer >= exitFrame then
+        return set_mario_action(m, exitAction, 0)
+    end
+
+    m.actionTimer = m.actionTimer + 1
+    return 0
+end
+hook_mario_action(ACT_BOMB_STASH, act_bomb_stash)
+
 -- UPDATES --
 
 local jumpTable = {
@@ -1249,6 +1299,19 @@ local function waluigi_update(m)
     if (m.action == ACT_THROWING and m.actionTimer == 8) or (m.action == ACT_AIR_THROW and m.actionTimer == 5) then
         do_better_throw(m, m.usedObj)
     end
+
+    -- bomb stashing
+    if m.controller.buttonPressed & L_TRIG ~= 0 then
+        if m.action == ACT_HOLD_IDLE then
+            if obj_has_behavior_id(m.heldObj, id_bhvBobomb) ~= 0 and e.bombsStashed < maxBombs then
+                return set_mario_action(m, ACT_BOMB_STASH, 0)
+            end
+        elseif m.action == ACT_IDLE then
+            if e.bombsStashed > 0 then
+                return set_mario_action(m, ACT_BOMB_STASH, 1)
+            end
+        end
+    end
 end
 
 local function waluigi_set_action(m)
@@ -1273,6 +1336,7 @@ local function waluigi_set_action(m)
 end
 
 local function waluigi_before_set_action(m, act)
+    local e = gExtraStates[m.playerIndex]
     if act == ACT_GROUND_POUND then
         return set_mario_action(m, ACT_HUMBLE_GP, ARG_WALUIGI)
     elseif act == ACT_HOLD_WALKING then
@@ -1477,9 +1541,9 @@ end
 
 local function greedy_hud()
     local m = gMarioStates[0]
-    local e = gExtraStates[0]
+    local e = gExtraStates[m.playerIndex]
 
-    if gNetworkPlayers[0].currActNum == 99 or gMarioStates[0].action == ACT_INTRO_CUTSCENE or hud_is_hidden() or obj_get_first_with_behavior_id(id_bhvActSelector) then return end
+    if gNetworkPlayers[0].currActNum == 99 or gMarioStates[0].action == ACT_INTRO_CUTSCENE or obj_get_first_with_behavior_id(id_bhvActSelector) then return end --or hud_is_hidden()
     
     do_coin_hud(m, e)
 
@@ -1498,13 +1562,18 @@ local function greedy_hud()
     --djui_hud_print_text(string.format(math.floor(65 - m.forwardVel)), 25, 575, 1)
     --djui_hud_print_text(string.format(e.coinFreq), 25, 600, 1)
     --djui_hud_print_text(string.format(m.intendedMag), 25, 625, 1)
+
+    djui_hud_set_resolution(RESOLUTION_N64)
+    djui_hud_set_font(FONT_HUD)
+    local height = djui_hud_get_screen_height()
+    djui_hud_print_text(string.format("@%.0f", e.bombsStashed), 10, height - 20, 1, 1)
 end
 
 local function syrup_hud()
     local m = gMarioStates[0]
     local e = gExtraStates[0]
 
-    if gNetworkPlayers[0].currActNum == 99 or gMarioStates[0].action == ACT_INTRO_CUTSCENE or hud_is_hidden() or obj_get_first_with_behavior_id(id_bhvActSelector) then return end
+    if gNetworkPlayers[0].currActNum == 99 or gMarioStates[0].action == ACT_INTRO_CUTSCENE or obj_get_first_with_behavior_id(id_bhvActSelector) then return end --or hud_is_hidden() 
     
     do_coin_hud(m, e)
 
