@@ -18,6 +18,7 @@ local hitboxList = {}
 local isRenderBehind = true
 local queueInModInternal = false
 local queueInMod = 0
+local queueInModGroup = 1
 
 -- Shared so all instances of hud dodge know what's being used in hud dodge
 local prev_hud_dodge_queue_in_mod = hud_dodge_queue_in_mod
@@ -60,7 +61,12 @@ local function add_hitbox(x, y, w, h, inMod)
     if _G.hudDodgeDebugRendering then return end
     inMod = inMod or 0
     if queueInMod > 0 then
-        inMod = queueInModInternal and 1 or 2
+        if queueInModInternal then
+            inMod = queueInModGroup
+            queueInModGroup = queueInModGroup + 1
+        else
+            inMod = -1
+        end
         queueInMod = queueInMod - 1
     end
     table.insert(hitboxList, {
@@ -69,6 +75,7 @@ local function add_hitbox(x, y, w, h, inMod)
         w = w,
         h = h,
         inMod = inMod,
+        group = 0,
         behind = isRenderBehind,
     })
 end
@@ -77,6 +84,7 @@ local function reset_hitbox_list()
     local m = gMarioStates[0];
     local sW = djui_hud_get_screen_width() + 1
     local sH = djui_hud_get_screen_height()
+    queueInModGroup = 1
     prevHitboxList = hitboxList
     hitboxList = {}
 
@@ -361,7 +369,8 @@ local function find_open_hud_space(x, y, w, h, weightX, weightY, ignoreRenders)
         local overlapFound = false
         for id, hitbox in ipairs(prevHitboxList) do
             -- Avoid accounting for the next rendered and not relevent
-            if hitbox.inMod ~= 1 and hitbox.behind == isRenderBehind and (math.ceil(x/(sW/screenSegments)) == math.ceil(hitbox.x/(sW/screenSegments)) and math.ceil(y/(sH/screenSegments)) == math.ceil(hitbox.y/(sH/screenSegments))) then
+            djui_chat_message_create(tostring(queueInModGroup).."/"..hitbox.inMod)
+            if hitbox.inMod < queueInModGroup and hitbox.behind == isRenderBehind and (math.ceil(x/(sW/screenSegments)) == math.ceil(hitbox.x/(sW/screenSegments)) and math.ceil(y/(sH/screenSegments)) == math.ceil(hitbox.y/(sH/screenSegments))) then
                 if rects_overlap(newX, newY, w, h, hitbox.x, hitbox.y, hitbox.w, hitbox.h) then
                     newX = math.lerp(newX, x <= sW*0.5 and math.max(x, hitbox.x + hitbox.w + hitboxMarginX) or math.min(x, hitbox.x - w - hitboxMarginX), weightX)
                     newY = math.lerp(newY, y <= sH*0.5 and math.max(y, hitbox.y + hitbox.h + hitboxMarginY) or math.min(y, hitbox.y - h - hitboxMarginY), weightY)
