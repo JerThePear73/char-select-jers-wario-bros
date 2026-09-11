@@ -6,7 +6,7 @@ local hitboxMarginX = 2
 local hitboxMarginY = 4
 local screenMarginLeft = 22
 local screenMarginTop = 15
-local screenSegments = 4
+local screenSegments = 3
 
 local prevHitboxList = {}
 local hitboxList = {}
@@ -227,6 +227,8 @@ end
 local og_djui_hud_render_rect = djui_hud_render_rect
 local og_djui_hud_print_text = djui_hud_print_text
 local og_djui_hud_render_texture = djui_hud_render_texture
+local og_hud_render_power_meter = hud_render_power_meter
+local og_hud_render_power_meter_interpolated = hud_render_power_meter_interpolated
 
 _G.djui_hud_render_rect = function (x, y, w, h)
     local sW = djui_hud_get_screen_width()
@@ -247,6 +249,16 @@ end
 _G.djui_hud_render_texture = function (tex, x, y, w, h)
     add_hitbox(x, y, w*tex.width, h*tex.width)
     og_djui_hud_render_texture(tex, x, y, w, h)
+end
+
+_G.hud_render_power_meter = function (health, x, y, width, height)
+    add_hitbox(x, y, width, height)
+    og_hud_render_power_meter(health, x, y, width, height)
+end
+
+_G.hud_render_power_meter_interpolated = function (health, prevX, prevY, prevWidth, prevHeight, x, y, width, height)
+    add_hitbox(x, y, width, height)
+    og_hud_render_power_meter_interpolated(health, prevX, prevY, prevWidth, prevHeight, x, y, width, height)
 end
 
 local function hud_render_behind()
