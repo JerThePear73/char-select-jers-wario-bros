@@ -369,7 +369,6 @@ local function find_open_hud_space(x, y, w, h, weightX, weightY, ignoreRenders)
         local overlapFound = false
         for id, hitbox in ipairs(prevHitboxList) do
             -- Avoid accounting for the next rendered and not relevent
-            djui_chat_message_create(tostring(queueInModGroup).."/"..hitbox.inMod)
             if hitbox.inMod < queueInModGroup and hitbox.behind == isRenderBehind and (math.ceil(x/(sW/screenSegments)) == math.ceil(hitbox.x/(sW/screenSegments)) and math.ceil(y/(sH/screenSegments)) == math.ceil(hitbox.y/(sH/screenSegments))) then
                 if rects_overlap(newX, newY, w, h, hitbox.x, hitbox.y, hitbox.w, hitbox.h) then
                     newX = math.lerp(newX, x <= sW*0.5 and math.max(x, hitbox.x + hitbox.w + hitboxMarginX) or math.min(x, hitbox.x - w - hitboxMarginX), weightX)
