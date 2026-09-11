@@ -1543,7 +1543,8 @@ local function do_coin_hud(m)
 
     djui_hud_set_font(FONT_RECOLOR_HUD)
 
-    local x, y = hudDodge.find_open_hud_space(0, 0, 32, 32, 1, 0, e.wallet == 100 and 4 or 3)
+    local x, y = hudDodge.find_open_hud_space(0, 0, 40, 32, 1, 0, e.wallet == 100 and 4 or 3)
+    x = x + 4
 
     djui_hud_set_color(255, 255, 255, 255)
     djui_hud_render_texture(TEX_BAG, (x - (16*e.bagScale)), (y - 13 + (24*e.bagScale)), (1 + e.bagScale), (1 - e.bagScale))
@@ -1650,7 +1651,7 @@ local function syrup_hud()
     do_coin_hud(m)
     render_bank_pos_below()
 
-    local x, y = hudDodge.find_open_hud_space(0, 0, 32, 64, 0, 1, 3)
+    local x, y = hudDodge.find_open_hud_space(0, 0, 32, 64, 0, 1, 2)
     local apparentCooldown = 0
     local minCooldown = 55
     if e.slashCooldown > minCooldown then
@@ -1668,7 +1669,6 @@ local function syrup_hud()
         e.swordScale = rate
     end
     djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_render_rect(x, y, 3, 3)
     djui_hud_render_texture(TEX_SWORD_BACK, x, y - 6, 1, 1)
     djui_hud_render_texture(TEX_SWORD_FRONT, x + 4, y - 6, e.swordScale, 1)
 end
