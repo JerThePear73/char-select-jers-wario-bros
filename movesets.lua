@@ -101,12 +101,14 @@ local function pause_check()
 end
 
 local function better_coins_compat()
+    local m = gMarioStates[0]
+    local e = gWarioStates[m.playerIndex]
     for _,mods in pairs(gActiveMods) do
         if mods.name == "Better Coins" then
             betterCoins = true
         end
     end
-    gWarioStates[gMarioStates[0].playerIndex].bank = mod_storage_load_number("bank", 0)
+    e.bank = mod_storage_load_number("bank", 0)
 end
 hook_event(HOOK_ON_MODS_LOADED, better_coins_compat)
 
