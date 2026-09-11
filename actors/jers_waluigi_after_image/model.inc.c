@@ -1,8 +1,8 @@
-Lights1 jers_waluigi_clone_Particle__PANTS__lights = gdSPDefLights1(
+Lights1 jers_waluigi_after_image_after_image_lights = gdSPDefLights1(
 	0xA8, 0x0, 0x81,
-	0xFF, 0xFF, 0xFF, 0x28, 0x28, 0x28);
+	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
-Vtx jers_waluigi_clone_Butt_mesh_layer_1_vtx_0[23] = {
+Vtx jers_waluigi_after_image_Butt_mesh_layer_1_vtx_0[23] = {
 	{{ {69, 66, -37}, 0, {-16, -16}, {250, 125, 237, 255} }},
 	{{ {69, 59, -62}, 0, {-16, -16}, {250, 98, 176, 255} }},
 	{{ {12, 55, -68}, 0, {-16, -16}, {228, 100, 183, 255} }},
@@ -28,8 +28,8 @@ Vtx jers_waluigi_clone_Butt_mesh_layer_1_vtx_0[23] = {
 	{{ {-5, 65, -49}, 0, {-16, -16}, {225, 117, 219, 255} }},
 };
 
-Gfx jers_waluigi_clone_Butt_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Butt_mesh_layer_1_vtx_0 + 0, 23, 0),
+Gfx jers_waluigi_after_image_Butt_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Butt_mesh_layer_1_vtx_0 + 0, 23, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 2, 1, 0),
 	gsSP2Triangles(3, 1, 4, 0, 2, 3, 5, 0),
 	gsSP2Triangles(6, 5, 3, 0, 3, 7, 6, 0),
@@ -49,7 +49,7 @@ Gfx jers_waluigi_clone_Butt_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Torso_skinned_mesh_layer_1_vtx_0[17] = {
+Vtx jers_waluigi_after_image_Torso_skinned_mesh_layer_1_vtx_0[17] = {
 	{{ {11, -11, -77}, 0, {-16, -16}, {249, 200, 142, 255} }},
 	{{ {11, 41, -80}, 0, {-16, -16}, {212, 11, 137, 255} }},
 	{{ {69, 39, -68}, 0, {-16, -16}, {2, 7, 129, 255} }},
@@ -69,12 +69,12 @@ Vtx jers_waluigi_clone_Torso_skinned_mesh_layer_1_vtx_0[17] = {
 	{{ {10, -31, 54}, 0, {-16, -16}, {255, 134, 37, 255} }},
 };
 
-Gfx jers_waluigi_clone_Torso_skinned_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Torso_skinned_mesh_layer_1_vtx_0 + 0, 17, 0),
+Gfx jers_waluigi_after_image_Torso_skinned_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Torso_skinned_mesh_layer_1_vtx_0 + 0, 17, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Torso_mesh_layer_1_vtx_0[13] = {
+Vtx jers_waluigi_after_image_Torso_mesh_layer_1_vtx_0[13] = {
 	{{ {40, 37, -78}, 0, {-16, -16}, {3, 68, 149, 255} }},
 	{{ {-19, -4, -65}, 0, {-16, -16}, {255, 222, 134, 255} }},
 	{{ {-19, -35, -37}, 0, {-16, -16}, {1, 143, 197, 255} }},
@@ -90,8 +90,8 @@ Vtx jers_waluigi_clone_Torso_mesh_layer_1_vtx_0[13] = {
 	{{ {39, 63, 37}, 0, {1025, 42}, {15, 123, 29, 255} }},
 };
 
-Gfx jers_waluigi_clone_Torso_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Torso_mesh_layer_1_vtx_0 + 0, 13, 17),
+Gfx jers_waluigi_after_image_Torso_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Torso_mesh_layer_1_vtx_0 + 0, 13, 17),
 	gsSP2Triangles(2, 3, 17, 0, 18, 2, 17, 0),
 	gsSP2Triangles(18, 1, 2, 0, 0, 1, 18, 0),
 	gsSP2Triangles(19, 0, 18, 0, 19, 14, 0, 0),
@@ -106,7 +106,7 @@ Gfx jers_waluigi_clone_Torso_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Torso_mesh_layer_1_vtx_1[28] = {
+Vtx jers_waluigi_after_image_Torso_mesh_layer_1_vtx_1[28] = {
 	{{ {39, 63, -35}, 0, {-16, -16}, {13, 125, 237, 255} }},
 	{{ {39, 63, 37}, 0, {-16, -16}, {15, 123, 29, 255} }},
 	{{ {115, 37, 32}, 0, {-16, -16}, {54, 114, 12, 255} }},
@@ -137,8 +137,8 @@ Vtx jers_waluigi_clone_Torso_mesh_layer_1_vtx_1[28] = {
 	{{ {131, -29, -53}, 0, {-16, -16}, {64, 153, 219, 255} }},
 };
 
-Gfx jers_waluigi_clone_Torso_mesh_layer_1_tri_1[] = {
-	gsSPVertex(jers_waluigi_clone_Torso_mesh_layer_1_vtx_1 + 0, 28, 0),
+Gfx jers_waluigi_after_image_Torso_mesh_layer_1_tri_1[] = {
+	gsSPVertex(jers_waluigi_after_image_Torso_mesh_layer_1_vtx_1 + 0, 28, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(2, 4, 3, 0, 4, 2, 5, 0),
 	gsSP2Triangles(6, 5, 2, 0, 2, 7, 6, 0),
@@ -164,7 +164,7 @@ Gfx jers_waluigi_clone_Torso_mesh_layer_1_tri_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Head_DL_mesh_layer_1_vtx_0[252] = {
+Vtx jers_waluigi_after_image_Head_DL_mesh_layer_1_vtx_0[252] = {
 	{{ {-61, 64, -13}, 0, {112, 496}, {164, 185, 204, 255} }},
 	{{ {-61, 64, 13}, 0, {112, 368}, {156, 194, 47, 255} }},
 	{{ {-55, 92, -16}, 0, {368, 368}, {216, 87, 173, 255} }},
@@ -419,15 +419,15 @@ Vtx jers_waluigi_clone_Head_DL_mesh_layer_1_vtx_0[252] = {
 	{{ {42, 139, 0}, 0, {498, 1191}, {151, 72, 0, 255} }},
 };
 
-Gfx jers_waluigi_clone_Head_DL_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Head_DL_mesh_layer_1_vtx_0 + 0, 31, 0),
+Gfx jers_waluigi_after_image_Head_DL_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Head_DL_mesh_layer_1_vtx_0 + 0, 31, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
 	gsSP2Triangles(6, 7, 4, 0, 8, 9, 10, 0),
 	gsSP2Triangles(11, 12, 13, 0, 14, 15, 16, 0),
 	gsSP2Triangles(17, 18, 19, 0, 20, 21, 22, 0),
 	gsSP2Triangles(23, 24, 15, 0, 25, 26, 27, 0),
 	gsSP1Triangle(28, 29, 30, 0),
-	gsSPVertex(jers_waluigi_clone_Head_DL_mesh_layer_1_vtx_0 + 31, 32, 0),
+	gsSPVertex(jers_waluigi_after_image_Head_DL_mesh_layer_1_vtx_0 + 31, 32, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 0, 4, 0),
 	gsSP2Triangles(5, 4, 6, 0, 6, 7, 8, 0),
 	gsSP2Triangles(9, 10, 11, 0, 12, 9, 11, 0),
@@ -440,7 +440,7 @@ Gfx jers_waluigi_clone_Head_DL_mesh_layer_1_tri_0[] = {
 	gsSP2Triangles(24, 26, 25, 0, 24, 27, 26, 0),
 	gsSP2Triangles(27, 14, 26, 0, 14, 28, 26, 0),
 	gsSP2Triangles(28, 21, 26, 0, 29, 30, 31, 0),
-	gsSPVertex(jers_waluigi_clone_Head_DL_mesh_layer_1_vtx_0 + 63, 32, 0),
+	gsSPVertex(jers_waluigi_after_image_Head_DL_mesh_layer_1_vtx_0 + 63, 32, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSP2Triangles(0, 4, 3, 0, 5, 6, 7, 0),
 	gsSP2Triangles(5, 8, 6, 0, 8, 9, 6, 0),
@@ -452,7 +452,7 @@ Gfx jers_waluigi_clone_Head_DL_mesh_layer_1_tri_0[] = {
 	gsSP2Triangles(15, 22, 21, 0, 23, 24, 25, 0),
 	gsSP2Triangles(23, 26, 24, 0, 27, 28, 29, 0),
 	gsSP2Triangles(27, 29, 30, 0, 27, 30, 31, 0),
-	gsSPVertex(jers_waluigi_clone_Head_DL_mesh_layer_1_vtx_0 + 95, 32, 0),
+	gsSPVertex(jers_waluigi_after_image_Head_DL_mesh_layer_1_vtx_0 + 95, 32, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0),
 	gsSP2Triangles(3, 2, 4, 0, 3, 4, 5, 0),
 	gsSP2Triangles(3, 5, 6, 0, 6, 7, 3, 0),
@@ -468,7 +468,7 @@ Gfx jers_waluigi_clone_Head_DL_mesh_layer_1_tri_0[] = {
 	gsSP2Triangles(22, 25, 26, 0, 17, 22, 27, 0),
 	gsSP2Triangles(22, 28, 27, 0, 27, 28, 29, 0),
 	gsSP2Triangles(29, 28, 30, 0, 30, 31, 29, 0),
-	gsSPVertex(jers_waluigi_clone_Head_DL_mesh_layer_1_vtx_0 + 127, 32, 0),
+	gsSPVertex(jers_waluigi_after_image_Head_DL_mesh_layer_1_vtx_0 + 127, 32, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSP2Triangles(4, 1, 3, 0, 4, 5, 1, 0),
 	gsSP2Triangles(4, 6, 5, 0, 4, 7, 6, 0),
@@ -486,7 +486,7 @@ Gfx jers_waluigi_clone_Head_DL_mesh_layer_1_tri_0[] = {
 	gsSP2Triangles(28, 15, 22, 0, 15, 29, 22, 0),
 	gsSP2Triangles(15, 19, 29, 0, 22, 29, 19, 0),
 	gsSP2Triangles(30, 2, 31, 0, 31, 2, 5, 0),
-	gsSPVertex(jers_waluigi_clone_Head_DL_mesh_layer_1_vtx_0 + 159, 32, 0),
+	gsSPVertex(jers_waluigi_after_image_Head_DL_mesh_layer_1_vtx_0 + 159, 32, 0),
 	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
 	gsSP2Triangles(0, 2, 3, 0, 4, 5, 6, 0),
 	gsSP2Triangles(7, 5, 4, 0, 8, 5, 7, 0),
@@ -499,7 +499,7 @@ Gfx jers_waluigi_clone_Head_DL_mesh_layer_1_tri_0[] = {
 	gsSP2Triangles(25, 22, 24, 0, 26, 25, 24, 0),
 	gsSP2Triangles(26, 27, 25, 0, 28, 29, 30, 0),
 	gsSP1Triangle(30, 31, 28, 0),
-	gsSPVertex(jers_waluigi_clone_Head_DL_mesh_layer_1_vtx_0 + 191, 32, 0),
+	gsSPVertex(jers_waluigi_after_image_Head_DL_mesh_layer_1_vtx_0 + 191, 32, 0),
 	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0),
 	gsSP2Triangles(2, 3, 4, 0, 5, 4, 3, 0),
 	gsSP2Triangles(5, 3, 6, 0, 7, 5, 6, 0),
@@ -511,7 +511,7 @@ Gfx jers_waluigi_clone_Head_DL_mesh_layer_1_tri_0[] = {
 	gsSP2Triangles(25, 24, 23, 0, 25, 23, 26, 0),
 	gsSP2Triangles(27, 28, 29, 0, 30, 28, 27, 0),
 	gsSP1Triangle(30, 27, 31, 0),
-	gsSPVertex(jers_waluigi_clone_Head_DL_mesh_layer_1_vtx_0 + 223, 29, 0),
+	gsSPVertex(jers_waluigi_after_image_Head_DL_mesh_layer_1_vtx_0 + 223, 29, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
 	gsSP2Triangles(3, 6, 4, 0, 3, 7, 6, 0),
 	gsSP2Triangles(3, 8, 7, 0, 9, 6, 10, 0),
@@ -525,7 +525,7 @@ Gfx jers_waluigi_clone_Head_DL_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Left_Arm_Color_mesh_layer_1_vtx_0[15] = {
+Vtx jers_waluigi_after_image_Left_Arm_Color_mesh_layer_1_vtx_0[15] = {
 	{{ {18, -33, 0}, 0, {-16, -16}, {247, 134, 220, 255} }},
 	{{ {-10, -3, -20}, 0, {-16, -16}, {160, 211, 187, 255} }},
 	{{ {19, -7, -34}, 0, {-16, -16}, {251, 243, 130, 255} }},
@@ -543,8 +543,8 @@ Vtx jers_waluigi_clone_Left_Arm_Color_mesh_layer_1_vtx_0[15] = {
 	{{ {-10, 20, 13}, 0, {-16, -16}, {185, 99, 36, 255} }},
 };
 
-Gfx jers_waluigi_clone_Left_Arm_Color_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Left_Arm_Color_mesh_layer_1_vtx_0 + 0, 15, 0),
+Gfx jers_waluigi_after_image_Left_Arm_Color_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Left_Arm_Color_mesh_layer_1_vtx_0 + 0, 15, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSP2Triangles(4, 3, 0, 0, 4, 0, 5, 0),
 	gsSP2Triangles(0, 6, 5, 0, 0, 2, 6, 0),
@@ -560,7 +560,7 @@ Gfx jers_waluigi_clone_Left_Arm_Color_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Left_Forearm_skinned_mesh_layer_1_vtx_0[5] = {
+Vtx jers_waluigi_after_image_Left_Forearm_skinned_mesh_layer_1_vtx_0[5] = {
 	{{ {115, -8, 25}, 0, {-16, -16}, {1, 199, 114, 255} }},
 	{{ {97, -30, 0}, 0, {-16, -16}, {255, 130, 17, 255} }},
 	{{ {142, 21, 20}, 0, {-16, -16}, {5, 80, 98, 255} }},
@@ -568,12 +568,12 @@ Vtx jers_waluigi_clone_Left_Forearm_skinned_mesh_layer_1_vtx_0[5] = {
 	{{ {142, 23, -17}, 0, {-16, -16}, {7, 107, 187, 255} }},
 };
 
-Gfx jers_waluigi_clone_Left_Forearm_skinned_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Left_Forearm_skinned_mesh_layer_1_vtx_0 + 0, 5, 0),
+Gfx jers_waluigi_after_image_Left_Forearm_skinned_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Left_Forearm_skinned_mesh_layer_1_vtx_0 + 0, 5, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Left_Forearm_mesh_layer_1_vtx_0[5] = {
+Vtx jers_waluigi_after_image_Left_Forearm_mesh_layer_1_vtx_0[5] = {
 	{{ {40, -12, 29}, 0, {-16, -16}, {242, 208, 117, 255} }},
 	{{ {40, 23, 19}, 0, {-16, -16}, {241, 95, 83, 255} }},
 	{{ {40, 25, -16}, 0, {-16, -16}, {240, 103, 183, 255} }},
@@ -581,8 +581,8 @@ Vtx jers_waluigi_clone_Left_Forearm_mesh_layer_1_vtx_0[5] = {
 	{{ {40, -31, 0}, 0, {-16, -16}, {242, 130, 249, 255} }},
 };
 
-Gfx jers_waluigi_clone_Left_Forearm_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Left_Forearm_mesh_layer_1_vtx_0 + 0, 5, 5),
+Gfx jers_waluigi_after_image_Left_Forearm_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Left_Forearm_mesh_layer_1_vtx_0 + 0, 5, 5),
 	gsSP2Triangles(5, 0, 1, 0, 6, 0, 5, 0),
 	gsSP2Triangles(6, 2, 0, 0, 7, 2, 6, 0),
 	gsSP2Triangles(7, 4, 2, 0, 3, 4, 7, 0),
@@ -591,7 +591,7 @@ Gfx jers_waluigi_clone_Left_Forearm_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Left_Forearm_mesh_layer_1_vtx_1[11] = {
+Vtx jers_waluigi_after_image_Left_Forearm_mesh_layer_1_vtx_1[11] = {
 	{{ {40, -31, 0}, 0, {-16, -16}, {242, 130, 249, 255} }},
 	{{ {112, -16, 39}, 0, {-16, -16}, {18, 214, 119, 255} }},
 	{{ {40, -12, 29}, 0, {-16, -16}, {242, 208, 117, 255} }},
@@ -605,8 +605,8 @@ Vtx jers_waluigi_clone_Left_Forearm_mesh_layer_1_vtx_1[11] = {
 	{{ {149, -1, 1}, 0, {-16, -16}, {127, 0, 0, 255} }},
 };
 
-Gfx jers_waluigi_clone_Left_Forearm_mesh_layer_1_tri_1[] = {
-	gsSPVertex(jers_waluigi_clone_Left_Forearm_mesh_layer_1_vtx_1 + 0, 11, 0),
+Gfx jers_waluigi_after_image_Left_Forearm_mesh_layer_1_tri_1[] = {
+	gsSPVertex(jers_waluigi_after_image_Left_Forearm_mesh_layer_1_vtx_1 + 0, 11, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSP2Triangles(4, 3, 0, 0, 4, 5, 3, 0),
 	gsSP2Triangles(6, 5, 4, 0, 6, 7, 5, 0),
@@ -618,7 +618,7 @@ Gfx jers_waluigi_clone_Left_Forearm_mesh_layer_1_tri_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Left_Hand_DL_mesh_layer_1_vtx_0[27] = {
+Vtx jers_waluigi_after_image_Left_Hand_DL_mesh_layer_1_vtx_0[27] = {
 	{{ {-9, 34, -40}, 0, {-16, -16}, {146, 228, 200, 255} }},
 	{{ {-18, -3, -4}, 0, {-16, -16}, {140, 206, 247, 255} }},
 	{{ {-23, 56, 3}, 0, {-16, -16}, {130, 245, 4, 255} }},
@@ -648,8 +648,8 @@ Vtx jers_waluigi_clone_Left_Hand_DL_mesh_layer_1_vtx_0[27] = {
 	{{ {88, 43, 14}, 0, {-16, -16}, {115, 55, 3, 255} }},
 };
 
-Gfx jers_waluigi_clone_Left_Hand_DL_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Left_Hand_DL_mesh_layer_1_vtx_0 + 0, 27, 0),
+Gfx jers_waluigi_after_image_Left_Hand_DL_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Left_Hand_DL_mesh_layer_1_vtx_0 + 0, 27, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
 	gsSP2Triangles(4, 1, 3, 0, 5, 1, 4, 0),
 	gsSP2Triangles(2, 1, 5, 0, 6, 7, 8, 0),
@@ -673,7 +673,7 @@ Gfx jers_waluigi_clone_Left_Hand_DL_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Right_Arm_Color_mesh_layer_1_vtx_0[15] = {
+Vtx jers_waluigi_after_image_Right_Arm_Color_mesh_layer_1_vtx_0[15] = {
 	{{ {18, -33, 1}, 0, {-16, -16}, {247, 134, 36, 255} }},
 	{{ {19, -7, 35}, 0, {-16, -16}, {251, 244, 126, 255} }},
 	{{ {-10, -3, 21}, 0, {-16, -16}, {160, 211, 69, 255} }},
@@ -691,8 +691,8 @@ Vtx jers_waluigi_clone_Right_Arm_Color_mesh_layer_1_vtx_0[15] = {
 	{{ {115, -8, -24}, 0, {-16, -16}, {1, 199, 142, 255} }},
 };
 
-Gfx jers_waluigi_clone_Right_Arm_Color_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Right_Arm_Color_mesh_layer_1_vtx_0 + 0, 15, 0),
+Gfx jers_waluigi_after_image_Right_Arm_Color_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Right_Arm_Color_mesh_layer_1_vtx_0 + 0, 15, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSP2Triangles(0, 4, 3, 0, 5, 4, 0, 0),
 	gsSP2Triangles(5, 0, 6, 0, 0, 2, 6, 0),
@@ -708,7 +708,7 @@ Gfx jers_waluigi_clone_Right_Arm_Color_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Right_Forearm_skinned_mesh_layer_1_vtx_0[5] = {
+Vtx jers_waluigi_after_image_Right_Forearm_skinned_mesh_layer_1_vtx_0[5] = {
 	{{ {97, -30, 1}, 0, {-16, -16}, {255, 130, 239, 255} }},
 	{{ {115, -8, -24}, 0, {-16, -16}, {1, 199, 142, 255} }},
 	{{ {142, 21, -19}, 0, {-16, -16}, {5, 80, 158, 255} }},
@@ -716,12 +716,12 @@ Vtx jers_waluigi_clone_Right_Forearm_skinned_mesh_layer_1_vtx_0[5] = {
 	{{ {142, 23, 18}, 0, {-16, -16}, {7, 107, 69, 255} }},
 };
 
-Gfx jers_waluigi_clone_Right_Forearm_skinned_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Right_Forearm_skinned_mesh_layer_1_vtx_0 + 0, 5, 0),
+Gfx jers_waluigi_after_image_Right_Forearm_skinned_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Right_Forearm_skinned_mesh_layer_1_vtx_0 + 0, 5, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Right_Forearm_mesh_layer_1_vtx_0[5] = {
+Vtx jers_waluigi_after_image_Right_Forearm_mesh_layer_1_vtx_0[5] = {
 	{{ {40, -12, -28}, 0, {-16, -16}, {242, 208, 139, 255} }},
 	{{ {40, -31, 1}, 0, {-16, -16}, {242, 130, 7, 255} }},
 	{{ {40, -9, 30}, 0, {-16, -16}, {242, 214, 119, 255} }},
@@ -729,8 +729,8 @@ Vtx jers_waluigi_clone_Right_Forearm_mesh_layer_1_vtx_0[5] = {
 	{{ {40, 23, -18}, 0, {-16, -16}, {241, 95, 173, 255} }},
 };
 
-Gfx jers_waluigi_clone_Right_Forearm_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Right_Forearm_mesh_layer_1_vtx_0 + 0, 5, 5),
+Gfx jers_waluigi_after_image_Right_Forearm_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Right_Forearm_mesh_layer_1_vtx_0 + 0, 5, 5),
 	gsSP2Triangles(5, 0, 1, 0, 5, 6, 0, 0),
 	gsSP2Triangles(6, 3, 0, 0, 6, 7, 3, 0),
 	gsSP2Triangles(3, 7, 8, 0, 3, 8, 4, 0),
@@ -739,7 +739,7 @@ Gfx jers_waluigi_clone_Right_Forearm_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Right_Forearm_mesh_layer_1_vtx_1[11] = {
+Vtx jers_waluigi_after_image_Right_Forearm_mesh_layer_1_vtx_1[11] = {
 	{{ {40, -31, 1}, 0, {-16, -16}, {242, 130, 7, 255} }},
 	{{ {40, -12, -28}, 0, {-16, -16}, {242, 208, 139, 255} }},
 	{{ {112, -16, -38}, 0, {-16, -16}, {18, 214, 137, 255} }},
@@ -753,8 +753,8 @@ Vtx jers_waluigi_clone_Right_Forearm_mesh_layer_1_vtx_1[11] = {
 	{{ {149, -1, 0}, 0, {-16, -16}, {127, 0, 0, 255} }},
 };
 
-Gfx jers_waluigi_clone_Right_Forearm_mesh_layer_1_tri_1[] = {
-	gsSPVertex(jers_waluigi_clone_Right_Forearm_mesh_layer_1_vtx_1 + 0, 11, 0),
+Gfx jers_waluigi_after_image_Right_Forearm_mesh_layer_1_tri_1[] = {
+	gsSPVertex(jers_waluigi_after_image_Right_Forearm_mesh_layer_1_vtx_1 + 0, 11, 0),
 	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
 	gsSP2Triangles(1, 4, 3, 0, 4, 5, 3, 0),
 	gsSP2Triangles(4, 6, 5, 0, 6, 7, 5, 0),
@@ -766,7 +766,7 @@ Gfx jers_waluigi_clone_Right_Forearm_mesh_layer_1_tri_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Right_Hand_DL_mesh_layer_1_vtx_0[27] = {
+Vtx jers_waluigi_after_image_Right_Hand_DL_mesh_layer_1_vtx_0[27] = {
 	{{ {-16, 34, 42}, 0, {-16, -16}, {138, 229, 39, 255} }},
 	{{ {-23, 58, -1}, 0, {-16, -16}, {131, 249, 233, 255} }},
 	{{ {-21, -1, 4}, 0, {-16, -16}, {139, 209, 247, 255} }},
@@ -796,8 +796,8 @@ Vtx jers_waluigi_clone_Right_Hand_DL_mesh_layer_1_vtx_0[27] = {
 	{{ {87, 44, 3}, 0, {-16, -16}, {114, 53, 16, 255} }},
 };
 
-Gfx jers_waluigi_clone_Right_Hand_DL_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Right_Hand_DL_mesh_layer_1_vtx_0 + 0, 27, 0),
+Gfx jers_waluigi_after_image_Right_Hand_DL_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Right_Hand_DL_mesh_layer_1_vtx_0 + 0, 27, 0),
 	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
 	gsSP2Triangles(3, 4, 2, 0, 4, 5, 2, 0),
 	gsSP2Triangles(5, 0, 2, 0, 6, 7, 8, 0),
@@ -821,7 +821,7 @@ Gfx jers_waluigi_clone_Right_Hand_DL_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Left_Thigh_Color_mesh_layer_1_vtx_0[16] = {
+Vtx jers_waluigi_after_image_Left_Thigh_Color_mesh_layer_1_vtx_0[16] = {
 	{{ {29, -35, -1}, 0, {-16, -16}, {254, 129, 0, 255} }},
 	{{ {29, -10, -33}, 0, {-16, -16}, {254, 210, 138, 255} }},
 	{{ {185, -31, 0}, 0, {-16, -16}, {247, 129, 255, 255} }},
@@ -840,8 +840,8 @@ Vtx jers_waluigi_clone_Left_Thigh_Color_mesh_layer_1_vtx_0[16] = {
 	{{ {-2, 24, 14}, 0, {-16, -16}, {196, 89, 68, 255} }},
 };
 
-Gfx jers_waluigi_clone_Left_Thigh_Color_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Left_Thigh_Color_mesh_layer_1_vtx_0 + 0, 16, 0),
+Gfx jers_waluigi_after_image_Left_Thigh_Color_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Left_Thigh_Color_mesh_layer_1_vtx_0 + 0, 16, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSP2Triangles(4, 3, 0, 0, 4, 0, 2, 0),
 	gsSP2Triangles(2, 5, 4, 0, 4, 5, 6, 0),
@@ -858,7 +858,7 @@ Gfx jers_waluigi_clone_Left_Thigh_Color_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Left_Leg_skinned_mesh_layer_1_vtx_0[5] = {
+Vtx jers_waluigi_after_image_Left_Leg_skinned_mesh_layer_1_vtx_0[5] = {
 	{{ {154, -4, 30}, 0, {-16, -16}, {249, 242, 126, 255} }},
 	{{ {119, 28, 18}, 0, {-16, -16}, {252, 102, 75, 255} }},
 	{{ {185, -31, 0}, 0, {-16, -16}, {247, 129, 255, 255} }},
@@ -866,12 +866,12 @@ Vtx jers_waluigi_clone_Left_Leg_skinned_mesh_layer_1_vtx_0[5] = {
 	{{ {119, 28, -20}, 0, {-16, -16}, {255, 100, 177, 255} }},
 };
 
-Gfx jers_waluigi_clone_Left_Leg_skinned_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Left_Leg_skinned_mesh_layer_1_vtx_0 + 0, 5, 0),
+Gfx jers_waluigi_after_image_Left_Leg_skinned_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Left_Leg_skinned_mesh_layer_1_vtx_0 + 0, 5, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Left_Leg_mesh_layer_1_vtx_0[5] = {
+Vtx jers_waluigi_after_image_Left_Leg_mesh_layer_1_vtx_0[5] = {
 	{{ {93, 37, 19}, 0, {-16, -16}, {226, 98, 75, 255} }},
 	{{ {93, 37, -20}, 0, {-16, -16}, {235, 100, 181, 255} }},
 	{{ {137, -2, -48}, 0, {-16, -16}, {16, 216, 136, 255} }},
@@ -879,8 +879,8 @@ Vtx jers_waluigi_clone_Left_Leg_mesh_layer_1_vtx_0[5] = {
 	{{ {129, -2, 48}, 0, {-16, -16}, {15, 217, 120, 255} }},
 };
 
-Gfx jers_waluigi_clone_Left_Leg_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Left_Leg_mesh_layer_1_vtx_0 + 0, 5, 5),
+Gfx jers_waluigi_after_image_Left_Leg_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Left_Leg_mesh_layer_1_vtx_0 + 0, 5, 5),
 	gsSP2Triangles(5, 1, 0, 0, 6, 1, 5, 0),
 	gsSP2Triangles(6, 4, 1, 0, 3, 4, 6, 0),
 	gsSP2Triangles(3, 6, 7, 0, 2, 3, 7, 0),
@@ -889,7 +889,7 @@ Gfx jers_waluigi_clone_Left_Leg_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Left_Leg_mesh_layer_1_vtx_1[8] = {
+Vtx jers_waluigi_after_image_Left_Leg_mesh_layer_1_vtx_1[8] = {
 	{{ {93, 37, 19}, 0, {-16, -16}, {226, 98, 75, 255} }},
 	{{ {129, -2, 48}, 0, {-16, -16}, {15, 217, 120, 255} }},
 	{{ {141, 59, 30}, 0, {-16, -16}, {51, 85, 80, 255} }},
@@ -900,8 +900,8 @@ Vtx jers_waluigi_clone_Left_Leg_mesh_layer_1_vtx_1[8] = {
 	{{ {93, 37, -20}, 0, {-16, -16}, {235, 100, 181, 255} }},
 };
 
-Gfx jers_waluigi_clone_Left_Leg_mesh_layer_1_tri_1[] = {
-	gsSPVertex(jers_waluigi_clone_Left_Leg_mesh_layer_1_vtx_1 + 0, 8, 0),
+Gfx jers_waluigi_after_image_Left_Leg_mesh_layer_1_tri_1[] = {
+	gsSPVertex(jers_waluigi_after_image_Left_Leg_mesh_layer_1_vtx_1 + 0, 8, 0),
 	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
 	gsSP2Triangles(4, 3, 1, 0, 5, 3, 4, 0),
 	gsSP2Triangles(6, 3, 5, 0, 7, 6, 5, 0),
@@ -910,7 +910,7 @@ Gfx jers_waluigi_clone_Left_Leg_mesh_layer_1_tri_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Left_Shoe_mesh_layer_1_vtx_0[42] = {
+Vtx jers_waluigi_after_image_Left_Shoe_mesh_layer_1_vtx_0[42] = {
 	{{ {120, -27, 38}, 0, {0, 0}, {62, 241, 110, 255} }},
 	{{ {113, 18, 36}, 0, {0, 0}, {70, 13, 105, 255} }},
 	{{ {77, 31, 40}, 0, {0, 0}, {247, 246, 126, 255} }},
@@ -955,8 +955,8 @@ Vtx jers_waluigi_clone_Left_Shoe_mesh_layer_1_vtx_0[42] = {
 	{{ {-33, 73, 13}, 0, {0, 0}, {44, 119, 0, 255} }},
 };
 
-Gfx jers_waluigi_clone_Left_Shoe_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Left_Shoe_mesh_layer_1_vtx_0 + 0, 32, 0),
+Gfx jers_waluigi_after_image_Left_Shoe_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Left_Shoe_mesh_layer_1_vtx_0 + 0, 32, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0),
 	gsSP2Triangles(3, 2, 4, 0, 5, 4, 2, 0),
 	gsSP2Triangles(5, 6, 4, 0, 6, 5, 7, 0),
@@ -974,14 +974,14 @@ Gfx jers_waluigi_clone_Left_Shoe_mesh_layer_1_tri_0[] = {
 	gsSP2Triangles(26, 23, 25, 0, 27, 23, 26, 0),
 	gsSP2Triangles(23, 27, 22, 0, 27, 19, 22, 0),
 	gsSP2Triangles(27, 28, 19, 0, 29, 30, 31, 0),
-	gsSPVertex(jers_waluigi_clone_Left_Shoe_mesh_layer_1_vtx_0 + 32, 10, 0),
+	gsSPVertex(jers_waluigi_after_image_Left_Shoe_mesh_layer_1_vtx_0 + 32, 10, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
 	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0),
 	gsSP2Triangles(7, 6, 8, 0, 7, 8, 9, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Right_Thigh_Color_mesh_layer_1_vtx_0[16] = {
+Vtx jers_waluigi_after_image_Right_Thigh_Color_mesh_layer_1_vtx_0[16] = {
 	{{ {29, -35, 1}, 0, {-16, -16}, {254, 129, 0, 255} }},
 	{{ {185, -31, 0}, 0, {-16, -16}, {247, 129, 1, 255} }},
 	{{ {29, -10, 33}, 0, {-16, -16}, {254, 210, 118, 255} }},
@@ -1000,8 +1000,8 @@ Vtx jers_waluigi_clone_Right_Thigh_Color_mesh_layer_1_vtx_0[16] = {
 	{{ {-19, -1, 2}, 0, {-16, -16}, {129, 0, 0, 255} }},
 };
 
-Gfx jers_waluigi_clone_Right_Thigh_Color_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Right_Thigh_Color_mesh_layer_1_vtx_0 + 0, 16, 0),
+Gfx jers_waluigi_after_image_Right_Thigh_Color_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Right_Thigh_Color_mesh_layer_1_vtx_0 + 0, 16, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
 	gsSP2Triangles(3, 0, 4, 0, 0, 2, 4, 0),
 	gsSP2Triangles(4, 2, 5, 0, 2, 6, 5, 0),
@@ -1018,7 +1018,7 @@ Gfx jers_waluigi_clone_Right_Thigh_Color_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Right_Leg_skinned_mesh_layer_1_vtx_0[5] = {
+Vtx jers_waluigi_after_image_Right_Leg_skinned_mesh_layer_1_vtx_0[5] = {
 	{{ {154, -4, -30}, 0, {-16, -16}, {249, 242, 130, 255} }},
 	{{ {119, 28, -18}, 0, {-16, -16}, {252, 102, 181, 255} }},
 	{{ {185, -31, 0}, 0, {-16, -16}, {247, 129, 1, 255} }},
@@ -1026,12 +1026,12 @@ Vtx jers_waluigi_clone_Right_Leg_skinned_mesh_layer_1_vtx_0[5] = {
 	{{ {119, 28, 20}, 0, {-16, -16}, {255, 100, 79, 255} }},
 };
 
-Gfx jers_waluigi_clone_Right_Leg_skinned_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Right_Leg_skinned_mesh_layer_1_vtx_0 + 0, 5, 0),
+Gfx jers_waluigi_after_image_Right_Leg_skinned_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Right_Leg_skinned_mesh_layer_1_vtx_0 + 0, 5, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Right_Leg_mesh_layer_1_vtx_0[5] = {
+Vtx jers_waluigi_after_image_Right_Leg_mesh_layer_1_vtx_0[5] = {
 	{{ {93, 37, -19}, 0, {-16, -16}, {226, 98, 181, 255} }},
 	{{ {129, -2, -48}, 0, {-16, -16}, {15, 217, 136, 255} }},
 	{{ {118, -55, 0}, 0, {-16, -16}, {38, 135, 253, 255} }},
@@ -1039,8 +1039,8 @@ Vtx jers_waluigi_clone_Right_Leg_mesh_layer_1_vtx_0[5] = {
 	{{ {93, 37, 20}, 0, {-16, -16}, {235, 100, 75, 255} }},
 };
 
-Gfx jers_waluigi_clone_Right_Leg_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Right_Leg_mesh_layer_1_vtx_0 + 0, 5, 5),
+Gfx jers_waluigi_after_image_Right_Leg_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Right_Leg_mesh_layer_1_vtx_0 + 0, 5, 5),
 	gsSP2Triangles(5, 0, 1, 0, 5, 6, 0, 0),
 	gsSP2Triangles(0, 6, 2, 0, 2, 6, 7, 0),
 	gsSP2Triangles(2, 7, 8, 0, 2, 8, 3, 0),
@@ -1049,7 +1049,7 @@ Gfx jers_waluigi_clone_Right_Leg_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Right_Leg_mesh_layer_1_vtx_1[8] = {
+Vtx jers_waluigi_after_image_Right_Leg_mesh_layer_1_vtx_1[8] = {
 	{{ {93, 37, -19}, 0, {-16, -16}, {226, 98, 181, 255} }},
 	{{ {141, 59, -30}, 0, {-16, -16}, {51, 85, 176, 255} }},
 	{{ {129, -2, -48}, 0, {-16, -16}, {15, 217, 136, 255} }},
@@ -1060,8 +1060,8 @@ Vtx jers_waluigi_clone_Right_Leg_mesh_layer_1_vtx_1[8] = {
 	{{ {118, -55, 0}, 0, {-16, -16}, {38, 135, 253, 255} }},
 };
 
-Gfx jers_waluigi_clone_Right_Leg_mesh_layer_1_tri_1[] = {
-	gsSPVertex(jers_waluigi_clone_Right_Leg_mesh_layer_1_vtx_1 + 0, 8, 0),
+Gfx jers_waluigi_after_image_Right_Leg_mesh_layer_1_tri_1[] = {
+	gsSPVertex(jers_waluigi_after_image_Right_Leg_mesh_layer_1_vtx_1 + 0, 8, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSP2Triangles(3, 0, 4, 0, 4, 5, 3, 0),
 	gsSP2Triangles(3, 5, 6, 0, 5, 7, 6, 0),
@@ -1070,7 +1070,7 @@ Gfx jers_waluigi_clone_Right_Leg_mesh_layer_1_tri_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx jers_waluigi_clone_Right_Shoe_DL_mesh_layer_1_vtx_0[42] = {
+Vtx jers_waluigi_after_image_Right_Shoe_DL_mesh_layer_1_vtx_0[42] = {
 	{{ {120, -27, -38}, 0, {0, 0}, {62, 241, 146, 255} }},
 	{{ {77, 31, -40}, 0, {0, 0}, {247, 246, 130, 255} }},
 	{{ {113, 18, -36}, 0, {0, 0}, {70, 13, 151, 255} }},
@@ -1115,8 +1115,8 @@ Vtx jers_waluigi_clone_Right_Shoe_DL_mesh_layer_1_vtx_0[42] = {
 	{{ {-33, 73, -13}, 0, {0, 0}, {44, 119, 0, 255} }},
 };
 
-Gfx jers_waluigi_clone_Right_Shoe_DL_mesh_layer_1_tri_0[] = {
-	gsSPVertex(jers_waluigi_clone_Right_Shoe_DL_mesh_layer_1_vtx_0 + 0, 32, 0),
+Gfx jers_waluigi_after_image_Right_Shoe_DL_mesh_layer_1_tri_0[] = {
+	gsSPVertex(jers_waluigi_after_image_Right_Shoe_DL_mesh_layer_1_vtx_0 + 0, 32, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
 	gsSP2Triangles(1, 3, 4, 0, 4, 3, 5, 0),
 	gsSP2Triangles(4, 5, 6, 0, 5, 7, 6, 0),
@@ -1134,7 +1134,7 @@ Gfx jers_waluigi_clone_Right_Shoe_DL_mesh_layer_1_tri_0[] = {
 	gsSP2Triangles(25, 20, 22, 0, 26, 20, 25, 0),
 	gsSP2Triangles(26, 25, 27, 0, 28, 27, 25, 0),
 	gsSP2Triangles(23, 28, 25, 0, 29, 30, 31, 0),
-	gsSPVertex(jers_waluigi_clone_Right_Shoe_DL_mesh_layer_1_vtx_0 + 32, 10, 0),
+	gsSPVertex(jers_waluigi_after_image_Right_Shoe_DL_mesh_layer_1_vtx_0 + 32, 10, 0),
 	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0),
 	gsSP2Triangles(4, 5, 6, 0, 4, 7, 5, 0),
 	gsSP2Triangles(7, 8, 5, 0, 7, 9, 8, 0),
@@ -1142,10 +1142,10 @@ Gfx jers_waluigi_clone_Right_Shoe_DL_mesh_layer_1_tri_0[] = {
 };
 
 
-Gfx mat_jers_waluigi_clone_Particle__PANTS_[] = {
+Gfx mat_jers_waluigi_after_image_after_image[] = {
 	gsSPGeometryMode(G_CULL_BACK, 0),
-	gsSPLight(&jers_waluigi_clone_Particle__PANTS__lights.l, 1),
-    gsSPLight(&jers_waluigi_clone_Particle__PANTS__lights.a, 2),
+	gsSPLight(&jers_waluigi_after_image_after_image_lights.l, 1),
+    gsSPLight(&jers_waluigi_after_image_after_image_lights.a, 2),
     gsSPCopyLightEXT(2, 3),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
@@ -1153,158 +1153,158 @@ Gfx mat_jers_waluigi_clone_Particle__PANTS_[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_jers_waluigi_clone_Particle__PANTS_[] = {
+Gfx mat_revert_jers_waluigi_after_image_after_image[] = {
 	gsSPGeometryMode(0, G_CULL_BACK),
 	gsDPPipeSync(),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Butt_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Butt_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Butt_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Butt_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Torso_skinned_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Torso_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Torso_skinned_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Torso_skinned_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Torso_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Torso_mesh_layer_1_tri_0),
-	gsSPDisplayList(jers_waluigi_clone_Torso_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Torso_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Torso_mesh_layer_1_tri_0),
+	gsSPDisplayList(jers_waluigi_after_image_Torso_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Head_DL_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Head_DL_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Head_DL_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Head_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Left_Arm_Color_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Left_Arm_Color_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Left_Arm_Color_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Left_Arm_Color_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Left_Forearm_skinned_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Left_Forearm_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Left_Forearm_skinned_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Left_Forearm_skinned_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Left_Forearm_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Left_Forearm_mesh_layer_1_tri_0),
-	gsSPDisplayList(jers_waluigi_clone_Left_Forearm_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Left_Forearm_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Left_Forearm_mesh_layer_1_tri_0),
+	gsSPDisplayList(jers_waluigi_after_image_Left_Forearm_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Left_Hand_DL_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Left_Hand_DL_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Left_Hand_DL_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Left_Hand_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Right_Arm_Color_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Right_Arm_Color_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Right_Arm_Color_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Right_Arm_Color_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Right_Forearm_skinned_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Right_Forearm_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Right_Forearm_skinned_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Right_Forearm_skinned_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Right_Forearm_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Right_Forearm_mesh_layer_1_tri_0),
-	gsSPDisplayList(jers_waluigi_clone_Right_Forearm_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Right_Forearm_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Right_Forearm_mesh_layer_1_tri_0),
+	gsSPDisplayList(jers_waluigi_after_image_Right_Forearm_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Right_Hand_DL_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Right_Hand_DL_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Right_Hand_DL_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Right_Hand_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Left_Thigh_Color_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Left_Thigh_Color_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Left_Thigh_Color_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Left_Thigh_Color_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Left_Leg_skinned_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Left_Leg_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Left_Leg_skinned_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Left_Leg_skinned_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Left_Leg_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Left_Leg_mesh_layer_1_tri_0),
-	gsSPDisplayList(jers_waluigi_clone_Left_Leg_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Left_Leg_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Left_Leg_mesh_layer_1_tri_0),
+	gsSPDisplayList(jers_waluigi_after_image_Left_Leg_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Left_Shoe_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Left_Shoe_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Left_Shoe_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Left_Shoe_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Right_Thigh_Color_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Right_Thigh_Color_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Right_Thigh_Color_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Right_Thigh_Color_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Right_Leg_skinned_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Right_Leg_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Right_Leg_skinned_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Right_Leg_skinned_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Right_Leg_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Right_Leg_mesh_layer_1_tri_0),
-	gsSPDisplayList(jers_waluigi_clone_Right_Leg_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Right_Leg_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Right_Leg_mesh_layer_1_tri_0),
+	gsSPDisplayList(jers_waluigi_after_image_Right_Leg_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_Right_Shoe_DL_mesh_layer_1[] = {
-	gsSPDisplayList(mat_jers_waluigi_clone_Particle__PANTS_),
-	gsSPDisplayList(jers_waluigi_clone_Right_Shoe_DL_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_jers_waluigi_clone_Particle__PANTS_),
+Gfx jers_waluigi_after_image_Right_Shoe_DL_mesh_layer_1[] = {
+	gsSPDisplayList(mat_jers_waluigi_after_image_after_image),
+	gsSPDisplayList(jers_waluigi_after_image_Right_Shoe_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_jers_waluigi_after_image_after_image),
 	gsSPEndDisplayList(),
 };
 
-Gfx jers_waluigi_clone_material_revert_render_settings[] = {
+Gfx jers_waluigi_after_image_material_revert_render_settings[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPClearGeometryMode(G_TEXTURE_GEN),
