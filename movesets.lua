@@ -1,5 +1,7 @@
 if not _G.charSelectExists then return end
 
+local hudDodge = require("libs/hudDodge")
+
 ACT_WAR_SH_BASH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
 ACT_WAR_SH_BASH_JUMP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_CONTROL_JUMP_HEIGHT | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 ACT_WAR_ROLL = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING | ACT_FLAG_SHORT_HITBOX)
@@ -29,7 +31,7 @@ for i = 0, MAX_PLAYERS - 1 do
         availCoins = 25,
         coinFreq = 0,
         prevPosY = 0,
-        bank = 0,
+        bank = mod_storage_load_integer("bank", 0),
         wallet = 0,
         coinQueue = 0,
         prevLives = 4,
@@ -38,7 +40,7 @@ for i = 0, MAX_PLAYERS - 1 do
         bombHudTimer = 0,
         bombHudOffset = 0,
         bombHudBob = 0,
-        bankOffset = 30,
+        bankOffset = 60,
     }
 end
 
@@ -66,7 +68,6 @@ local availCoinsMax = 25
 --local prevNumCoins = -1
 local maxBombs = 10
 local powerScaling = charSelect.add_option("Power Scaling", 1, 1, nil, {"Coins increase speed."}, true)
-local betterCoins = false
 local bombHudTimerMax = 150
 
 ARG_WARIO     = 0
@@ -99,18 +100,6 @@ local function pause_check()
 
     return 1
 end
-
-local function better_coins_compat()
-    local m = gMarioStates[0]
-    local e = gWarioStates[m.playerIndex]
-    for _,mods in pairs(gActiveMods) do
-        if mods.name == "Better Coins" then
-            betterCoins = true
-        end
-    end
-    e.bank = mod_storage_load_number("bank", 0)
-end
-hook_event(HOOK_ON_MODS_LOADED, better_coins_compat)
 
 local function dash_attacks(m, o, intee)
     if obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
@@ -211,7 +200,7 @@ end
 local function coin_add()
     local m = gMarioStates[0]
     local e = gWarioStates[0]
-    if charSelect.get_options_status(powerScaling) == 1 then
+    if charSelect.get_options_status(powerScaling) ~= 0 then
         return 50/4
     else
         return e.wallet/4
@@ -1229,8 +1218,7 @@ local function wario_level_init()
     local e = gWarioStates[m.playerIndex]
 
     e.availCoins = availCoinsMax
-    --mod_storage_save_number("bank", e.bank)
-    djui_chat_message_create(tostring(mod_storage_save_integer("bank", e.bank)))
+    mod_storage_save_integer("bank", e.bank)
 end
 
 -------------
@@ -1307,7 +1295,7 @@ local function waluigi_update(m)
     else
         e.bombHudTimer = e.bombHudTimer - 1
     end
-    local targetPos = (e.bombHudTimer > 0 or e.bombsStashed == maxBombs) and 22 or -60
+    local targetPos = (e.bombHudTimer > 0 or e.bombsStashed == maxBombs) and 0 or -82
     e.bombHudOffset = math.lerp(e.bombHudOffset, targetPos, 0.2)
     e.bombHudBob = e.bombHudBob > 0 and e.bombHudBob - 1 or 0
 end
@@ -1469,7 +1457,7 @@ local function syrup_set_action(m)
         set_mario_action(m, ACT_SYP_SLASH, 0)
         e.slashCooldown = 300 - (coin_add()*4*2)
     end
-    if e.wallet >= 100 and charSelect.get_options_status(powerScaling) == 0 then
+    if e.wallet >= 100 and charSelect.get_options_status(powerScaling) ~= 0 then
         chopMax = 2
     else
         chopMax = 1
@@ -1531,7 +1519,7 @@ local function do_coin_hud(m)
     local e = gWarioStates[m.playerIndex]
     djui_hud_set_resolution(RESOLUTION_N64)
     local height = djui_hud_get_screen_height()
-    local powerScalingCheck = charSelect.get_options_status(powerScaling) == 0
+    local powerScalingCheck = charSelect.get_options_status(powerScaling) ~= 0
 
     local blink = is_game_paused() == false and math.abs(math.sin(get_global_timer()*0.5)) * 255 or 0
     local colour = (e.wallet == 100 and powerScalingCheck) and blink or 0
@@ -1542,21 +1530,21 @@ local function do_coin_hud(m)
     e.bagScale = math.lerp(e.bagScale, 0, 0.2)
 
     djui_hud_set_font(FONT_RECOLOR_HUD)
-    local x = 74 - 12 + (#lives * 12)
-    local y = 15
+
+    local x, y = hudDodge.find_open_hud_space(0, 0, 32, 32, 1, 0, e.wallet == 100 and 4 or 3)
 
     djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_render_texture(TEX_BAG, (x + 3 - (16*e.bagScale)), (y - 13 + (24*e.bagScale)), (1 + e.bagScale), (1 - e.bagScale))
+    djui_hud_render_texture(TEX_BAG, (x - (16*e.bagScale)), (y - 13 + (24*e.bagScale)), (1 + e.bagScale), (1 - e.bagScale))
 
     djui_hud_set_color(255, 255, colour, 255)
     if not powerScalingCheck then
         djui_hud_set_color(200, 200, 200, 255)
     end
-    djui_hud_print_text(coins, x - (#coins * 6) + 17, y, 1, 1)
+    djui_hud_print_text(coins, x - (#coins * 6) + 14, y, 1, 1)
     if e.wallet == 100 then
         local textMax = powerScalingCheck and "MAX" or "FIXED"
-        local coolStuff = djui_hud_measure_text(textMax)
-        djui_hud_print_text(textMax, x + 18 - (coolStuff/4), y - 10, 0.5, 0.5)
+        local textMaxWidth = djui_hud_measure_text(textMax)
+        djui_hud_print_text(textMax, x + 16 - (textMaxWidth/4), y - 10, 0.5, 0.5)
     end
 end
 
@@ -1596,8 +1584,9 @@ local function waluigi_hud()
     local height = djui_hud_get_screen_height()
     local blink = is_game_paused() == false and math.abs(math.sin(get_global_timer()*0.5)) * 255 or 0
     local bombBob = e.bombHudBob > 0 and math.sin(get_global_timer()*1)*(e.bombHudBob/3) or 0
-    local bombX = e.bombHudOffset
-    local bombY = (height/2) - 8 + bombBob
+    local bombX, bombY = hudDodge.find_open_hud_space(0, height*0.5 - 8, 64, 16, 0, 1, 2)
+    bombX = bombX + e.bombHudOffset
+    bombY = bombY + bombBob
     local bombCol = e.bombsStashed == maxBombs and blink or 255
     djui_hud_set_font(FONT_HUD)
     djui_hud_set_color(255, bombCol, bombCol, 255)
@@ -1613,8 +1602,7 @@ local function syrup_hud()
 
     do_coin_hud(m)
 
-    local x = 16
-    local y = betterCoins and 48 or 28
+    local x, y = hudDodge.find_open_hud_space(0, 0, 32, 64, 0, 1, 3)
     local apparentCooldown = 0
     local minCooldown = 55
     if e.slashCooldown > minCooldown then
@@ -1632,8 +1620,9 @@ local function syrup_hud()
         e.swordScale = rate
     end
     djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_render_texture(TEX_SWORD_BACK, x, y, 1, 1)
-    djui_hud_render_texture(TEX_SWORD_FRONT, x + 4, y, e.swordScale, 1)
+    djui_hud_render_rect(x, y, 3, 3)
+    djui_hud_render_texture(TEX_SWORD_BACK, x, y - 6, 1, 1)
+    djui_hud_render_texture(TEX_SWORD_FRONT, x + 4, y - 6, e.swordScale, 1)
 end
 
 local function on_death(m)
@@ -1657,9 +1646,9 @@ local function update_bank_pos()
     local target = 0
 
     if e.wallet == 100 or is_game_paused() or obj_get_first_with_behavior_id(id_bhvActSelector) then
-        target = -30
+        target = 0
     else
-        target = 30
+        target = 60
     end
     e.bankOffset = math.lerp(e.bankOffset, target, 0.1)
 
@@ -1683,8 +1672,8 @@ local function render_bank_pos()
     djui_hud_set_resolution(RESOLUTION_N64)
 
     local height = djui_hud_get_screen_height()
-    local bankX = 22
-    local bankY = height + e.bankOffset
+    local bankX, bankY = hudDodge.find_open_hud_space(0, height, 64, 16, 0, 1, 2)
+    bankY = bankY + e.bankOffset
 
     djui_hud_set_font(FONT_HUD)
     djui_hud_set_color(255, 255, 255, 255)
@@ -1710,7 +1699,6 @@ _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_BEFORE_SET_MARIO_ACTION, w
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_INTERACT, wario_interact)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_PVP_ATTACK, wario_attack)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_HUD_RENDER_BEHIND, wario_hud)
-_G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_LEVEL_INIT, wario_level_init)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_OBJECT_UNLOAD, collect_coins)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_UPDATE, update_bank_pos)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_HUD_RENDER, render_bank_pos)
@@ -1722,7 +1710,6 @@ _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_BEFORE_PHYS_STEP, waluig
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_INTERACT, waluigi_interact)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_PVP_ATTACK, wario_attack)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_HUD_RENDER_BEHIND, waluigi_hud)
-_G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_LEVEL_INIT, wario_level_init)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_OBJECT_UNLOAD, collect_coins)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_UPDATE, update_bank_pos)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_HUD_RENDER, render_bank_pos)
@@ -1733,7 +1720,9 @@ _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_BEFORE_SET_MARIO_ACTION, s
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_BEFORE_PHYS_STEP, syrup_before_phys_step)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_INTERACT, syrup_interact)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_HUD_RENDER_BEHIND, syrup_hud)
-_G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_LEVEL_INIT, wario_level_init)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_OBJECT_UNLOAD, collect_coins)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_UPDATE, update_bank_pos)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_HUD_RENDER, render_bank_pos)
+
+hook_event(HOOK_ON_LEVEL_INIT, wario_level_init)
+hook_event(HOOK_ON_EXIT, wario_level_init)
