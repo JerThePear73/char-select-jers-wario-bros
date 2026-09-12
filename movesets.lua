@@ -201,7 +201,7 @@ end
 local function coin_add()
     local m = gMarioStates[0]
     local e = gWarioStates[0]
-    if charSelect.get_options_status(powerScaling) ~= 0 then
+    if charSelect.get_options_status(powerScaling) == 0 then
         return 50/4
     else
         return e.wallet/4
@@ -249,7 +249,7 @@ local function act_war_sh_bash(m)
     elseif stepResult == GROUND_STEP_LEFT_GROUND then
         set_mario_action(m, ACT_WAR_SH_BASH_JUMP, 0)
     end
-        
+
     set_mario_anim_with_accel(m, MARIO_ANIM_RUNNING_UNUSED, m.forwardVel / 6 * 0x10000)
     smlua_anim_util_set_animation(m.marioObj, "JWAR_SH_BASH")
 
@@ -352,20 +352,16 @@ local function act_war_roll(m)
         
     set_mario_anim_with_accel(m, MARIO_ANIM_FORWARD_SPINNING, (m.forwardVel / 50) * 0x10000)
 
-    if speed <= speedCap then
-        speed = speed - 0.3 + (e.prevPosY - m.pos.y)/15
-    else
-        speed = speedCap
-    end
+    speed = speed - 0.3 + (e.prevPosY - m.pos.y)/15
     if speed < 31 then
         if m.input & INPUT_NONZERO_ANALOG ~= 0 then
             set_mario_action(m, ACT_WALKING, 0)
-        elseif speed < 10 then
+        elseif speed == 10 then
             set_mario_action(m, ACT_BRAKING, 0)
         end
     end
 
-    mario_set_forward_vel(m, speed)
+    mario_set_forward_vel(m, math.clamp(speed, 10, speedCap))
 
     if m.input & INPUT_A_PRESSED ~= 0 then
         set_mario_action(m, ACT_JUMP, 0)
@@ -580,7 +576,7 @@ local function act_humble_gp(m)
         return set_mario_action(m, ACT_SUPER_GP, m.actionArg)
     end
 
-    m.peakHeight = m.pos.y
+    --m.peakHeight = m.pos.y
     e.gfxY = e.gfxY * 0.8
     m.marioObj.header.gfx.angle.y = m.faceAngle.y + e.gfxY
     m.marioObj.header.gfx.pos.y = m.pos.y - 20
@@ -1044,6 +1040,10 @@ local jumpTable = {
     [ACT_SIDE_FLIP] = true
 }
 
+-----------
+-- WARIO --
+-----------
+
 local function wario_update(m)
     local e = gWarioStates[m.playerIndex]
 
@@ -1085,7 +1085,7 @@ local function wario_update(m)
     -- after frames
     --if (m.playerIndex == 0 or is_player_active(m) ~= 0) and m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE ~= 0 then
     if ((m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel >= (bashSpeedBase + 10))
-    or (m.action == ACT_CORKSCREW and m.vel.y > 20)
+    or (m.action == ACT_CORKSCREW and m.actionTimer < 20)
     or (m.action == ACT_SUPER_GP and m.vel.y < -10) then
         --if (m.actionTimer) % 3 == 0 then
         --    spawn_non_sync_object(id_bhvParticleClone, E_MODEL_PARTICLE_CLONE_WARIO, m.pos.x, m.pos.y, m.pos.z,
@@ -1134,10 +1134,6 @@ local function wario_update(m)
     if (m.action == ACT_THROWING and m.actionTimer == 8) or (m.action == ACT_AIR_THROW and m.actionTimer == 5) then
         do_better_throw(m, m.usedObj)
     end
-
-    --if m.controller.buttonPressed & Y_BUTTON ~= 0 then -- for debugging
-    --    m.numCoins = 100
-    --end
 end
 
 local function wario_set_action(m)
@@ -1214,13 +1210,6 @@ local function wario_attack(a, v)
     end
 end
 
-local function wario_level_init()
-    local m = gMarioStates[0]
-    local e = gWarioStates[m.playerIndex]
-
-    e.availCoins = availCoinsMax
-    mod_storage_save_integer("bank", e.bank)
-end
 
 -------------
 -- WALUIGI --
@@ -1242,7 +1231,7 @@ local function waluigi_update(m)
 
       -- after frames
     if ((m.action == ACT_WAL_SH_BASH or m.action == ACT_WAL_SH_BASH_JUMP) and m.forwardVel >= (bashSpeedBase + 10))
-    or (m.action == ACT_CORKSCREW and m.vel.y > 20)
+    or (m.action == ACT_CORKSCREW and m.actionTimer < 20)
     or (m.action == ACT_SUPER_GP and m.vel.y < -10) then
         if m.flags & MARIO_VANISH_CAP == 0 then
             spawn_after_images(m, 2, 6, 150, ARG_WALUIGI)
@@ -1554,7 +1543,7 @@ local function do_coin_hud(m)
         djui_hud_set_color(200, 200, 200, 255)
     end
     djui_hud_print_text(coins, x - (#coins * 6) + 14, y, 1, 1)
-    if e.wallet == 100 then
+    if e.wallet == 100 or not powerScalingCheck then
         local textMax = powerScalingCheck and "MAX" or "FIXED"
         local textMaxWidth = djui_hud_measure_text(textMax)
         djui_hud_print_text(textMax, x + 16 - (textMaxWidth/4), y - 10, 0.5, 0.5)
@@ -1564,8 +1553,6 @@ end
 local function render_bank_pos()
     local m = gMarioStates[0]
     local e = gWarioStates[m.playerIndex]
-
-    --if charSelect.is_menu_open() then return end
 
     djui_hud_set_resolution(RESOLUTION_N64)
 
@@ -1591,7 +1578,7 @@ local function render_bank_pos_above()
     if isPausedBank then
         render_bank_pos()
     end
-    isPausedBank = is_game_paused()
+    isPausedBank = is_game_paused() or obj_get_first_with_behavior_id(id_bhvActSelector)
 end
 
 local function wario_hud()
@@ -1673,13 +1660,6 @@ local function syrup_hud()
     djui_hud_render_texture(TEX_SWORD_FRONT, x + 4, y - 6, e.swordScale, 1)
 end
 
-local function on_death(m)
-    local m = gMarioStates[0]
-    local e = gWarioStates[m.playerIndex]
-    e.wallet = 0
-end
-hook_event(HOOK_ON_DEATH, on_death)
-
 local function collect_coins(o)
     local m = gMarioStates[0]
     local e = gWarioStates[m.playerIndex]
@@ -1699,6 +1679,22 @@ charSelect.hook_on_character_change(function()
     end
     e.bombHudBob = 0
 end)
+
+local function on_death(m)
+    local e = gWarioStates[m.playerIndex]
+    e.wallet = 0
+end
+hook_event(HOOK_ON_DEATH, on_death)
+
+local function on_level_init()
+    local m = gMarioStates[0]
+    local e = gWarioStates[m.playerIndex]
+
+    e.availCoins = availCoinsMax
+    mod_storage_save_integer("bank", e.bank)
+end
+hook_event(HOOK_ON_LEVEL_INIT, on_level_init)
+hook_event(HOOK_ON_EXIT, on_level_init)
 
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_MARIO_UPDATE, wario_update)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_SET_MARIO_ACTION, wario_set_action)
@@ -1727,6 +1723,3 @@ _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_INTERACT, syrup_interac
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_HUD_RENDER_BEHIND, syrup_hud)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_OBJECT_UNLOAD, collect_coins)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_HUD_RENDER, render_bank_pos_above)
-
-hook_event(HOOK_ON_LEVEL_INIT, wario_level_init)
-hook_event(HOOK_ON_EXIT, wario_level_init)
