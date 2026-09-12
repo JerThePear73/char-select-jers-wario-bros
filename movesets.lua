@@ -65,6 +65,7 @@ bashSpeedBase = 50
 local WAR_SH_BASH_MIN = 18
 local WAL_SH_BASH_MAX = 20
 local chopMax = 1
+local slashCooldownMax = 300
 local availCoinsMax = 25
 --local prevNumCoins = -1
 local maxBombs = 10
@@ -1416,11 +1417,8 @@ local function syrup_update(m)
 
     -- slash cooldown
     if m.action ~= ACT_SYP_SLASH then
-        if e.slashCooldown > 0 then
-            e.slashCooldown = e.slashCooldown - 1
-        elseif e.slashCooldown < 0 then
-            e.slashCooldown = 0
-        end
+        local recharge = charSelect.is_menu_open() and 0 or (coin_add()/10 + 1)
+        e.slashCooldown = math.clamp(e.slashCooldown - recharge, 0, slashCooldownMax)
     end
 
     -- special swimming
@@ -1445,7 +1443,7 @@ local function syrup_set_action(m)
     -- slash
     if ((m.action == ACT_MOVE_PUNCHING and m.intendedMag > 30 and m.input & INPUT_A_DOWN == 0 and m.forwardVel >= 0) or (m.action == ACT_DIVE and m.pos.y == m.floorHeight and m.input & INPUT_A_DOWN == 0)) and e.slashCooldown == 0 then
         set_mario_action(m, ACT_SYP_SLASH, 0)
-        e.slashCooldown = 300 - (coin_add()*4*2)
+        e.slashCooldown = slashCooldownMax
     end
     if e.wallet >= 100 and charSelect.get_options_status(powerScaling) ~= 0 then
         chopMax = 2
@@ -1558,11 +1556,11 @@ local function render_bank_pos()
 
     local height = djui_hud_get_screen_height()
     local bankX, bankY = hudDodge.find_open_hud_space(0, height, 64, 16, 0, 1, 2)
-    local showBank = e.wallet == 100 or is_game_paused() or obj_get_first_with_behavior_id(id_bhvActSelector)
+    local showBank = (e.wallet == 100 or is_game_paused() or obj_get_first_with_behavior_id(id_bhvActSelector)) and not charSelect.is_menu_open()
     e.prevBankY = math.lerp(e.prevBankY, showBank and bankY or height + 16, 0.15)
 
     djui_hud_set_font(FONT_HUD)
-    djui_hud_set_color(255, 255, 255, 255)
+    djui_hud_set_color(255, 255, 255, charSelect.is_menu_open() and 0 or 255)
     djui_hud_render_texture(TEX_BANK, bankX, e.prevBankY - 2, 1, 1)
     djui_hud_print_text(string.format("%.0f", e.bank), bankX + 16, e.prevBankY, 1, 1)
 end
@@ -1638,23 +1636,10 @@ local function syrup_hud()
     do_coin_hud(m)
     render_bank_pos_below()
 
-    local x, y = hudDodge.find_open_hud_space(0, 0, 32, 64, 0, 1, 2)
-    local apparentCooldown = 0
-    local minCooldown = 55
-    if e.slashCooldown > minCooldown then
-        apparentCooldown = minCooldown
-    else
-        apparentCooldown = e.slashCooldown
-    end
-    local rate = (minCooldown - apparentCooldown)/minCooldown
-    if e.slashCooldown == minCooldown then
-        e.swordScale = math.lerp(e.swordScale, 0, 0.4)
-        if e.swordScale < 0.01 then
-            e.swordScale = 0
-        end
-    else
-        e.swordScale = rate
-    end
+    local x, y = hudDodge.find_open_hud_space(0, 0, 32, 64, 0, 1, 3)
+    
+    local rate = 1 - (e.slashCooldown/slashCooldownMax)
+    e.swordScale = math.lerp(e.swordScale, rate, 0.5)
     djui_hud_set_color(255, 255, 255, 255)
     djui_hud_render_texture(TEX_SWORD_BACK, x, y - 6, 1, 1)
     djui_hud_render_texture(TEX_SWORD_FRONT, x + 4, y - 6, e.swordScale, 1)
