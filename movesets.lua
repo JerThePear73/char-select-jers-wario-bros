@@ -33,11 +33,10 @@ for i = 0, MAX_PLAYERS - 1 do
         coinFreq = 0,
         prevPosY = 0,
         bank = mod_storage_load_integer("bank", 0),
-        wallet = 0,
+        wallet = 100,
         coinQueue = 0,
-        prevLives = 4,
         hardPos = gVec3fZero{},
-        bombsStashed = 0,
+        bombsStashed = 10,
         bombHudTimer = 0,
         bombHudOffset = 0,
         bombHudBob = 0,
@@ -217,6 +216,14 @@ local function do_better_throw(m, o)
     else
         o.oForwardVel = 15
         o.oVelY = 60
+    end
+end
+
+local function collect_coins_int(m, o, type)
+    local e = gWarioStates[m.playerIndex]
+
+    if type == INTERACT_COIN then
+        e.coinQueue = e.coinQueue + o.oDamageOrCoinValue
     end
 end
 
@@ -573,7 +580,7 @@ local function act_humble_gp(m)
         end
     elseif m.input & INPUT_A_PRESSED ~= 0 and m.actionTimer > 0 then
         return set_mario_action(m, ACT_CORKSCREW, m.actionArg)
-    elseif m.actionTimer > 2 and m.input & INPUT_Z_PRESSED ~= 0 and (m.pos.y - m.floorHeight) > 500 then
+    elseif m.actionTimer > 2 and m.input & INPUT_Z_PRESSED ~= 0 and (m.pos.y - m.floorHeight) > 100 then
         return set_mario_action(m, ACT_SUPER_GP, m.actionArg)
     end
 
@@ -655,10 +662,11 @@ local function act_super_gp(m)
             m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
             set_mario_action(m, ACT_BUTT_STUCK_IN_GROUND, 0)
         else
-            play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
+            play_sound(SOUND_GENERAL_BIG_POUND, m.marioObj.header.gfx.cameraToObject)
             m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE | PARTICLE_HORIZONTAL_STAR
             set_mario_action(m, ACT_GROUND_POUND_LAND, 0)
         end
+        set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP)
         local oPost = obj_get_nearest_object_with_behavior_id(m.marioObj, id_bhvWoodenPost)
         local allowable = 50
         if oPost ~= nil then
@@ -989,10 +997,8 @@ local function act_bomb_stash(m)
     local accel = m.actionArg == 0 and -0x10000 or 0x10000
     local exitAction = m.actionArg == 0 and ACT_IDLE or ACT_HOLD_IDLE
     local exitFrame = (m.actionArg == 0 or m.input & INPUT_NONZERO_ANALOG ~= 0) and 20 or 30
-    local animObj = 16
-    local hand = gVec3fZero{}
+    local animObj = m.actionArg == 0 and 16 or 30
 
-    get_mario_anim_part_pos(m, MARIO_ANIM_PART_RIGHT_HAND, hand)
     set_mario_anim_with_accel(m, CHAR_ANIM_THROW_CATCH_KEY, accel*2)
 
     if m.actionState == 0 then
@@ -1006,18 +1012,27 @@ local function act_bomb_stash(m)
 
     if m.marioObj.header.gfx.animInfo.animFrame == animObj then
         if m.actionArg == 0 then
+            if m.playerIndex == 0 then
             m.heldObj.activeFlags = ACTIVE_FLAG_DEACTIVATED
+            if m.heldObj.oBehParams ~= 0x100 then -- bobomb has coin
+                obj_spawn_yellow_coins(m.marioObj, 1)
+            end
             m.heldObj = nil
             m.usedObj = nil
+            --obj_mark_for_deletion(m.usedObj)
             e.bombsStashed = e.bombsStashed + 1
-        elseif m.actionArg == 1 then
-            spawn_non_sync_object(id_bhvBobomb, E_MODEL_BLACK_BOBOMB, m.pos.x, m.pos.y, m.pos.z, function(o)
+            play_sound(SOUND_OBJ_BOBOMB_BUDDY_TALK, m.marioObj.header.gfx.cameraToObject)
+        end
+        elseif m.actionArg == 1 and m.playerIndex == 0 then
+            spawn_sync_object(id_bhvBobomb, E_MODEL_BLACK_BOBOMB, m.pos.x, m.pos.y, m.pos.z, function(o)
                 m.usedObj = o
                 m.heldObj = o
                 o.oHeldState = HELD_HELD
                 o.oBobombFuseTimer = -300
+                m.heldObj.oBehParams = 0x100 -- no coin
                 mario_grab_used_object(m)
             end)
+            play_sound(SOUND_ACTION_UNSTUCK_FROM_GROUND, m.marioObj.header.gfx.cameraToObject)
             e.bombsStashed = e.bombsStashed - 1
         end
     end
@@ -1203,6 +1218,8 @@ local function wario_interact(m, o, type)
     if m.action == ACT_PICKING_UP and obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
         o.oBobombFuseTimer = -150
     end
+
+    collect_coins_int(m, o, type)
 end
 
 local function wario_attack(a, v)
@@ -1268,7 +1285,7 @@ local function waluigi_update(m)
     end
 
     -- bomb stashing
-    if m.controller.buttonPressed & L_TRIG ~= 0 then
+    if m.controller.buttonDown & L_TRIG ~= 0 then
         if m.action == ACT_HOLD_IDLE then
             if obj_has_behavior_id(m.heldObj, id_bhvBobomb) ~= 0 and e.bombsStashed < maxBombs then
                 return set_mario_action(m, ACT_BOMB_STASH, 0)
@@ -1313,14 +1330,15 @@ local function waluigi_set_action(m)
 
     -- lose bombs
     if e.bombsStashed == maxBombs then
-        if loseBombActions[m.action] then
+        if loseBombActions[m.action] and m.playerIndex == 0 then
             for i=0, maxBombs - 1 do
                 local newAngle = i * (0x10000/maxBombs)
                 local newDist = 200
-                spawn_non_sync_object(id_bhvBobomb, E_MODEL_BLACK_BOBOMB, m.pos.x + (newDist * sins(newAngle)), m.pos.y + (newDist * 2), m.pos.z + (newDist * coss(newAngle)), function(o)
+                spawn_sync_object(id_bhvBobomb, E_MODEL_BLACK_BOBOMB, m.pos.x + (newDist * sins(newAngle)), m.pos.y + (newDist * 2), m.pos.z + (newDist * coss(newAngle)), function(o)
+                    o.oBehParams = 0x100
                     o.oAction = BOBOMB_ACT_LAUNCHED
-                    o.oForwardVel = math.random(5, 15)
-                    o.oVelY = math.random(30, 45)
+                    o.oForwardVel = math.random(5, 25)
+                    o.oVelY = math.random(30, 55)
                     o.oMoveAngleYaw = newAngle
                 end)
             end
@@ -1364,6 +1382,8 @@ local function waluigi_interact(m, o, type)
     if m.action == ACT_PICKING_UP and obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
         o.oBobombFuseTimer = -300
     end
+
+    collect_coins_int(m, o, type)
 end
 
 local function waluigi_before_phys_step(m)
@@ -1498,6 +1518,8 @@ local function syrup_interact(m, o, type)
         o.oBobombFuseTimer = -150
         return false
     end
+
+    collect_coins_int(m, o, type)
 end
 
 ---------
@@ -1530,8 +1552,11 @@ local function do_coin_hud(m)
 
     djui_hud_set_font(FONT_RECOLOR_HUD)
 
-    local x, y = hudDodge.find_open_hud_space(0, 0, 40, 32, 1, 0, e.wallet == 100 and 4 or 3)
-    x = x + 4
+    --local x, y = hudDodge.find_open_hud_space(0, 0, 40, 32, 1, 0, e.wallet == 100 and 4 or 3)
+    --x = x + 4
+
+    local x = 63 + (#tostring(m.numLives) * 12) -- remove when squishy commits hud dodge changes
+    local y = 15
 
     djui_hud_set_color(255, 255, 255, 255)
     djui_hud_render_texture(TEX_BAG, (x - (16*e.bagScale)), (y - 13 + (24*e.bagScale)), (1 + e.bagScale), (1 - e.bagScale))
@@ -1555,7 +1580,9 @@ local function render_bank_pos()
     djui_hud_set_resolution(RESOLUTION_N64)
 
     local height = djui_hud_get_screen_height()
-    local bankX, bankY = hudDodge.find_open_hud_space(0, height, 64, 16, 0, 1, 2)
+    --local bankX, bankY = hudDodge.find_open_hud_space(0, height, 64, 16, 0, 1, 2)
+    local bankX = 16
+    local bankY = height - 32
     local showBank = (e.wallet == 100 or is_game_paused() or obj_get_first_with_behavior_id(id_bhvActSelector)) and not charSelect.is_menu_open()
     e.prevBankY = math.lerp(e.prevBankY, showBank and bankY or height + 16, 0.15)
 
@@ -1645,10 +1672,10 @@ local function syrup_hud()
     djui_hud_render_texture(TEX_SWORD_FRONT, x + 4, y - 6, e.swordScale, 1)
 end
 
-local function collect_coins(o)
+local function collect_coins_unload(o)
     local m = gMarioStates[0]
     local e = gWarioStates[m.playerIndex]
-    if obj_is_coin(o) == true then
+    if obj_is_coin(o) then
         e.coinQueue = e.coinQueue + o.oDamageOrCoinValue
     end
 end
@@ -1687,7 +1714,7 @@ _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_BEFORE_SET_MARIO_ACTION, w
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_INTERACT, wario_interact)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_PVP_ATTACK, wario_attack)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_HUD_RENDER_BEHIND, wario_hud)
-_G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_OBJECT_UNLOAD, collect_coins)
+--_G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_OBJECT_UNLOAD, collect_coins)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_HUD_RENDER, render_bank_pos_above)
 
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_MARIO_UPDATE, waluigi_update)
@@ -1697,7 +1724,7 @@ _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_BEFORE_PHYS_STEP, waluig
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_INTERACT, waluigi_interact)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_PVP_ATTACK, wario_attack)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_HUD_RENDER_BEHIND, waluigi_hud)
-_G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_OBJECT_UNLOAD, collect_coins)
+--_G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_OBJECT_UNLOAD, collect_coins)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_HUD_RENDER, render_bank_pos_above)
 
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_MARIO_UPDATE, syrup_update)
@@ -1706,5 +1733,5 @@ _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_BEFORE_SET_MARIO_ACTION, s
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_BEFORE_PHYS_STEP, syrup_before_phys_step)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_INTERACT, syrup_interact)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_HUD_RENDER_BEHIND, syrup_hud)
-_G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_OBJECT_UNLOAD, collect_coins)
+--_G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_OBJECT_UNLOAD, collect_coins)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_HUD_RENDER, render_bank_pos_above)

@@ -73,8 +73,8 @@ end
 local id_bhvRingParticle = hook_behavior(nil, OBJ_LIST_DEFAULT, true, ring_particle_init, ring_particle_loop, "bhvRingParticle")
 
 function after_image_init(o)
-	local index = network_local_index_from_global(o.globalPlayerIndex) or -1
-  	if index == -1 then
+	local index = network_local_index_from_global(o.globalPlayerIndex) or 255
+  	if index == 255 then
   		obj_mark_for_deletion(o)
   		return
   	end
@@ -163,6 +163,7 @@ function spawn_after_images(m, frame, durr, opacity, arg)
 				afterImageDurr = durr
 				afterImageStartOpacity = opacity
 				o.globalPlayerIndex = network_global_index_from_local(m.playerIndex)
+                o.parentObj = m.marioObj
 			end
 		)
 	end
