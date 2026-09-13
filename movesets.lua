@@ -39,6 +39,11 @@ for i = 0, MAX_PLAYERS - 1 do
         bombHudOffset = 0,
         bombHudBob = 0,
         prevBankY = djui_hud_get_screen_height() + 16,
+        prevTradeX = -70,
+        traderTimer = 0,
+        interestRate = 1,
+        bagX = 75,
+        bagY = 15,
     }
 end
 
@@ -1507,6 +1512,7 @@ end
 local function on_death(m)
     local e = gWarioStates[m.playerIndex]
     e.wallet = 0
+    e.interestRate = math.random(1, 4)
 end
 hook_event(HOOK_ON_DEATH, on_death)
 
@@ -1514,6 +1520,7 @@ local function on_level_init()
     local m = gMarioStates[0]
     local e = gWarioStates[m.playerIndex]
 
+    e.interestRate = math.random(1, 4)
     e.availCoins = availCoinsMax
     mod_storage_save_integer("bank", e.bank)
 end
