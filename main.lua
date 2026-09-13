@@ -2,7 +2,7 @@
 -- description: [CS] \\#F2D36F\\Wario \\#B47CF4\\Bros.\n\\#ffffff\\By \\#008800\\JerThePear\n\n\\#ffffff\\What's more enticing than saving royalty? Getting rich baby! \n\n3 characters with custom movesets that get stronger as you pick up coins! Wario, Waluigi, and Captain Syrup.\n\n\\#ff7777\\This Pack requires Character Select\nto use as a Library!
 
 local TEXT_MOD_NAME = "Wario Bros."
-local boot = true
+local boot = mod_storage_load_bool("bootmessage", true)
 
 -- Stops mod from loading if Character Select isn't on
 if not _G.charSelectExists then
@@ -483,67 +483,67 @@ local PALETTES_SYRUP = {
 }
 
 local ANIMTABLE_J_WARIO = {
-    [CHAR_ANIM_RUNNING] = "JWAR_RUN",
-    [CHAR_ANIM_SINGLE_JUMP] = "JWAR_SINGLE_JUMP",
-    [CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = "JWAR_SINGLE_JUMP_LAND",
-    [CHAR_ANIM_START_TWIRL] = "JWAR_START_TWIRL",
-    [CHAR_ANIM_TWIRL] = "JWAR_TWIRL",
-    [CHAR_ANIM_WALK_WITH_LIGHT_OBJ] = "JWAR_HOLD_RUN",
-    [CHAR_ANIM_RUN_WITH_LIGHT_OBJ] = "JWAR_HOLD_RUN",
-    [CHAR_ANIM_SLOW_WALK_WITH_LIGHT_OBJ] = "JWAR_HOLD_RUN",
-    [CHAR_ANIM_IDLE_WITH_LIGHT_OBJ] = "JWAR_HOLD_IDLE",
-    [CHAR_ANIM_JUMP_WITH_LIGHT_OBJ] = "JWAR_HOLD_JUMP",
-    [CHAR_ANIM_FALL_WITH_LIGHT_OBJ] = "JWAR_HOLD_FALL",
-    [CHAR_ANIM_JUMP_LAND_WITH_LIGHT_OBJ] = "JWAR_HOLD_LAND",
-    [CHAR_ANIM_FALL_LAND_WITH_LIGHT_OBJ] = "JWAR_HOLD_LAND",
-    [CHAR_ANIM_FALL_FROM_SLIDING_WITH_LIGHT_OBJ] = "JWAR_HOLD_FALL_FROM_SLIDE",
-    [CHAR_ANIM_STAND_UP_FROM_SLIDING_WITH_LIGHT_OBJ] = "JWAR_HOLD_GETUP",
-    [CHAR_ANIM_PICK_UP_LIGHT_OBJ] = "JWAR_HOLD_PICKUP",
-    [CHAR_ANIM_PLACE_LIGHT_OBJ] = "JWAR_HOLD_PLACE",
-    [CHAR_ANIM_STOP_SLIDE_LIGHT_OBJ] = "JWAR_HOLD_GETUP2",
-    [_G.charSelect.CS_ANIM_MENU] = "JWAR_MENU",
+    [CHAR_ANIM_RUNNING]                                 = "JWAR_RUN",
+    [CHAR_ANIM_SINGLE_JUMP]                             = "JWAR_SINGLE_JUMP",
+    [CHAR_ANIM_LAND_FROM_SINGLE_JUMP]                   = "JWAR_SINGLE_JUMP_LAND",
+    [CHAR_ANIM_START_TWIRL]                             = "JWAR_START_TWIRL",
+    [CHAR_ANIM_TWIRL]                                   = "JWAR_TWIRL",
+    [CHAR_ANIM_WALK_WITH_LIGHT_OBJ]                     = "JWAR_HOLD_RUN",
+    [CHAR_ANIM_RUN_WITH_LIGHT_OBJ]                      = "JWAR_HOLD_RUN",
+    [CHAR_ANIM_SLOW_WALK_WITH_LIGHT_OBJ]                = "JWAR_HOLD_RUN",
+    [CHAR_ANIM_IDLE_WITH_LIGHT_OBJ]                     = "JWAR_HOLD_IDLE",
+    [CHAR_ANIM_JUMP_WITH_LIGHT_OBJ]                     = "JWAR_HOLD_JUMP",
+    [CHAR_ANIM_FALL_WITH_LIGHT_OBJ]                     = "JWAR_HOLD_FALL",
+    [CHAR_ANIM_JUMP_LAND_WITH_LIGHT_OBJ]                = "JWAR_HOLD_LAND",
+    [CHAR_ANIM_FALL_LAND_WITH_LIGHT_OBJ]                = "JWAR_HOLD_LAND",
+    [CHAR_ANIM_FALL_FROM_SLIDING_WITH_LIGHT_OBJ]        = "JWAR_HOLD_FALL_FROM_SLIDE",
+    [CHAR_ANIM_STAND_UP_FROM_SLIDING_WITH_LIGHT_OBJ]    = "JWAR_HOLD_GETUP",
+    [CHAR_ANIM_PICK_UP_LIGHT_OBJ]                       = "JWAR_HOLD_PICKUP",
+    [CHAR_ANIM_PLACE_LIGHT_OBJ]                         = "JWAR_HOLD_PLACE",
+    [CHAR_ANIM_STOP_SLIDE_LIGHT_OBJ]                    = "JWAR_HOLD_GETUP2",
+    [_G.charSelect.CS_ANIM_MENU]                        = "JWAR_MENU",
 }
 local ANIMTABLE_J_WALUIGI = {
-    [CHAR_ANIM_RUNNING] = "JWAL_RUN",
-    [CHAR_ANIM_SINGLE_JUMP] = "JWAL_SINGLE_JUMP",
-    [CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = "JWAL_SINGLE_JUMP_LAND",
-    [CHAR_ANIM_WALK_WITH_LIGHT_OBJ] = "JWAL_HOLD_RUN",
-    [CHAR_ANIM_RUN_WITH_LIGHT_OBJ] = "JWAL_HOLD_RUN",
-    [CHAR_ANIM_SLOW_WALK_WITH_LIGHT_OBJ] = "JWAL_HOLD_RUN",
-    [CHAR_ANIM_JUMP_WITH_LIGHT_OBJ] = "JWAL_HOLD_JUMP",
-    [CHAR_ANIM_FALL_WITH_LIGHT_OBJ] = "JWAL_HOLD_FALL",
-    [CHAR_ANIM_FALL_FROM_SLIDING_WITH_LIGHT_OBJ] = "JWAL_HOLD_FALL_FROM_SLIDE",
-    [CHAR_ANIM_IDLE_WITH_LIGHT_OBJ] = "JWAR_HOLD_IDLE",
-    [CHAR_ANIM_JUMP_LAND_WITH_LIGHT_OBJ] = "JWAR_HOLD_LAND",
-    [CHAR_ANIM_FALL_LAND_WITH_LIGHT_OBJ] = "JWAR_HOLD_LAND",
-    [CHAR_ANIM_STAND_UP_FROM_SLIDING_WITH_LIGHT_OBJ] = "JWAR_HOLD_GETUP",
-    [CHAR_ANIM_PICK_UP_LIGHT_OBJ] = "JWAR_HOLD_PICKUP",
-    [CHAR_ANIM_PLACE_LIGHT_OBJ] = "JWAR_HOLD_PLACE",
-    [CHAR_ANIM_STOP_SLIDE_LIGHT_OBJ] = "JWAR_HOLD_GETUP2",
-    [_G.charSelect.CS_ANIM_MENU] = "JWAL_MENU",
+    [CHAR_ANIM_RUNNING]                                 = "JWAL_RUN",
+    [CHAR_ANIM_SINGLE_JUMP]                             = "JWAL_SINGLE_JUMP",
+    [CHAR_ANIM_LAND_FROM_SINGLE_JUMP]                   = "JWAL_SINGLE_JUMP_LAND",
+    [CHAR_ANIM_WALK_WITH_LIGHT_OBJ]                     = "JWAL_HOLD_RUN",
+    [CHAR_ANIM_RUN_WITH_LIGHT_OBJ]                      = "JWAL_HOLD_RUN",
+    [CHAR_ANIM_SLOW_WALK_WITH_LIGHT_OBJ]                = "JWAL_HOLD_RUN",
+    [CHAR_ANIM_JUMP_WITH_LIGHT_OBJ]                     = "JWAL_HOLD_JUMP",
+    [CHAR_ANIM_FALL_WITH_LIGHT_OBJ]                     = "JWAL_HOLD_FALL",
+    [CHAR_ANIM_FALL_FROM_SLIDING_WITH_LIGHT_OBJ]        = "JWAL_HOLD_FALL_FROM_SLIDE",
+    [CHAR_ANIM_IDLE_WITH_LIGHT_OBJ]                     = "JWAR_HOLD_IDLE",
+    [CHAR_ANIM_JUMP_LAND_WITH_LIGHT_OBJ]                = "JWAR_HOLD_LAND",
+    [CHAR_ANIM_FALL_LAND_WITH_LIGHT_OBJ]                = "JWAR_HOLD_LAND",
+    [CHAR_ANIM_STAND_UP_FROM_SLIDING_WITH_LIGHT_OBJ]    = "JWAR_HOLD_GETUP",
+    [CHAR_ANIM_PICK_UP_LIGHT_OBJ]                       = "JWAR_HOLD_PICKUP",
+    [CHAR_ANIM_PLACE_LIGHT_OBJ]                         = "JWAR_HOLD_PLACE",
+    [CHAR_ANIM_STOP_SLIDE_LIGHT_OBJ]                    = "JWAR_HOLD_GETUP2",
+    [_G.charSelect.CS_ANIM_MENU]                        = "JWAL_MENU",
 }
 local ANIMTABLE_J_SYRUP = {
-    [CHAR_ANIM_RUNNING] = "JSYP_RUN",
-    [CHAR_ANIM_IDLE_HEAD_CENTER] = "JSYP_IDLE",
-    [CHAR_ANIM_IDLE_HEAD_LEFT] = "JSYP_IDLE",
-    [CHAR_ANIM_IDLE_HEAD_RIGHT] = "JSYP_IDLE",
-    [CHAR_ANIM_FIRST_PERSON] = "JSYP_IDLE",
-    [CHAR_ANIM_SINGLE_JUMP] = "JSYP_SINGLE_JUMP",
-    [CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = "JSYP_SINGLE_JUMP_LAND",
-    [CHAR_ANIM_WALK_WITH_LIGHT_OBJ] = "JSYP_HOLD_RUN",
-    [CHAR_ANIM_RUN_WITH_LIGHT_OBJ] = "JSYP_HOLD_RUN",
-    [CHAR_ANIM_SLOW_WALK_WITH_LIGHT_OBJ] = "JSYP_HOLD_RUN",
-    [CHAR_ANIM_JUMP_WITH_LIGHT_OBJ] = "JSYP_HOLD_JUMP",
-    [CHAR_ANIM_FALL_WITH_LIGHT_OBJ] = "JSYP_HOLD_FALL",
-    [CHAR_ANIM_FALL_FROM_SLIDING_WITH_LIGHT_OBJ] = "JSYP_HOLD_FALL_FROM_SLIDE",
-    [CHAR_ANIM_IDLE_WITH_LIGHT_OBJ] = "JSYP_HOLD_IDLE",
-    [CHAR_ANIM_JUMP_LAND_WITH_LIGHT_OBJ] = "JSYP_HOLD_LAND",
-    [CHAR_ANIM_FALL_LAND_WITH_LIGHT_OBJ] = "JSYP_HOLD_LAND",
-    [CHAR_ANIM_STAND_UP_FROM_SLIDING_WITH_LIGHT_OBJ] = "JSYP_HOLD_GETUP",
-    [CHAR_ANIM_PICK_UP_LIGHT_OBJ] = "JSYP_HOLD_PICKUP",
-    [CHAR_ANIM_PLACE_LIGHT_OBJ] = "JSYP_HOLD_PLACE",
-    [CHAR_ANIM_STOP_SLIDE_LIGHT_OBJ] = "JSYP_HOLD_GETUP2",
-    [_G.charSelect.CS_ANIM_MENU] = "JSYP_MENU",
+    [CHAR_ANIM_RUNNING]                                 = "JSYP_RUN",
+    [CHAR_ANIM_IDLE_HEAD_CENTER]                        = "JSYP_IDLE",
+    [CHAR_ANIM_IDLE_HEAD_LEFT]                          = "JSYP_IDLE",
+    [CHAR_ANIM_IDLE_HEAD_RIGHT]                         = "JSYP_IDLE",
+    [CHAR_ANIM_FIRST_PERSON]                            = "JSYP_IDLE",
+    [CHAR_ANIM_SINGLE_JUMP]                             = "JSYP_SINGLE_JUMP",
+    [CHAR_ANIM_LAND_FROM_SINGLE_JUMP]                   = "JSYP_SINGLE_JUMP_LAND",
+    [CHAR_ANIM_WALK_WITH_LIGHT_OBJ]                     = "JSYP_HOLD_RUN",
+    [CHAR_ANIM_RUN_WITH_LIGHT_OBJ]                      = "JSYP_HOLD_RUN",
+    [CHAR_ANIM_SLOW_WALK_WITH_LIGHT_OBJ]                = "JSYP_HOLD_RUN",
+    [CHAR_ANIM_JUMP_WITH_LIGHT_OBJ]                     = "JSYP_HOLD_JUMP",
+    [CHAR_ANIM_FALL_WITH_LIGHT_OBJ]                     = "JSYP_HOLD_FALL",
+    [CHAR_ANIM_FALL_FROM_SLIDING_WITH_LIGHT_OBJ]        = "JSYP_HOLD_FALL_FROM_SLIDE",
+    [CHAR_ANIM_IDLE_WITH_LIGHT_OBJ]                     = "JSYP_HOLD_IDLE",
+    [CHAR_ANIM_JUMP_LAND_WITH_LIGHT_OBJ]                = "JSYP_HOLD_LAND",
+    [CHAR_ANIM_FALL_LAND_WITH_LIGHT_OBJ]                = "JSYP_HOLD_LAND",
+    [CHAR_ANIM_STAND_UP_FROM_SLIDING_WITH_LIGHT_OBJ]    = "JSYP_HOLD_GETUP",
+    [CHAR_ANIM_PICK_UP_LIGHT_OBJ]                       = "JSYP_HOLD_PICKUP",
+    [CHAR_ANIM_PLACE_LIGHT_OBJ]                         = "JSYP_HOLD_PLACE",
+    [CHAR_ANIM_STOP_SLIDE_LIGHT_OBJ]                    = "JSYP_HOLD_GETUP2",
+    [_G.charSelect.CS_ANIM_MENU]                        = "JSYP_MENU",
 }
 
 local EYES_J_WARIO = {
@@ -743,7 +743,7 @@ local function on_character_sound(m, sound)
 end
 
 local function startup_message(m)
-    djui_chat_message_create("Thank you for downloading [CS] \\#F2D36F\\Wario \\#B47CF4\\Bros.\\#ffffff\\!\nA special thanks to everybody who made this mod possible, including \\#ffff00\\SwagSkeleton95\\#ffffff\\ & \\#ffff00\\boomeragainstthezoomers\\#ffffff\\ for all their inspiration to make the mod. Make sure to also check out their mod, [CS] Wario Land 64!")
+    djui_chat_message_create("Thank you for downloading [CS] \\#F2D36F\\Wario \\#B47CF4\\Bros.\\#ffffff\\!\nA special thanks to everybody who made this mod possible, including \\#ffff00\\SwagSkeleton95\\#ffffff\\ & \\#ffff00\\boomeragainstthezoomers\\#ffffff\\ for all their inspiration to make the mod. Make sure to also check out their mod, [CS] Land Wario!")
     for _,mods in pairs(gActiveMods) do
         if mods.name == "Sonic Character: \\#4084d9\\Rebooted \\#fd90a7\\v1.2\\#ffffff\\" then
             djui_chat_message_create("\\#ff7777\\[CS] Wario Bros. has incompatibility issues with Sonic Character: Rebooted. Please be aware if you do not disable one of the two you may experience missing hud elements, voices, and other issues.")
@@ -755,6 +755,7 @@ local function on_character_snore(m)
     if boot then
         startup_message()
         boot = false
+        mod_storage_save_bool("bootmessage", false)
     end
     if not CSloaded then return end
     if _G.charSelect.character_get_voice(m) == VOICETABLE_J_WARIO then return _G.charSelect.voice.snore(m) end

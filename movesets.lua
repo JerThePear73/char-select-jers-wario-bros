@@ -166,14 +166,11 @@ local function do_gold_cap(m)
 
     m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
     local e = gWarioStates[m.playerIndex]
-    local freqMax = math.floor(65 - m.forwardVel)
+    local freqMax = (m.action == ACT_SUPER_GP and m.vel.y < -10) and 2 or math.clamp(math.floor(65 - m.forwardVel), 2, 65)
 
-    if freqMax < 2 then
-        freqMax = 2
-    end
     e.coinFreq = e.coinFreq + 1
 
-    if m.forwardVel > 30 and e.availCoins > 0 then
+    if (m.forwardVel > 30 or m.action == ACT_SUPER_GP) and e.availCoins > 0 then
         if e.coinFreq > freqMax then
             e.availCoins = e.availCoins - 1
             e.coinFreq = 0

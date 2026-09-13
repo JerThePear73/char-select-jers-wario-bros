@@ -9,31 +9,41 @@ local TEX_SWORD_BACK = get_texture_info("jwar_hud_sword_back")
 local TEX_SWORD_FRONT = get_texture_info("jwar_hud_sword_front")
 local TEX_STICK = get_texture_info("jwar_hud_stick")
 local TEX_TRADER = get_texture_info("jwar_hud_trader")
+local TEX_TRADER_ROMHACK = get_texture_info("jwar_hud_trader_romhack")
+
+local function detect_romhack()
+    for _,mods in pairs(gActiveMods) do
+        if mods.incompatible == "romhack" then
+            TEX_TRADER = TEX_TRADER_ROMHACK
+        end
+    end
+end
+hook_event(HOOK_ON_MODS_LOADED, detect_romhack)
 
 local WAPEACH_FACE_GRIN     = 0
-local WAPEACH_FACE_SHOCK1   = 1
-local WAPEACH_FACE_SHOCK2   = 2
-local WAPEACH_FACE_RIGHT    = 3
-local WAPEACH_FACE_LEFT     = 4
-local WAPEACH_FACE_LAUGH    = 5
+local WAPEACH_FACE_LAUGH    = 1
+local WAPEACH_FACE_RIGHT    = 2
+local WAPEACH_FACE_LEFT     = 3
+local WAPEACH_FACE_SHOCK1   = 4
+local WAPEACH_FACE_SHOCK2   = 5
 
 local WAPEACH_HANDS_NONE    = 0
 local WAPEACH_HANDS_FIST1   = 1
 local WAPEACH_HANDS_FIST2   = 2
 
 local wapeachFaces = {
-    [WAPEACH_FACE_GRIN]     = {x = 128, y = 0},
-    [WAPEACH_FACE_SHOCK1]   = {x = 0, y = 64},
-    [WAPEACH_FACE_SHOCK2]   = {x = 64, y = 64},
+    [WAPEACH_FACE_GRIN]     = {x = 0, y = 64},
+    [WAPEACH_FACE_LAUGH]    = {x = 64, y = 64},
     [WAPEACH_FACE_RIGHT]    = {x = 128, y = 64},
     [WAPEACH_FACE_LEFT]     = {x = 192, y = 64},
-    [WAPEACH_FACE_LAUGH]    = {x = 0, y = 128},
+    [WAPEACH_FACE_SHOCK1]   = {x = 0, y = 128},
+    [WAPEACH_FACE_SHOCK2]   = {x = 64, y = 128},
 }
 
 local wapeachHands = {
     [WAPEACH_HANDS_NONE]    = {x = 0, y = 192},
-    [WAPEACH_HANDS_FIST1]   = {x = 64, y = 128},
-    [WAPEACH_HANDS_FIST2]   = {x = 128, y = 128},
+    [WAPEACH_HANDS_FIST1]   = {x = 64, y = 192},
+    [WAPEACH_HANDS_FIST2]   = {x = 128, y = 192},
 }
 
 local WAPEACH_ANIM_SHOCKED = 0
@@ -43,36 +53,36 @@ local WAPEACH_ANIM_LAUGH = 3
 
 local wapeachAnimationInfo = {
     [WAPEACH_ANIM_SHOCKED]  = {
-        oscBody = 0,
-        oscHead = 0,
-        oscHand = 0,
+        oscBody = nil,
+        oscHead = nil,
+        oscHand = nil,
         face1 = wapeachFaces[WAPEACH_FACE_SHOCK1],
         face2 = wapeachFaces[WAPEACH_FACE_SHOCK2],
         frame = 3,
         hands = wapeachHands[WAPEACH_HANDS_NONE],
     },
     [WAPEACH_ANIM_SMUG]     = {
-        oscBody = 0,
-        oscHead = 1, -- add x and y
-        oscHand = 0,
+        oscBody = nil,
+        oscHead = {x = 1, y = 0},
+        oscHand = {x = -1, y = 0},
         face1 = wapeachFaces[WAPEACH_FACE_LEFT],
         face2 = wapeachFaces[WAPEACH_FACE_RIGHT],
         frame = 16,
         hands = wapeachHands[WAPEACH_HANDS_FIST1],
     },
     [WAPEACH_ANIM_GRIN]     = {
-        oscBody = 0,
-        oscHead = 2,
-        oscHand = 0,
+        oscBody = nil,
+        oscHead = {x = 0, y = 3},
+        oscHand = nil,
         face1 = wapeachFaces[WAPEACH_FACE_GRIN],
         face2 = nil,
         frame = nil,
         hands = wapeachHands[WAPEACH_HANDS_NONE],
     },
     [WAPEACH_ANIM_LAUGH]    = {
-        oscBody = 2,
-        oscHead = 2,
-        oscHand = 2,
+        oscBody = {x = 0, y = -2},
+        oscHead = {x = 0, y = 2},
+        oscHand = {x = 0, y = 1},
         face1 = wapeachFaces[WAPEACH_FACE_LAUGH],
         face2 = nil,
         frame = nil,
@@ -84,30 +94,32 @@ local function do_wapeach_animation(anim, x, y)
     djui_hud_set_resolution(RESOLUTION_N64)
     local m = gMarioStates[0]
     local e = gWarioStates[m.playerIndex]
+    local scaleAmmount = -0.1
     local aInfo = wapeachAnimationInfo[anim]
-    local wave = math.sin(e.traderTimer*(0.19*1))
-    local waveBodyX = aInfo.oscBody == 1 and wave*-1 or 0
-    local waveBodyY = aInfo.oscBody == 2 and wave*-1 or 0
-    local waveHeadX = aInfo.oscHead == 1 and wave or 0
-    local waveHeadY = aInfo.oscHead == 2 and wave or 0
-    local waveHandX = aInfo.oscHand == 1 and wave or 0
-    local waveHandY = aInfo.oscHand == 2 and wave or 0
-    local headPosX = x + waveHeadX
-    local headPosY = y + waveHeadY
+    local waveBodyX = aInfo.oscBody ~= nil and math.sin(e.traderTimer*(0.19*aInfo.oscBody.x)) or 0
+    local waveHandX = aInfo.oscHand ~= nil and math.sin(e.traderTimer*(0.19*aInfo.oscHand.x)) or 0
+    local waveBodyY = aInfo.oscBody ~= nil and (math.sin(e.traderTimer*(0.19*aInfo.oscBody.y))*scaleAmmount) + 1 or 1
+    local waveHandY = aInfo.oscHand ~= nil and (math.sin(e.traderTimer*(0.19*aInfo.oscHand.y))*scaleAmmount) + 1 or 1
+    local headPosX      = x + (aInfo.oscHead ~= nil and math.sin(e.traderTimer*(0.19*aInfo.oscHead.x)) or 0)
+    local headPosY      = y + (aInfo.oscHead ~= nil and math.sin(e.traderTimer*(0.19*aInfo.oscHead.y)) or 0)
+    local wapeachHairX  = x + (aInfo.oscHead ~= nil and math.sin((e.traderTimer - 2)*(0.19*aInfo.oscHead.x)) or 0)
+    local wapeachHairY  = y + (aInfo.oscHead ~= nil and math.sin((e.traderTimer - 2)*(0.19*aInfo.oscHead.y)) or 0)
 
-    local wapeachHairX = x + (aInfo.oscHead == 1 and math.sin((e.traderTimer - 2)*(0.19*1)) or 0)
-    local wapeachHairY = y + (aInfo.oscHead == 2 and math.sin((e.traderTimer - 2)*(0.19*1)) or 0)
+    djui_hud_set_color(0, 0, 0, 150)
+    djui_hud_render_rect(x, y, 64, 64)
+    djui_hud_set_color(255, 255, 255, 255)
 
-    djui_hud_render_texture_tile(TEX_TRADER, x + waveBodyX, y + waveBodyY, 1, 1, 0, 0, 64, 64) -- body
-    djui_hud_render_texture_tile(TEX_TRADER, headPosX, headPosY, 1, 1, 64, 0, 64, 64) -- head
+    djui_hud_render_texture_tile(TEX_TRADER, wapeachHairX, wapeachHairY, 1, 1, 0, 0, 64, 64) -- hair back
+    djui_hud_render_texture_tile(TEX_TRADER, x + waveBodyX, y + 64 - (waveBodyY*64), 1, waveBodyY, 64, 0, 64, 64) -- body
+    djui_hud_render_texture_tile(TEX_TRADER, headPosX, headPosY, 1, 1, 128, 0, 64, 64) -- head
     if aInfo.face2 ~= nil and aInfo.frame ~= nil and e.traderTimer < aInfo.frame then
         djui_hud_render_texture_tile(TEX_TRADER, headPosX, headPosY, 1, 1, aInfo.face2.x, aInfo.face2.y, 64, 64) -- face 2
     else
         djui_hud_render_texture_tile(TEX_TRADER, headPosX, headPosY, 1, 1, aInfo.face1.x, aInfo.face1.y, 64, 64) -- face 1
     end
     djui_hud_render_texture_tile(TEX_TRADER, wapeachHairX, wapeachHairY, 1, 1, 192, 0, 64, 64) -- hair
-    djui_hud_render_texture_tile(TEX_TRADER, x + waveHandX, y + waveHandY, 1, 1, aInfo.hands.x, aInfo.hands.y, 64, 64) -- hands
-    djui_hud_render_texture_tile(TEX_TRADER, x, y, 1, 1, 192, 128, 64, 64) -- frame
+    djui_hud_render_texture_tile(TEX_TRADER, x + waveHandX, y + 64 - (waveHandY*64), 1, waveHandY, aInfo.hands.x, aInfo.hands.y, 64, 64) -- hands
+    djui_hud_render_texture_tile(TEX_TRADER, x, y, 1, 1, 192, 192, 64, 64) -- frame
 
 
     e.traderTimer = e.traderTimer + 1
@@ -200,6 +212,7 @@ local function render_bank_pos()
     djui_hud_print_text(string.format("%.0f", e.bank), bankX + 16, e.prevBankY, 1, 1)
 
     if showTrade then
+        local o = obj_get_first_with_behavior_id(id_bhvActSelector)
         djui_hud_render_texture_tile(TEX_STICK, e.prevTradeX + 38, tradeY - 16, 1, 1, math.clamp(math.floor(e.traderTimer/8), 0, 3)*32, 0, 32, 32)
         --djui_hud_render_texture_tile(TEX_TRADER, e.prevTradeX - 24, tradeY - 32, 1, 1, e.traderTimer*64, 0, 64, 64)
         djui_hud_print_text(string.format("@%.0f", e.interestRate), e.prevTradeX + 42, tradeY - 36, 1, 1)
@@ -208,19 +221,21 @@ local function render_bank_pos()
         if e.bank >= e.interestRate and e.wallet < 100 and (m.controller.stickY > 0 or m.controller.buttonPressed & U_JPAD ~= 0) then
             e.bank = e.bank - e.interestRate
             e.wallet = e.wallet + 1
-            play_sound(SOUND_GENERAL_COIN, m.marioObj.header.gfx.cameraToObject)
+            stop_sound(SOUND_GENERAL_COIN, {x = o.oPosX, y = o.oPosY, z = o.oPosZ})
+            play_sound(SOUND_GENERAL_COIN, {x = o.oPosX, y = o.oPosY, z = o.oPosZ})
         elseif e.wallet > 0 and (m.controller.stickY < 0 or m.controller.buttonPressed & D_JPAD ~= 0) then
             e.bank = e.bank + e.interestRate
             e.wallet = e.wallet - 1
-            play_sound(SOUND_GENERAL_COIN, m.marioObj.header.gfx.cameraToObject)
+            stop_sound(SOUND_GENERAL_COIN, {x = o.oPosX, y = o.oPosY, z = o.oPosZ})
+            play_sound(SOUND_GENERAL_COIN, {x = o.oPosX, y = o.oPosY, z = o.oPosZ})
         end
         do_coin_hud(m)
 
-        if m.controller.buttonPressed & L_JPAD ~= 0 then
-            e.interestRate = e.interestRate - 1
-        elseif m.controller.buttonPressed & R_JPAD ~= 0 then
-            e.interestRate = e.interestRate + 1
-        end
+        --if m.controller.buttonPressed & L_JPAD ~= 0 then
+        --    e.interestRate = e.interestRate - 1
+        --elseif m.controller.buttonPressed & R_JPAD ~= 0 then
+        --    e.interestRate = e.interestRate + 1
+        --end
     end
 end
 
