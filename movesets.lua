@@ -244,15 +244,9 @@ local function act_war_sh_bash(m)
 
     if (m.actionTimer & 2 == 0) then
         audio_sample_play(SOUND_JWAR_SH_BASH, m.pos, pause_check())
-        if m.actionArg == 4 then
-            if m.forwardVel > 50 then
-                spawn_mist_particles_variable(1, 0, 7)
-            end
-        else
-            if (m.actionTimer & 4 == 0) then
-                set_mario_particle_flags(m, PARTICLE_DUST, 0)
-            end
-        end
+    end
+    if (m.actionTimer % 4 == 0) then
+        set_mario_particle_flags(m, PARTICLE_DUST, 0)
     end
 
     if m.actionTimer < 2 then
@@ -261,7 +255,7 @@ local function act_war_sh_bash(m)
 
     local stepResult = perform_ground_step(m)
     if stepResult == GROUND_STEP_HIT_WALL and m.wall ~= nil then
-        if m.wall.object == nil or (m.wall.object.oInteractType & (INTERACT_BREAKABLE) ~= 0 and m.actionArg == 0) then
+        if m.wall.object == nil or (m.wall.object.oInteractType & (INTERACT_BREAKABLE) ~= 0 and m.actionArg == 0) or m.wall.object.oInteractType & (INTERACT_BREAKABLE) == 0 then
             return humble_bump(m, -40, 30, ACT_WAR_SH_BASH_JUMP, ARG_WARIO)
         end
     elseif stepResult == GROUND_STEP_LEFT_GROUND then
@@ -1218,7 +1212,7 @@ local function wario_interact(m, o, type)
 
     if (m.action == ACT_WAR_SH_BASH) and (type & damagableTypes) ~= 0 then
         dash_attacks(m, o, type)
-        if m.actionArg ~= 4 then
+        if m.actionArg ~= 4 and m.flags & MARIO_METAL_CAP == 0 then
             humble_bump(m, -40, 30, ACT_WAR_SH_BASH_JUMP, ARG_WARIO)
         end
         return false
@@ -1226,7 +1220,7 @@ local function wario_interact(m, o, type)
 
     if (m.action == ACT_WAR_SH_BASH_JUMP) and (type & damagableTypes) ~= 0 and m.forwardVel > 10 then
         dash_attacks(m, o, type)
-        if m.actionArg ~= 4 then
+        if m.actionArg ~= 4 and m.flags & MARIO_METAL_CAP == 0 then
             humble_bump(m, -40, 15, ACT_WAR_SH_BASH_JUMP, ARG_WARIO)
         end
         return false
