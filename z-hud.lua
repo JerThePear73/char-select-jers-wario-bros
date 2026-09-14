@@ -2,6 +2,8 @@ if not _G.charSelectExists then return end
 
 local hudDodge = require("libs/hudDodge")
 
+gGlobalSyncTable.interestRate = math.random(1, 4)
+
 local TEX_BAG = get_texture_info('jwar_bag_of_oins')
 local TEX_BANK = get_texture_info('jwar_hud_$')
 local TEX_BOMB = get_texture_info('jwar_hud_bomb')
@@ -39,7 +41,6 @@ local wapeachFaces = {
     [WAPEACH_FACE_SHOCK1]   = {x = 0, y = 128},
     [WAPEACH_FACE_SHOCK2]   = {x = 64, y = 128},
 }
-
 local wapeachHands = {
     [WAPEACH_HANDS_NONE]    = {x = 0, y = 192},
     [WAPEACH_HANDS_FIST1]   = {x = 64, y = 192},
@@ -192,6 +193,7 @@ end
 local function render_bank_pos()
     local m = gMarioStates[0]
     local e = gWarioStates[m.playerIndex]
+    local int = gGlobalSyncTable.interestRate
 
     djui_hud_set_resolution(RESOLUTION_N64)
 
@@ -202,7 +204,7 @@ local function render_bank_pos()
     local tradeX = 32
     local tradeY = height * 0.7
     local showBank = (e.wallet == 100 or is_game_paused() or obj_get_first_with_behavior_id(id_bhvActSelector)) and not charSelect.is_menu_open()
-    local showTrade = obj_get_first_with_behavior_id(id_bhvActSelector)
+    local showTrade = obj_get_first_with_behavior_id(id_bhvActSelector) and charSelect.get_options_status(powerScaling) ~= 0
     e.prevBankY = math.lerp(e.prevBankY, showBank and bankY or height + 16, 0.15)
     e.prevTradeX = math.lerp(e.prevTradeX, showTrade and tradeX or -70, 0.15)
 
@@ -215,27 +217,21 @@ local function render_bank_pos()
         local o = obj_get_first_with_behavior_id(id_bhvActSelector)
         djui_hud_render_texture_tile(TEX_STICK, e.prevTradeX + 38, tradeY - 16, 1, 1, math.clamp(math.floor(e.traderTimer/8), 0, 3)*32, 0, 32, 32)
         --djui_hud_render_texture_tile(TEX_TRADER, e.prevTradeX - 24, tradeY - 32, 1, 1, e.traderTimer*64, 0, 64, 64)
-        djui_hud_print_text(string.format("@%.0f", e.interestRate), e.prevTradeX + 42, tradeY - 36, 1, 1)
-        do_wapeach_animation(e.interestRate - 1, e.prevTradeX - 24, tradeY - 32)
+        djui_hud_print_text(string.format("@%.0f", int), e.prevTradeX + 42, tradeY - 36, 1, 1)
+        do_wapeach_animation(int - 1, e.prevTradeX - 24, tradeY - 32)
 
-        if e.bank >= e.interestRate and e.wallet < 100 and (m.controller.stickY > 0 or m.controller.buttonPressed & U_JPAD ~= 0) then
-            e.bank = e.bank - e.interestRate
+        if e.bank >= int and e.wallet < 100 and (m.controller.stickY > 0 or m.controller.buttonPressed & U_JPAD ~= 0) then
+            e.bank = e.bank - int
             e.wallet = e.wallet + 1
             stop_sound(SOUND_GENERAL_COIN, {x = o.oPosX, y = o.oPosY, z = o.oPosZ})
             play_sound(SOUND_GENERAL_COIN, {x = o.oPosX, y = o.oPosY, z = o.oPosZ})
         elseif e.wallet > 0 and (m.controller.stickY < 0 or m.controller.buttonPressed & D_JPAD ~= 0) then
-            e.bank = e.bank + e.interestRate
+            e.bank = e.bank + 1 --int
             e.wallet = e.wallet - 1
             stop_sound(SOUND_GENERAL_COIN, {x = o.oPosX, y = o.oPosY, z = o.oPosZ})
             play_sound(SOUND_GENERAL_COIN, {x = o.oPosX, y = o.oPosY, z = o.oPosZ})
         end
         do_coin_hud(m)
-
-        --if m.controller.buttonPressed & L_JPAD ~= 0 then
-        --    e.interestRate = e.interestRate - 1
-        --elseif m.controller.buttonPressed & R_JPAD ~= 0 then
-        --    e.interestRate = e.interestRate + 1
-        --end
     end
 end
 
@@ -347,6 +343,14 @@ charSelect.hook_on_character_change(function()
     end
     e.bombHudBob = 0
 end)
+
+local function update_int_rate()
+    if not network_is_server() then return end
+    if get_global_timer() % (30*60*10) == 0 then
+        gGlobalSyncTable.interestRate = math.random(1, 4)
+    end
+end
+hook_event(HOOK_UPDATE, update_int_rate)
 
 
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_HUD_RENDER_BEHIND, wario_hud)

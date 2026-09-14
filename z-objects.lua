@@ -26,6 +26,8 @@ function jwar_ring_particle_anim(node, matStackIndex)
     local m = geo_get_mario_state()
     local s = gPlayerSyncTable[m.playerIndex]
     local toNode = s.jwarRingFrame
+    if is_game_paused() then return end
+
     if s.jwarRingFrame > 10 then
         s.jwarRingFrame = 1
     else
@@ -63,7 +65,7 @@ function ring_particle_loop(o)
         obj_scale(o, ringScale)
     end
 
-    if (m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel >= (bashSpeedBase + 24) then
+    if (m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel > 30 then
         cur_obj_unhide()
     else
         cur_obj_hide()
