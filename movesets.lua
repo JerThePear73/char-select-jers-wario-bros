@@ -1617,11 +1617,10 @@ _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_INTERACT, syrup_interac
 if _G.betterCoins then
     _G.betterCoins.add_shop_item({
         name = "Wario Bros. Voucher",
-        saveName = "warioBrosVoucher",
+        key = "warioBrosVoucher",
         texture = gTextures.coin,
         description = "Puts 100 coins into your\nWario Bros. Bank",
         coins = 250,
-        stock = -1,
         interact = function(item)
             gWarioStates[0].coinQueue = gWarioStates[0].coinQueue + 100
             return true
