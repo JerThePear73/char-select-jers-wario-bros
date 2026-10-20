@@ -45,9 +45,11 @@ function ring_particle_init(o)
 end
 function ring_particle_loop(o)
     local m = gMarioStates[o.oPlayerIndex]
+    local lM = gMarioStates[0]
+    if not m or not lM then return end
 
     -- if the player is off screen, hide the obj
-    if m.marioBodyState.updateTorsoTime ~= gMarioStates[0].marioBodyState.updateTorsoTime then
+    if m.marioBodyState.updateTorsoTime ~= lM.marioBodyState.updateTorsoTime then
         cur_obj_hide()
         return
     end
@@ -120,6 +122,7 @@ end
 
 local function on_object_render(o)
     local m = gMarioStates[o.oPlayerIndex]
+    if not m then return end
     if get_id_from_behavior(o.behavior) == id_bhvRingParticle then
         local rot = (((m.forwardVel - (bashSpeedBase + 18))/3)*1000)
 
