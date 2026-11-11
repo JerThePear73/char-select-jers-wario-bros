@@ -67,7 +67,7 @@ function ring_particle_loop(o)
         obj_scale(o, ringScale)
     end
 
-    if (m.action == ACT_WAR_SH_BASH or m.action == ACT_WAR_SH_BASH_JUMP) and m.forwardVel > 30 then
+    if (m.action == ACT_SH_BASH or m.action == ACT_SH_BASH_JUMP) and (m.actionArg == ARG_WARIO or m.actionArg == ARG_WARUDEIJI) and m.forwardVel > 30 then
         cur_obj_unhide()
     else
         cur_obj_hide()

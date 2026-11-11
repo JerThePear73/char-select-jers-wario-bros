@@ -454,7 +454,33 @@ local PALETTES_SYRUP = {
 }
 
 local ANIMTABLE_J_WARIO = {
-    [CHAR_ANIM_RUNNING]                                 = "JWAR_RUN",
+    [CHAR_ANIM_RUNNING]                                 = function(m, frame)
+                                                            if m.flags & MARIO_METAL_CAP == 0 then
+                                                                m.marioBodyState.torsoAngle.x = 2100
+                                                            end
+                                                            if m.marioBodyState.torsoAngle.z < -3000 then
+                                                                m.marioBodyState.eyeState = MARIO_EYES_LOOK_RIGHT
+                                                            elseif m.marioBodyState.torsoAngle.z > 3000 then
+                                                                m.marioBodyState.eyeState = MARIO_EYES_LOOK_LEFT
+                                                            end
+                                                            if m.flags & MARIO_METAL_CAP == 0 and smlua_anim_util_get_current_animation_name(m.marioObj) == "JWAR_RUN" then
+                                                                local scale = 1
+                                                                if (frame > 6 and frame < 10) or (frame > 50 and frame < 54) then
+                                                                    scale = 0.8
+                                                                elseif (frame > 4 and frame < 12) or (frame > 48 and frame < 56) then
+                                                                    scale = 0.85
+                                                                elseif (frame > 2 and frame < 14) or (frame > 46 and frame < 58) then
+                                                                    scale = 0.9
+                                                                elseif (frame > 0 and frame < 16) or (frame > 44 and frame < 56) then
+                                                                    scale = 0.95
+                                                                end
+                                                                m.marioObj.header.gfx.scale.y = scale
+                                                            end
+                                                            return "JWAR_RUN"
+                                                        end,
+    [CHAR_ANIM_WALKING]                                 = function(m, frame)
+                                                            m.marioBodyState.torsoAngle.x = 0
+                                                        end,
     [CHAR_ANIM_SINGLE_JUMP]                             = "JWAR_SINGLE_JUMP",
     [CHAR_ANIM_LAND_FROM_SINGLE_JUMP]                   = "JWAR_SINGLE_JUMP_LAND",
     [CHAR_ANIM_START_TWIRL]                             = "JWAR_START_TWIRL",
@@ -475,7 +501,18 @@ local ANIMTABLE_J_WARIO = {
     [_G.charSelect.CS_ANIM_MENU]                        = "JWAR_MENU",
 }
 local ANIMTABLE_J_WALUIGI = {
-    [CHAR_ANIM_RUNNING]                                 = "JWAL_RUN",
+    [CHAR_ANIM_RUNNING]                                 = function(m, frame)
+                                                            m.marioBodyState.torsoAngle.x = m.forwardVel * 50 * (m.flags & MARIO_METAL_CAP == 0 and -1 or 1.5)
+                                                            if m.marioBodyState.torsoAngle.z < -3000 then
+                                                                m.marioBodyState.eyeState = MARIO_EYES_LOOK_RIGHT
+                                                            elseif m.marioBodyState.torsoAngle.z > 3000 then
+                                                                m.marioBodyState.eyeState = MARIO_EYES_LOOK_LEFT
+                                                            end
+                                                            return "JWAL_RUN"
+                                                        end,
+    [CHAR_ANIM_WALKING]                                 = function(m, frame)
+                                                            m.marioBodyState.torsoAngle.x = 0
+                                                        end,
     [CHAR_ANIM_SINGLE_JUMP]                             = "JWAL_SINGLE_JUMP",
     [CHAR_ANIM_LAND_FROM_SINGLE_JUMP]                   = "JWAL_SINGLE_JUMP_LAND",
     [CHAR_ANIM_WALK_WITH_LIGHT_OBJ]                     = "JWAL_HOLD_RUN",
@@ -494,7 +531,18 @@ local ANIMTABLE_J_WALUIGI = {
     [_G.charSelect.CS_ANIM_MENU]                        = "JWAL_MENU",
 }
 local ANIMTABLE_J_SYRUP = {
-    [CHAR_ANIM_RUNNING]                                 = "JSYP_RUN",
+    [CHAR_ANIM_RUNNING]                                 = function(m, frame)
+                                                            m.marioBodyState.torsoAngle.x = 0
+                                                            if m.marioBodyState.torsoAngle.z < -3000 then
+                                                                m.marioBodyState.eyeState = MARIO_EYES_LOOK_RIGHT
+                                                            elseif m.marioBodyState.torsoAngle.z > 3000 then
+                                                                m.marioBodyState.eyeState = MARIO_EYES_LOOK_LEFT
+                                                            end
+                                                            return "JSYP_RUN"
+                                                        end,
+    [CHAR_ANIM_WALKING]                                 = function(m, frame)
+                                                            m.marioBodyState.torsoAngle.x = 0
+                                                        end,
     [CHAR_ANIM_IDLE_HEAD_CENTER]                        = "JSYP_IDLE",
     [CHAR_ANIM_IDLE_HEAD_LEFT]                          = "JSYP_IDLE",
     [CHAR_ANIM_IDLE_HEAD_RIGHT]                         = "JSYP_IDLE",
