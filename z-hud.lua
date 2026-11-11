@@ -9,6 +9,7 @@ local TEX_BANK = get_texture_info('jwar_hud_$')
 local TEX_BOMB = get_texture_info('jwar_hud_bomb')
 local TEX_SWORD_BACK = get_texture_info("jwar_hud_sword_back")
 local TEX_SWORD_FRONT = get_texture_info("jwar_hud_sword_front")
+local TEX_SWORD_CHOP = get_texture_info("jwar_hud_sword_tri")
 local TEX_STICK = get_texture_info("jwar_hud_stick")
 local TEX_TRADER = get_texture_info("jwar_hud_trader")
 local TEX_TRADER_ROMHACK = get_texture_info("jwar_hud_trader_romhack")
@@ -313,19 +314,15 @@ local function syrup_hud()
     render_bank_pos_below()
 
     local x, y = hudDodge.find_open_hud_space(0, 0, 32, 64, 0, 1, 3)
-    
+
     local rate = 1 - (e.slashCooldown/slashCooldownMax)
     e.swordScale = math.lerp(e.swordScale, rate, 0.5)
     djui_hud_set_color(255, 255, 255, 255)
     djui_hud_render_texture(TEX_SWORD_BACK, x, y - 6, 1, 1)
     djui_hud_render_texture(TEX_SWORD_FRONT, x + 4, y - 6, e.swordScale, 1)
-end
-
-local function collect_coins_unload(o)
-    local m = gMarioStates[0]
-    local e = gWarioStates[m.playerIndex]
-    if obj_is_coin(o) then
-        e.coinQueue = e.coinQueue + o.oDamageOrCoinValue
+    for i=1, e.chopMax do
+        local activeChop = e.chop >= i and 4 or 0
+        djui_hud_render_texture_tile(TEX_SWORD_CHOP, x + 21 + (11*i), y + 16, 0.5, 1, 0, activeChop, 8, 4)
     end
 end
 

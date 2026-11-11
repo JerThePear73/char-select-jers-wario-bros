@@ -18,7 +18,8 @@ for i = 0, MAX_PLAYERS - 1 do
         canBash = true,
         bagScale = 0,
         swordScale = 0,
-        chop = 0,
+        chop = 1,
+        chopMax = 1,
         prevVel = 0,
         slashCooldown = 0,
         availCoins = 25,
@@ -53,7 +54,6 @@ local SOUND_TADA = audio_sample_load("JW_SOUND_TADA.ogg")
 
 local shoulderBashMin = 20
 local WAL_SH_BASH_MAX = 20
-local chopMax = 1
 local availCoinsMax = 25
 
 bashSpeedBase = 50
@@ -1508,12 +1508,12 @@ local function syrup_set_action(m)
         e.slashCooldown = slashCooldownMax
     end
     if e.wallet >= 100 and charSelect.get_options_status(powerScaling) ~= 0 then
-        chopMax = 2
+        e.chopMax = 2
     else
-        chopMax = 1
+        e.chopMax = 1
     end
-    if m.pos.y == m.floorHeight and e.chop ~= chopMax then
-        e.chop = chopMax
+    if m.pos.y == m.floorHeight and e.chop ~= e.chopMax then
+        e.chop = e.chopMax
     end
 end
 
@@ -1585,7 +1585,6 @@ _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_SET_MARIO_ACTION, wario
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_BEFORE_SET_MARIO_ACTION, wario_before_set_action)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_INTERACT, wario_interact)
 _G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_PVP_ATTACK, wario_attack)
---_G.charSelect.character_hook_moveset(CT_J_WARIO, HOOK_ON_OBJECT_UNLOAD, collect_coins)
 
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_MARIO_UPDATE, waluigi_update)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_SET_MARIO_ACTION, waluigi_set_action)
@@ -1593,23 +1592,22 @@ _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_BEFORE_SET_MARIO_ACTION,
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_BEFORE_PHYS_STEP, waluigi_before_phys_step)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_INTERACT, waluigi_interact)
 _G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_PVP_ATTACK, wario_attack)
---_G.charSelect.character_hook_moveset(CT_J_WALUIGI, HOOK_ON_OBJECT_UNLOAD, collect_coins)
 
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_MARIO_UPDATE, syrup_update)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_SET_MARIO_ACTION, syrup_set_action)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_BEFORE_SET_MARIO_ACTION, syrup_before_set_action)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_BEFORE_PHYS_STEP, syrup_before_phys_step)
 _G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_INTERACT, syrup_interact)
---_G.charSelect.character_hook_moveset(CT_J_SYRUP, HOOK_ON_OBJECT_UNLOAD, collect_coins)
 
 -- Voucher
 if _G.betterCoins then
+    local TEX_VOUCHER = get_texture_info("jwar_hud_voucher")
     _G.betterCoins.add_shop_item({
         name = "Wario Bros. Voucher",
         key = "warioBrosVoucher",
-        texture = gTextures.coin,
+        texture = TEX_VOUCHER,
         description = "Puts 100 coins into your\nWario Bros. Bank",
-        coins = 250,
+        coins = 400,
         interact = function(item)
             gWarioStates[0].coinQueue = gWarioStates[0].coinQueue + 100
             return true
