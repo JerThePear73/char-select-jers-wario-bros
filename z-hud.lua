@@ -159,8 +159,7 @@ local function do_coin_hud(m)
 
     djui_hud_set_font(FONT_RECOLOR_HUD)
 
-    local targetX, targetY = hudDodge.find_open_hud_space(0, 0, 30, 16, 1, 0, (e.wallet == 100 or not powerScalingCheck) and 4 or 3)
-    targetX = targetX + 5
+    local targetX, targetY = hudDodge.find_open_hud_space(0, 0, 32, 21, 1, 0, (e.wallet == 100 or not powerScalingCheck) and 4 or 3)
 
     if obj_get_first_with_behavior_id(id_bhvActSelector) then
         targetX = 38
@@ -174,17 +173,17 @@ local function do_coin_hud(m)
     local y = e.bagY
 
     djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_render_texture(TEX_BAG, (x - (16*e.bagScale)), (y - 13 + (24*e.bagScale)), (1 + e.bagScale), (1 - e.bagScale))
+    djui_hud_render_texture(TEX_BAG, (x - (16*e.bagScale)), (y - 11 + (24*e.bagScale)), (1 + e.bagScale), (1 - e.bagScale))
 
     djui_hud_set_color(255, 255, colour, 255)
     if not powerScalingCheck then
         djui_hud_set_color(200, 200, 200, 255)
     end
-    djui_hud_print_text(coins, x - (#coins * 6) + 14, y, 1, 1)
+    djui_hud_print_text(coins, x - (#coins * 6) + 14, y + 2, 1, 1)
     if e.wallet == 100 or not powerScalingCheck then
         local textMax = powerScalingCheck and "MAX" or "FIXED"
         local textMaxWidth = djui_hud_measure_text(textMax)
-        djui_hud_print_text(textMax, x + 16 - (textMaxWidth/4), y - 10, 0.5, 0.5)
+        djui_hud_print_text(textMax, x + 16 - (textMaxWidth/4), y - 8, 0.5, 0.5)
     end
 end
 
@@ -313,14 +312,16 @@ local function syrup_hud()
     do_coin_hud(m)
     render_bank_pos_below()
 
-    local x, y = hudDodge.find_open_hud_space(0, 0, 32, 64, 0, 1, 3)
+    local x, y = hudDodge.find_open_hud_space(0, 0, 62, 20, 0, 1, 3)
+    x = x - 1
+    y = y - 2
 
     local rate = 1 - (e.slashCooldown/slashCooldownMax)
     e.swordScale = math.lerp(e.swordScale, rate, 0.5)
     djui_hud_set_color(255, 255, 255, 255)
     djui_hud_render_texture(TEX_SWORD_BACK, x, y - 6, 1, 1)
     djui_hud_render_texture(TEX_SWORD_FRONT, x + 4, y - 6, e.swordScale, 1)
-    for i=1, e.chopMax do
+    for i = 1, e.chopMax do
         local activeChop = e.chop >= i and 4 or 0
         djui_hud_render_texture_tile(TEX_SWORD_CHOP, x + 21 + (11*i), y + 16, 0.5, 1, 0, activeChop, 8, 4)
     end
