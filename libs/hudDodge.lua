@@ -11,6 +11,8 @@ local hitboxMarginX = 2
 local hitboxMarginY = 4
 local screenMarginLeft = djui_hud_get_screen_width()*0.5
 local screenMarginTop = djui_hud_get_screen_height()*0.5
+local screenMarginRight = djui_hud_get_screen_width()*0.5
+local screenMarginBottom = djui_hud_get_screen_height()*0.5
 local screenSegments = 3
 
 local prevHitboxList = {}
@@ -31,8 +33,6 @@ _G.hud_dodge_queue_in_mod = function(value)
     end
 end
 _G.hudDodgeDebugRendering = false
-
--- Utils
 
 local function ceil_power(x)
     local p = 1
@@ -60,15 +60,13 @@ local function table_get_common_entry(list)
     return maxEntry or 0
 end
 
-local function rects_overlap(x1, y1, w1, h1, x2, y2, w2, h2)
-    return x1 <= x2 + w2 and
-           x1 + w1 >= x2 and
-           y1 <= y2 + h2 and
-           y1 + h1 >= y2
-end
-
 local function add_hitbox(x, y, w, h, inMod)
     if _G.hudDodgeDebugRendering then return end
+    local prevRes = djui_hud_get_resolution()
+    djui_hud_set_resolution(RESOLUTION_N64)
+    local sW = djui_hud_get_screen_width()
+    local sH = djui_hud_get_screen_height()
+    djui_hud_set_resolution(prevRes)
     inMod = inMod or 0
     if queueInMod > 0 then
         if queueInModInternal then
@@ -79,24 +77,24 @@ local function add_hitbox(x, y, w, h, inMod)
         queueInMod = queueInMod - 1
     end
 
-    local overlap = false
     for _, hitbox in pairs(hitboxList) do
         if rects_overlap(x, y, w, h, hitbox.x + 1, hitbox.y + 1, hitbox.w - 2, hitbox.h - 2) then
-            overlap = true
-            break
+            return
         end
     end
 
-    if not overlap then
-        table.insert(hitboxList, {
-            x = x,
-            y = y,
-            w = w,
-            h = h,
-            inMod = inMod,
-            behind = isRenderBehind,
-        })
+    if x < 0 or y < 0 or x > sW or y > sH then
+        return
     end
+
+    table.insert(hitboxList, {
+        x = x,
+        y = y,
+        w = w,
+        h = h,
+        inMod = inMod,
+        behind = isRenderBehind,
+    })
 end
 
 local function reset_hitbox_list()
@@ -307,8 +305,10 @@ local function hud_render()
     djui_hud_set_resolution(RESOLUTION_N64)
     local sW = djui_hud_get_screen_width()
     local sH = djui_hud_get_screen_height()
-    screenMarginLeft = sW*0.5
-    screenMarginTop = sH*0.5
+    screenMarginLeft = 0
+    screenMarginTop = 0
+    screenMarginRight = 0
+    screenMarginBottom = 0
     _G.hudDodgeDebugRendering = true
     if HUD_DODGE_HITBOXES_RENDER then
         djui_hud_set_color(0, 0, 0, 150)
@@ -335,19 +335,18 @@ local function hud_render()
         _G.hudDodgeDebugRendering = false
 
         if hitbox.inMod == 0 and hitbox.behind and hitbox.w > 8 and hitbox.h > 8 then
-            if 1 == math.ceil(hitbox.x/(sW/screenSegments)) then
-                screenMarginTop = math.min(screenMarginTop, math.min(hitbox.y, screenMarginTop))
-            end
-            if 1 == math.ceil(hitbox.y/(sH/screenSegments)) then
-                screenMarginLeft = math.min(screenMarginLeft, math.min(hitbox.x, screenMarginLeft))
-            end
-            if screenSegments == math.ceil(hitbox.x/(sW/screenSegments)) then
-                screenMarginTop = math.min(screenMarginTop, math.abs(math.max(hitbox.y + hitbox.h, sH - screenMarginTop) - sH))
-            end
-            if screenSegments == math.ceil(hitbox.y/(sH/screenSegments)) then
-                screenMarginLeft = math.min(screenMarginLeft, math.abs(math.max(hitbox.x + hitbox.w, sW - screenMarginLeft) - sW))
-            end
+            screenMarginLeft = math.max(screenMarginLeft, sW*0.5 - hitbox.x)
+            screenMarginTop = math.max(screenMarginTop, sH*0.5 - hitbox.y)
+            screenMarginRight = math.min(screenMarginRight, sW*0.5 - (hitbox.x + hitbox.w))
+            screenMarginBottom = math.min(screenMarginBottom, sH*0.5 - (hitbox.y + hitbox.h))
         end
+    end
+
+    if screenMarginLeft == 0 then
+        screenMarginLeft = sW*0.5 - 15
+    end
+    if screenMarginTop == 0 then
+        screenMarginTop = sH*0.5 - 15
     end
 
     _G.hudDodgeDebugRendering = true
@@ -380,6 +379,13 @@ local function set_screen_margin(x, y)
     screenMarginTop = y
 end
 
+local function rects_overlap(x1, y1, w1, h1, x2, y2, w2, h2)
+    return x1 <= x2 + w2 and
+           x1 + w1 >= x2 and
+           y1 <= y2 + h2 and
+           y1 + h1 >= y2
+end
+
 ---@param x integer X Posistion of Hitbox
 ---@param y integer Y Posistion of Hitbox
 ---@param w integer Width of Hitbox
@@ -409,8 +415,8 @@ local function find_open_hud_space(x, y, w, h, weightX, weightY, ignoreRenders)
 
     local sW = djui_hud_get_screen_width()
     local sH = djui_hud_get_screen_height()
-    x = math.clamp(x, screenMarginLeft, sW - screenMarginLeft - w)
-    y = math.clamp(y, screenMarginTop, sH - screenMarginTop - h)
+    x = math.clamp(x, sW*0.5 - screenMarginLeft, sW*0.5 - screenMarginRight - w)
+    y = math.clamp(y, sH*0.5 - screenMarginTop, sH*0.5 - screenMarginBottom - h)
     local newX = x
     local newY = y
 
@@ -439,6 +445,7 @@ local function find_open_hud_space(x, y, w, h, weightX, weightY, ignoreRenders)
         debugData.newY = y
         table.insert(debugFindList, debugData)
     end
+    add_hitbox(x, y, w, h)
     return x, y
 end
 
